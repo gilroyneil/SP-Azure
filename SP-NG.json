@@ -340,7 +340,7 @@
                 "storageProfile": {
                     "operatingSystemDisk": {
                         "diskName": "[variables('SP1Disk1Name')]",
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk1Name'),'.vhd')]"
+                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk1Name'),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
@@ -448,7 +448,7 @@
                 "storageProfile": {
                     "operatingSystemDisk": {
                         "diskName": "[variables('SQL1Disk1Name')]",
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk1Name'),'.vhd')]"
+                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk1Name'),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },

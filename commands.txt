@@ -1,6 +1,6 @@
 Azure commands
 
-
+azure config mode arm
 
 https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.json
 
@@ -13,3 +13,9 @@ azure group deployment create --resource-group OsbornTest1RG --template-uri "htt
 
 to fx the authentication issue.
 http://azure.microsoft.com/blog/2014/08/27/azure-automation-authenticating-to-azure-using-azure-active-directory/
+
+
+
+
+
+azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG.json" --parameters-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-Params.json"
