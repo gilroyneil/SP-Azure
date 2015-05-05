@@ -523,11 +523,11 @@
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SP1Name'),'/CreateSPCommand')]",
+            "name": "[concat(variables('SQL1Name'),'/CreateSPCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('DC1Name'),'/extensions/CreateADPrimaryDomainControllerCustomScript')]",
-                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SP1Name'))]"
+                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
             ]
         },
         
@@ -550,9 +550,9 @@
             },
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
-            "name": "[concat(variables('SP1Name'),'/SetupSPCommand')]",
+            "name": "[concat(variables('SQL1Name'),'/SetupSPCommand')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SP1Name'),'/extensions/CreateSPCommand')]"
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/CreateSPCommand')]"
             ]
         },
 
