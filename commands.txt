@@ -18,4 +18,4 @@ http://azure.microsoft.com/blog/2014/08/27/azure-automation-authenticating-to-az
 
 
 
-azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG.json" --parameters-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-Params.json"
+azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"
