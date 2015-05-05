@@ -12,13 +12,13 @@
         "value": "D1sabl3d281660@"
     },
     "ServiceName": {
-        "value": "osazuretest"
+        "value": "osazure1"
     },
     "vmSizeSP": {
-        "value": "Basic_A0"
+        "value": "Basic_A2"
     },
     "vmSizeSQL": {
-        "value": "Basic_A0"
+        "value": "Basic_A2"
     },
         "domainName": {
     "value":"osazure.com"
