@@ -1,0 +1,15 @@
+Azure commands
+
+
+
+https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.json
+
+azure group create --name OsbornTest1RG --location "East US"
+azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.json" --parameters-file "https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.parameters.json"
+
+
+/Users/Neil/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/Azure-IAAS/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.parameters.json
+
+
+to fx the authentication issue.
+http://azure.microsoft.com/blog/2014/08/27/azure-automation-authenticating-to-azure-using-azure-active-directory/

@@ -1,0 +1,29 @@
+{
+    "resourceLocation" : {
+        "value":"East-US"
+    },
+    "servicePassword" : {
+        "value":"whatsisthis"
+    },
+    "administratorAccount": {
+        "value": "ngadmin"
+    },
+    "administratorPassword": {
+        "value": "D1sabl3d281660@"
+    },
+    "ServiceName": {
+        "value": "osazuretest"
+    },
+    "vmSizeSP": {
+        "value": "Basic_A1"
+    },
+    "vmSizeSQL": {
+        "value": "Basic_A1"
+    },
+        "domainName": {
+    "value":"osazure.com"
+        },
+    "domainNetBiosName" : {
+        "value":"osazure"
+    }
+}
