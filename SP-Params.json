@@ -15,10 +15,10 @@
         "value": "osazuretest"
     },
     "vmSizeSP": {
-        "value": "Basic_A1"
+        "value": "Basic_A0"
     },
     "vmSizeSQL": {
-        "value": "Basic_A1"
+        "value": "Basic_A0"
     },
         "domainName": {
     "value":"osazure.com"
