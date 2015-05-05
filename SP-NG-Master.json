@@ -32,6 +32,7 @@
     },
     "variables":{
         "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
@@ -89,6 +90,31 @@
                } 
               
           }, 
+  
+  { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Servers-Template", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "incremental", 
+               "templateLink": {"uri":"[variables('templatelink_SPServers')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"}
+                  }            
+                  
+                   
+               } 
+              
+          }, 
+  
   
   
          {
