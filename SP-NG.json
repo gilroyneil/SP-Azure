@@ -33,7 +33,7 @@
     "variables":{
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
-        "SQLDomainName":"[concat(parameters('ServiceName'),'-SP')]",
+        "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         "DCHardware":"Basic_A0",
         "SPHardware":"parameters('vmSizeSP')",
