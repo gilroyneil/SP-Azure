@@ -54,30 +54,7 @@
     },
     "resources": [
         
-        { 
-             "apiVersion": "2015-01-01", 
-             "name": "SQL-Servers-Template", 
-             "type": "Microsoft.Resources/deployments", 
-             "properties": { 
-               "mode": "incremental", 
-               "templateLink": {"uri":"[variables('templatelink_SQLServers')]","contentVersion":"1.0.0.0"}, 
-               "parameters": 
-               { 
-                  "ServiceName":{"value":"[parameters('ServiceName')]"},
-                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
-                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
-                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
-                  "servicePassword":{"value":"[parameters('servicePassword')]"},
-                  "domainName":{"value":"[parameters('domainName')]"},
-                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
-                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"}
-                  }            
-                  
-                   
-               } 
-              
-          }, 
-  
+       
   
          {
             "type": "Microsoft.ClassicStorage/StorageAccounts",
