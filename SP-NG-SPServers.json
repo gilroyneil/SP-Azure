@@ -427,7 +427,7 @@
             "location": "[parameters('resourceLocation')]",
             "name": "[concat(variables('SP1Name'),'/SetupSPCommand')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'),'/extensions/CreateSPCommand')]"
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SP1Name'),'/extensions/CreateSPCommand')]"
             ]
         },
 
