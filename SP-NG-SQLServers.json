@@ -235,7 +235,9 @@
             },
             "apiVersion": "2014-06-01",
             "name": "[concat(variables('SQL1Name'),'/CreateSPCommand')]",
-            "location": "[parameters('resourceLocation')]"
+            "location": "[parameters('resourceLocation')]","dependsOn": [
+                                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
+            ]
             
             
         },
