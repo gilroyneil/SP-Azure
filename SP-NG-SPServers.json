@@ -28,16 +28,16 @@
         
         },
                 "virtualNetworkName": {
-            "value": ""
+            "type": "string"
         },
         "virtualNetworkResourceGroup": {
-            "value": ""
+            "type": "string"
         },
         "subnetSPName": {
-            "value": ""
+           "type": "string"
         },        
         "subnetSQLName": {
-            "value": ""
+            "type": "string"
         }
     },
     "variables":{
