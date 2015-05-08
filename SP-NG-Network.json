@@ -45,7 +45,7 @@
         "name": "[variables('publicIPNameSP')]",
         "location": "[parameters('resourceLocation')]",
         "properties": {
-            "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
+            "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
         }
     }, 
     
@@ -55,7 +55,7 @@
         "name": "[variables('publicIPNameSQL')]",
         "location": "[parameters('resourceLocation')]",
         "properties": {
-            "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
+            "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
         }
     }, {
         "apiVersion": "2015-05-01-preview",
