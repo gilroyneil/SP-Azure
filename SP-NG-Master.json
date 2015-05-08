@@ -28,11 +28,31 @@
         },
         "VMSizeSQL": {
             "type": "string"
+        },
+        "virtualNetworkName": {
+            "value": ""
+        },
+        "virtualNetworkResourceGroup": {
+            "value": ""
+        },
+        "subnetSPName": {
+            "value": ""
+        },        
+        "subnetSQLName": {
+            "value": ""
         }
     },
     "variables":{
+        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",
+        "subnetSPName":"[parameters('subnetSPName')]",
+        "subnetSQLName":"[parameters('subnetSQLName')]",
+        "resourceLocation":"[parameters('resourceLocation')]",
+        
+        
         "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
         "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
+        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
@@ -131,7 +151,31 @@
             ] 
               
           }, 
-  
+  { 
+             "apiVersion": "2015-01-01", 
+             "name": "Network-Template", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Network')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "subnetSPName":{"value":"[parameters('subnetSPName')]"},
+                  "subnetSQLName":{"value":"[parameters('subnetSQLName')]"}
+                  }            
+                  
+                   
+               },
+            "dependsOn": [               
+                "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",
+                "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
+            ] 
+              
+          }, 
   { 
              "apiVersion": "2015-01-01", 
              "name": "SP-Servers-Template", 

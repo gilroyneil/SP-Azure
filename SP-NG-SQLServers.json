@@ -25,9 +25,27 @@
         },
         "VMSizeSQL": {
             "type": "string"
+        },
+                "virtualNetworkName": {
+            "value": ""
+        },
+        "virtualNetworkResourceGroup": {
+            "value": ""
+        },
+        "subnetSPName": {
+            "value": ""
+        },        
+        "subnetSQLName": {
+            "value": ""
         }
     },
     "variables":{
+        
+        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",
+        "subnetSPName":"[parameters('subnetSPName')]",
+        "subnetSQLName":"[parameters('subnetSQLName')]",
+        "resourceLocation":"[parameters('resourceLocation')]",
         
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",

@@ -1,0 +1,97 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServiceName": {
+            "type": "String"
+        },
+        "resourceLocation": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "value": ""
+        },
+        "virtualNetworkResourceGroup": {
+            "value": ""
+        },
+        "subnetSPName": {
+            "value": ""
+        },        
+        "subnetSQLName": {
+            "value": ""
+        }
+    },
+    "variables":{
+         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",
+        "subnetSPName":"[parameters('subnetSPName')]",
+        "subnetSQLName":"[parameters('subnetSQLName')]",
+        "resourceLocation":"[parameters('resourceLocation')]",
+        "publicIPName":"PublicIPName",
+        "publicIPAddressType":"Dynamic",
+        "nicNameSP":"SPNIC",
+        "nicNameSQL":"SQLNIC",
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
+         "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json"
+        
+    },
+    "resources": [
+        
+   {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "name": "[parameters('publicIPName')]",
+        "location": "[parameters('resourceLocation')]",
+        "properties": {
+            "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
+        }
+    }, {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[parameters('nicNameSP')]",
+        "location": "[parameters('resourceLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIPName'))]"
+        ],
+        "properties": {
+            "ipConfigurations": [{
+                "name": "ipconfigSP",
+                "properties": {
+                    "privateIPAllocationMethod": "Dynamic",
+                    "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
+                    },
+                    "subnet": {
+                        "id": "[variables('subnetSPName')]"
+                    }
+                }
+            }]
+        }
+    },
+{
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[parameters('nicNameSQL')]",
+        "location": "[parameters('resourceLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIPName'))]"
+        ],
+        "properties": {
+            "ipConfigurations": [{
+                "name": "ipconfigSQL",
+                "properties": {
+                    "privateIPAllocationMethod": "Dynamic",
+                    "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
+                    },
+                    "subnet": {
+                        "id": "[variables('subnetSQLName')]"
+                    }
+                }
+            }]
+        }
+    },
+
+    ]
+}

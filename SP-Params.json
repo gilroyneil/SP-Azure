@@ -25,5 +25,19 @@
         },
     "domainNetBiosName" : {
         "value":"osazure"
+    },
+        "virtualNetworkName" : {
+        "value":"vNetDom1"
+    },
+        "virtualNetworkResourceGroup" : {
+        "value":"Default-Networking"
+    },
+        "subnetSPName" : {
+        "value":"Subnet-1"
     }
+    ,
+        "subnetSQLName" : {
+        "value":"Subnet-2"
+    }
+    
 }
