@@ -43,7 +43,6 @@
         
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
-        "subnetSPName":"[parameters('subnetSPName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
         

@@ -27,7 +27,8 @@
         "subnetSPName":"[parameters('subnetSPName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
-        "publicIPName":"PublicIPName",
+        "publicIPNameSP":"PublicIPNameSP",
+        "publicIPNameSQL":"PublicIPNameSQL",
         "publicIPAddressType":"Dynamic",
         "nicNameSP":"SPNIC",
         "nicNameSQL":"SQLNIC",
@@ -41,7 +42,17 @@
    {
         "apiVersion": "2015-05-01-preview",
         "type": "Microsoft.Network/publicIPAddresses",
-        "name": "[variables('publicIPName')]",
+        "name": "[variables('publicIPNameSP')]",
+        "location": "[parameters('resourceLocation')]",
+        "properties": {
+            "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
+        }
+    }, 
+    
+     {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "name": "[variables('publicIPNameSQL')]",
         "location": "[parameters('resourceLocation')]",
         "properties": {
             "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
@@ -52,7 +63,7 @@
         "name": "[variables('nicNameSP')]",
         "location": "[parameters('resourceLocation')]",
         "dependsOn": [
-            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
+            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPNameSP'))]"
         ],
         "properties": {
             "ipConfigurations": [{
@@ -60,7 +71,7 @@
                 "properties": {
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIPAddress": {
-                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSP'))]"
                     },
                     "subnet": {
                         "id": "[variables('subnetSPName')]"
@@ -75,7 +86,7 @@
         "name": "[variables('nicNameSQL')]",
         "location": "[parameters('resourceLocation')]",
         "dependsOn": [
-            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
+            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPNameSQL'))]"
         ],
         "properties": {
             "ipConfigurations": [{
@@ -83,7 +94,7 @@
                 "properties": {
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIPAddress": {
-                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSQL'))]"
                     },
                     "subnet": {
                         "id": "[variables('subnetSQLName')]"
