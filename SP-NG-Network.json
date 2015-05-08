@@ -32,6 +32,10 @@
         "publicIPAddressType":"Dynamic",
         "nicNameSP":"SPNIC",
         "nicNameSQL":"SQLNIC",
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",        
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
+        
         "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
         "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
          "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json"
@@ -74,7 +78,7 @@
                         "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSP'))]"
                     },
                     "subnet": {
-                        "id": "[variables('subnetSPName')]"
+                        "id": "[variables('subnetSPRef')]"
                     }
                 }
             }]
@@ -95,9 +99,8 @@
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIPAddress": {
                         "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSQL'))]"
-                    },
-                    "subnet": {
-                        "id": "[variables('subnetSQLName')]"
+                    }, "subnet": {
+                        "id": "[variables('subnetSQLRef')]"
                     }
                 }
             }]
