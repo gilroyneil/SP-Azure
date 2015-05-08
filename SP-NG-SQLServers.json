@@ -32,9 +32,6 @@
         "virtualNetworkResourceGroup": {
             "type": "string"
         },
-        "subnetSPName": {
-           "type": "string"
-        },        
         "subnetSQLName": {
             "type": "string"
         }
