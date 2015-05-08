@@ -32,7 +32,7 @@
         "publicIPAddressType":"Dynamic",
         "nicNameSP":"SPNIC",
         "nicNameSQL":"SQLNIC",
-        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",
         "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",        
         "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
         
