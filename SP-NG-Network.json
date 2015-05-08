@@ -41,7 +41,7 @@
    {
         "apiVersion": "2015-05-01-preview",
         "type": "Microsoft.Network/publicIPAddresses",
-        "name": "[variables('publicIPName')]",
+        "name": "[parameters('publicIPName')]",
         "location": "[parameters('resourceLocation')]",
         "properties": {
             "publicIPAllocationMethod": "[parameters('publicIPAddressType')]"
@@ -49,7 +49,7 @@
     }, {
         "apiVersion": "2015-05-01-preview",
         "type": "Microsoft.Network/networkInterfaces",
-        "name": "[variables('nicNameSP')]",
+        "name": "[parameters('nicNameSP')]",
         "location": "[parameters('resourceLocation')]",
         "dependsOn": [
             "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIPName'))]"
@@ -60,7 +60,7 @@
                 "properties": {
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIPAddress": {
-                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
                     },
                     "subnet": {
                         "id": "[variables('subnetSPName')]"
@@ -72,10 +72,10 @@
 {
         "apiVersion": "2015-05-01-preview",
         "type": "Microsoft.Network/networkInterfaces",
-        "name": "[variables('nicNameSQL')]",
+        "name": "[parameters('nicNameSQL')]",
         "location": "[parameters('resourceLocation')]",
         "dependsOn": [
-            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
+            "[concat('Microsoft.Network/publicIPAddresses/', parameters('publicIPName'))]"
         ],
         "properties": {
             "ipConfigurations": [{
@@ -83,7 +83,7 @@
                 "properties": {
                     "privateIPAllocationMethod": "Dynamic",
                     "publicIPAddress": {
-                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPName'))]"
                     },
                     "subnet": {
                         "id": "[variables('subnetSQLName')]"
@@ -91,7 +91,7 @@
                 }
             }]
         }
-    }
+    },
 
     ]
 }
