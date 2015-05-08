@@ -132,7 +132,7 @@
                 },
                 "networkProfile": {
                 "networkInterfaces": [{
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"
+                    "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicNameSP'))]"
                 }]
             },
                     "inputEndpoints": [
@@ -217,15 +217,16 @@
                         }
                     }
 
-                ]
-            },
+                ],
             "dependsOn": [
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]",
                 "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"
             ]
-        },
+            },
+            
+        
         
         
         
