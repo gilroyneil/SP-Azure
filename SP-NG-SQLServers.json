@@ -42,6 +42,8 @@
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
         
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
@@ -130,9 +132,9 @@
                 },
                 "networkProfile": {
                     "virtualNetwork": {
-                        "id": "[resourceId('Microsoft.ClassicNetwork/virtualNetworks', variables('VNetName'))]",
+                        "id": "[resourceId('Microsoft.ClassicNetwork/virtualNetworks', variables('virtualNetworkName'))]",
                         "subnetNames": [
-                            "Subnet-SP"
+                            "[parameters('subnetSQLName')]"
                         ]
                     },
                     "inputEndpoints": [
