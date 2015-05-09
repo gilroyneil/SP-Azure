@@ -35,8 +35,10 @@
         },
         "subnetSPName": {
            "type": "string"
-        }        
-       
+        },        
+        "subnetSQLName": {
+            "type": "string"
+        }
     },
     "variables":{
        
