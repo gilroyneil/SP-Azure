@@ -132,7 +132,7 @@
                 },
                 "networkProfile": {
                     "virtualNetwork": {
-                        "id": "variables('vnetID')]",
+                        "id": "[resourceId('Microsoft.ClassicNetwork/virtualNetworks', variables('virtualNetworkName'))]",
                         "subnetNames": [
                             "[parameters('subnetSQLName')]"
                         ]
