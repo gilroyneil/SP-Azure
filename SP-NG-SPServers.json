@@ -45,7 +45,7 @@
         "subnetSPName":"[parameters('subnetSPName')]",
         
            "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
-        "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
     
     
         "resourceLocation":"[parameters('resourceLocation')]",
@@ -136,7 +136,7 @@
                     "virtualNetwork": {
                         "id": "[variables('vnetID')]",
                         "subnetNames": [
-                            "[parameters('subnetSPRef')]"
+                            "[parameters('subnetSPName')]"
                         ]
                     },
             
@@ -154,7 +154,7 @@
                             "protocol": "tcp"
                         }
                     ]
-               },
+                ,
                 "hardwareProfile": {
                     "size": "[variables('SPHardware')]",
                     "platformGuestAgent": "true",
@@ -227,8 +227,8 @@
             "dependsOn": [
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
-                "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
-                /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
+                "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"
             ]
          },
             
