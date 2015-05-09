@@ -136,7 +136,7 @@
                     "virtualNetwork": {
                         "id": "[variables('vnetID')]",
                         "subnetNames": [
-                            "[parameters('subnetSPRef')]"
+                            "[parameters('subnetSPName')]"
                         ]
                     },
             
