@@ -43,7 +43,11 @@
        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSPName":"[parameters('subnetSPName')]",
-        "subnetSQLName":"[parameters('subnetSQLName')]",
+        
+           "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
+    
+    
         "resourceLocation":"[parameters('resourceLocation')]",
         "nicNameSP":"SPNIC",
         "nicNameSQL":"SQLNIC",
@@ -82,7 +86,7 @@
                 "accountType": "[variables('StorageType')]"
             }
         },
-        {
+    /*    {
             "type": "Microsoft.ClassicNetwork/virtualNetworks",
             "name": "[variables('VNetName')]",
             "apiVersion": "2014-06-01",
@@ -107,7 +111,7 @@
                     }
                 ]
             }
-        },
+        },*/
        
         {
             "type": "Microsoft.ClassicCompute/domainNames",
@@ -128,11 +132,13 @@
                 "domainName": {
                     "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]"
                 },
-                "networkProfile": {
-                "networkInterfaces": [{
-                    "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicNameSP'))]"
-                }]
-                },
+               "networkProfile": {
+                    "virtualNetwork": {
+                        "id": "[variables('vnetID')]",
+                        "subnetNames": [
+                            "[parameters('subnetSPName')]"
+                        ]
+                    },
             
                     "inputEndpoints": [
                         {
@@ -220,7 +226,7 @@
             },
             "dependsOn": [
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]",
-                "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",
+              /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]",
                 "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"
             ]
