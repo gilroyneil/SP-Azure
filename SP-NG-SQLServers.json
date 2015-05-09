@@ -42,6 +42,8 @@
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
         
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
@@ -72,7 +74,7 @@
                 "accountType": "[variables('StorageType')]"
             }
         },
-        {
+        /*{
             "type": "Microsoft.ClassicNetwork/virtualNetworks",
             "name": "[variables('VNetName')]",
             "apiVersion": "2014-06-01",
@@ -97,7 +99,7 @@
                     }
                 ]
             }
-        },
+        },*/
        /* {
             "type": "Microsoft.ClassicCompute/domainNames",
             "name": "[variables('DCDomainName')]",
@@ -130,9 +132,9 @@
                 },
                 "networkProfile": {
                     "virtualNetwork": {
-                        "id": "[resourceId('Microsoft.ClassicNetwork/virtualNetworks', variables('VNetName'))]",
+                        "id": "[resourceId('Microsoft.ClassicNetwork/virtualNetworks', variables('virtualNetworkName'))]",
                         "subnetNames": [
-                            "Subnet-SP"
+                            "[parameters('subnetSQLName')]"
                         ]
                     },
                     "inputEndpoints": [
@@ -221,7 +223,7 @@
             },
             "dependsOn": [
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'))]",
-                "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",
+                /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ]
         },
