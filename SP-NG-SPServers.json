@@ -154,7 +154,7 @@
                             "protocol": "tcp"
                         }
                     ]
-                ,
+               },
                 "hardwareProfile": {
                     "size": "[variables('SPHardware')]",
                     "platformGuestAgent": "true",
@@ -228,7 +228,7 @@
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]",
-                "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"
+                /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
             ]
          },
             
