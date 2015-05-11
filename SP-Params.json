@@ -22,7 +22,7 @@
     },
 
         "domainJoinUserName": {
-    "value":"ngadmin"
+    "value":"osazure\ngadmin"
         },
         "domainJoinPassword": {
     "value":"Start123"
