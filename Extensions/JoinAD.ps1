@@ -146,7 +146,7 @@ else
 
 WaitForPendingMof
 
-ADJoin -ConfigurationData $configData -OutputPath $PSScriptRoot
+JoinAD -ConfigurationData $configData -OutputPath $PSScriptRoot
 
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
