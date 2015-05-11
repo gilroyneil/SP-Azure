@@ -255,7 +255,7 @@
                     "public": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/ADJoin.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
                             "https://armstorageacc.blob.core.windows.net/scripts/xSqlPs.zip"
                         ],
