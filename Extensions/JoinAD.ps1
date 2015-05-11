@@ -14,7 +14,7 @@ param
     [String]$DomainAdministratorPassword,
 
 [Parameter(Mandatory)]
-    [String]DomainJoinOU,
+    [String]$DomainJoinOU,
 
 
     [Parameter(Mandatory)]
