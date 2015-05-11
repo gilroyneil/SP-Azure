@@ -1,7 +1,0 @@
-
-[ClassVersion("1.0.0"), FriendlyName("xDisk")] 
-class MicrosoftAzure_xDisk : OMI_BaseResource
-{
-    [key] uint32 DiskNumber;
-    [write] string DriveLetter;
-};
