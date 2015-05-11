@@ -17,6 +17,15 @@
         "servicePassword": {
             "type": "string"
         },
+        "domainJoinUserName": {
+            "type": "string"
+        },
+        "domainJoinPassword": {
+            "type": "string"
+        },
+        "domainJoinOU": {
+            "type": "string"
+        },
         "domainName": {
             "type": "string"
         },
@@ -138,6 +147,10 @@
                   "administratorAccount":{"value":"[parameters('administratorAccount')]"},
                   "administratorPassword":{"value":"[parameters('administratorPassword')]"},
                   "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
@@ -193,6 +206,9 @@
                   "administratorAccount":{"value":"[parameters('administratorAccount')]"},
                   "administratorPassword":{"value":"[parameters('administratorPassword')]"},
                   "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
