@@ -28,7 +28,7 @@
     "value":"Start123"
         },
                 "domainJoinOU": {
-    "value":"OU=Domain Joined ARM,DC=osazure,DC=com"
+    "value":"TEST"
         },
         "domainName": {
     "value":"osazure.com"
