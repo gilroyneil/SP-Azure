@@ -97,34 +97,7 @@
         
   
    
-        
-        {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
-            "properties": {
-                "extension": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "version": "1.*",
-                "parameters": {
-                    "public": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
-                            
-                        ],
-                        "commandToExecute": "[variables('domainJoinCommand')]"
-                    }
-                }
-            },
-            "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SQL1Name'),'/domainJoinCommand')]",
-            "location": "[parameters('resourceLocation')]",
-            "dependsOn": [
-                                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
-            ]
-            
-        },
-        
+ 
         
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
@@ -152,7 +125,35 @@
                                  
             ]
             
+        },
+               
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('domainJoinCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQL1Name'),'/domainJoinCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
+            ]
+            
         }
+        
         
 
     ]
