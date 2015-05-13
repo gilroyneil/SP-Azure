@@ -1,0 +1,31 @@
+Azure commands
+
+azure login ngadmin@neilgilroyhotmail242.onmicrosoft.com Coche281660
+
+
+azure config mode arm
+
+https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.json
+
+azure group create --name OsbornTest1RG --location "East US"
+azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.json" --parameters-file "https://raw.githubusercontent.com/gilroyneil/Azure-IAAS/master/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.parameters.json"
+
+
+/Users/Neil/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/Azure-IAAS/azure-quickstart-templates-master/101-simple-windows-vm/azuredeploy.parameters.json
+
+
+to fx the authentication issue.
+http://azure.microsoft.com/blog/2014/08/27/azure-automation-authenticating-to-azure-using-azure-active-directory/
+
+
+
+
+
+azure group deployment create --resource-group OsbornTest1RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"
+
+MB:
+azure group deployment create --resource-group OsbornTest2RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Master.json" --parameters-file "/Users/neilgilroy/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"
+
+iMac:
+
+azure group deployment create --resource-group OsbornTest2RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Master.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"

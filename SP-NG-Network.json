@@ -1,0 +1,111 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServiceName": {
+            "type": "String"
+        },
+        "resourceLocation": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "virtualNetworkResourceGroup": {
+            "type": "string"
+        },
+        "subnetSPName": {
+            "type": "string"
+        },        
+        "subnetSQLName": {
+            "type": "string"
+        }
+    },
+    "variables":{
+         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",
+        "subnetSPName":"[parameters('subnetSPName')]",
+        "subnetSQLName":"[parameters('subnetSQLName')]",
+        "resourceLocation":"[parameters('resourceLocation')]",
+        "publicIPNameSP":"PublicIPNameSP",
+        "publicIPNameSQL":"PublicIPNameSQL",
+        "publicIPAddressType":"Dynamic",
+        "nicNameSP":"SPNIC",
+        "nicNameSQL":"SQLNIC",
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",
+        "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",        
+        "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
+        
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
+         "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json"
+        
+    },
+    "resources": [
+        
+   {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "name": "[variables('publicIPNameSP')]",
+        "location": "[parameters('resourceLocation')]",
+        "properties": {
+            "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        }
+    }, 
+    
+     {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/publicIPAddresses",
+        "name": "[variables('publicIPNameSQL')]",
+        "location": "[parameters('resourceLocation')]",
+        "properties": {
+            "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        }
+    }, {
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[variables('nicNameSP')]",
+        "location": "[parameters('resourceLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPNameSP'))]"
+        ],
+        "properties": {
+            "ipConfigurations": [{
+                "name": "ipconfigSP",
+                "properties": {
+                    "privateIPAllocationMethod": "Dynamic",
+                    "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSP'))]"
+                    },
+                    "subnet": {
+                        "id": "[variables('subnetSPRef')]"
+                    }
+                }
+            }]
+        }
+    },
+{
+        "apiVersion": "2015-05-01-preview",
+        "type": "Microsoft.Network/networkInterfaces",
+        "name": "[variables('nicNameSQL')]",
+        "location": "[parameters('resourceLocation')]",
+        "dependsOn": [
+            "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPNameSQL'))]"
+        ],
+        "properties": {
+            "ipConfigurations": [{
+                "name": "ipconfigSQL",
+                "properties": {
+                    "privateIPAllocationMethod": "Dynamic",
+                    "publicIPAddress": {
+                        "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPNameSQL'))]"
+                    }, "subnet": {
+                        "id": "[variables('subnetSQLRef')]"
+                    }
+                }
+            }]
+        }
+    }
+
+    ]
+}

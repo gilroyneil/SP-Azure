@@ -1,0 +1,54 @@
+{
+    "resourceLocation" : {
+        "value":"West Europe"
+    },
+    "servicePassword" : {
+        "value":"whatsisthis1"
+    },
+    "administratorAccount": {
+        "value": "ngadmin"
+    },
+    "administratorPassword": {
+        "value": "D1sabl3d281660"
+    },
+    "ServiceName": {
+        "value": "osazure1"
+    },
+    "vmSizeSP": {
+        "value": "Basic_A2"
+    },
+    "vmSizeSQL": {
+        "value": "Basic_A2"
+    },
+
+        "domainJoinUserName": {
+    "value":"ngadmin"
+        },
+        "domainJoinPassword": {
+    "value":"Start123"
+        },
+                "domainJoinOU": {
+    "value":"TEST"
+        },
+        "domainName": {
+    "value":"osazure.com"
+        },
+        
+    "domainNetBiosName" : {
+        "value":"osazure"
+    },
+        "virtualNetworkName" : {
+        "value":"vNetDom1"
+    },
+        "virtualNetworkResourceGroup" : {
+        "value":"Default-Networking"
+    },
+        "subnetSPName" : {
+        "value":"Subnet-1"
+    }
+    ,
+        "subnetSQLName" : {
+        "value":"Subnet-2"
+    }
+    
+}
