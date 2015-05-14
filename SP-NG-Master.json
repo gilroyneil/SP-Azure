@@ -249,7 +249,6 @@
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
-                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"}
                   
