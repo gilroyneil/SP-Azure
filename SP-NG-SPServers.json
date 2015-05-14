@@ -241,13 +241,13 @@
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
                 /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
             ]
-         },
+         }
+         
+         /*,
             
             
             
-            
-            
-        
+           
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -331,7 +331,7 @@
             ]
         }
 
-        
+        */
 
     ]
 }

@@ -117,8 +117,20 @@ function Get-TruncatedExponentialBackoffDelay([int]$PreviousBackoffDelay, [int]$
 # If the folder does not exists, then it is created.
 function Start-ScriptLog
 {
+    param
+    (
+        [String]$LogName
+    )
+
     $logDirectory = $env:SystemDrive + "\DeploymentLogs"
-    $logFilePath = $logDirectory + "\log.txt"
+    if (($LogName -ne $null) -or ($LogName -ne ""))
+    {
+        $logFilePath = $logDirectory + "\" + $LogName + ".txt"    
+    }
+    else
+    {    
+        $logFilePath = $logDirectory + "\log.txt"
+    }
 
     if(!(Test-Path -Path $logDirectory ))
     {
