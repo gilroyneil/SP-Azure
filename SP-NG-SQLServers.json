@@ -240,7 +240,9 @@
                 /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ]
-        },
+        }
+        
+        /*,
         
         
         
@@ -327,6 +329,6 @@
                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/CreateSPCommand')]"
             ]
         }
-
+*/
     ]
 }
