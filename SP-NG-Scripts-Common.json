@@ -47,7 +47,9 @@
     },
     "variables":{
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
-        "virtualNetworkName":"[parameters('virtualNetworkName')]",        
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",
+        "subnetSPName":"[parameters('subnetSPName')]",
+        "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
         
         
@@ -82,7 +84,10 @@
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
-        "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",               
+                "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
+         
+         
+               
         "CreateSPCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\CreateSPServer.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('administratorAccount'),'\" -DomainAdministratorPassword \"',parameters('administratorPassword'), '\" -ServiceUserName \"SQLService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
         "SetupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainNetBiosName \"',parameters('domainNetBiosName'),'\" -SQLServiceAccount \"SQLService\" -SQLServiceAccountPassword \"',parameters('servicePassword'), '\" -SQLAgentAccount \"SQLAgent\" -SQLAgentAccountPassword \"',parameters('servicePassword'), '\" -SQLDrive  \"F\"  -SetupAccount \"SPSetup\"')]",
         "SetupSPCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSP.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('administratorAccount'),'\" -DomainAdministratorPassword \"',parameters('administratorPassword'), '\" -ServiceUserName \"SQLService\" -ServicePassword \"',parameters('servicePassword'), '\"')]"
@@ -105,7 +110,6 @@
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
                             
                         ],
@@ -134,7 +138,6 @@
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
                             
                         ],
