@@ -67,9 +67,9 @@
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         "SP1Name":"[concat(parameters('ServiceName'),'-sp1')]", 
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
-        "SP1Disk1Name":"[concat(parameters('ServiceName'),'-SP1-os')]",
-        "SP1Disk2Name":"[concat(parameters('ServiceName'),'-SP1-data1')]",
-        "SP1Disk3Name":"[concat(parameters('ServiceName'),'-SP1-data2')]",
+        "SP1Disk1Name":"[concat(parameters('ServiceName'),'-xSP1-os')]",
+        "SP1Disk2Name":"[concat(parameters('ServiceName'),'-xSP1-data1')]",
+        "SP1Disk3Name":"[concat(parameters('ServiceName'),'-xSP1-data2')]",
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
@@ -241,13 +241,13 @@
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
                 /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
             ]
-         },
+         }
+         
+         /*,
             
             
             
-            
-            
-        
+           
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -331,7 +331,7 @@
             ]
         }
 
-        
+        */
 
     ]
 }
