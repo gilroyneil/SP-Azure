@@ -20,18 +20,20 @@
     "vmSizeSQL": {
         "value": "Basic_A2"
     },
-    "domainJoinUserName": {
+
+        "domainJoinUserName": {
     "value":"ngadmin"
         },
-    "domainJoinPassword": {
+        "domainJoinPassword": {
     "value":"Start123"
         },
-    "domainJoinOU": {
+                "domainJoinOU": {
     "value":"TEST"
         },
         "domainName": {
     "value":"osazure.com"
-        },        
+        },
+        
     "domainNetBiosName" : {
         "value":"osazure"
     },
