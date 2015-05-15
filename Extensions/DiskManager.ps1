@@ -2,20 +2,10 @@
 param
 (
     [Parameter(Mandatory)]
-    [String]$DomainName,
+    [String]$ServiceName,
 
     [Parameter(Mandatory)]
-    [String]$domainNetBiosName,
-
-    [Parameter(Mandatory)]
-    [String]$DomainAdministratorUserName,
-
-    [Parameter(Mandatory)]
-    [String]$DomainAdministratorPassword,
-
-    [Parameter(Mandatory)]
-    [String]$DomainJoinOU,
-
+    [String]$DiskInfo,
 
     [Parameter(Mandatory)]
     [String]$ServiceUserName,
@@ -43,7 +33,7 @@ else
     Write-Verbose -Message "No encryption certificate specified. Assuming cleartext parameters."
 }
 
-configuration JoinAD
+configuration DiskManager
 {
     Import-DscResource -ModuleName xComputerManagement
 
@@ -56,57 +46,23 @@ configuration JoinAD
             GetScript = { return @{ Powercfg = ( "{0}" -f ( powercfg -getactivescheme ) ) } }
         }
 
+        xDisk DataDisk1
+        {
+            DiskNumber = 2
+            DriveLetter = "E"
+        }
+
+        xDisk DataDisk2
+        {
+            DiskNumber = 3
+            DriveLetter = "F"
+        }
        
-        Script configureWS {
-            SetScript =
-@"
-# https://powertoe.wordpress.com/2011/04/29/enable-credssp-from-a-windows-7-home-client/  
-Enable-WSManCredSSP -Role Client -DelegateComputer '*.$DomainName' -Force
-Enable-WSManCredSSP Server
-`$allowed = @('WSMAN/*.$DomainName','WSMAN/$($env:COMPUTERNAME)')  
-
-`$key = 'hklm:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation'
-if (!(Test-Path `$key)) {
-    md `$key
-}
-New-ItemProperty -Path `$key -Name AllowFreshCredentials -Value 1 -PropertyType Dword -Force            
-
-`$key = Join-Path `$key 'AllowFreshCredentials'
-if (!(Test-Path `$key)) {
-    md `$key
-}
-`$i = 1
-`$allowed |% {
-    New-ItemProperty -Path `$key -Name `$i -Value `$_ -PropertyType String -Force
-    `$i++
-}
-# We need to restart WinRM, but restarting the service just makes it stuck in stopping
-# Since we're doing the BEFORE joining the domain, that will happen automagically
-"@
-            GetScript = {
-                 return @{WinRM = "something"}
-            }
-            TestScript ={
-                return -not (Get-WSManCredSSP)[1].Contains("not configured")
-            }
-        }
-
-
-        xComputer DomainJoin
+        xDisk DataDisk2
         {
-            Name = $env:COMPUTERNAME
-            DomainName = $DomainName            
-            Credential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$DomainAdministratorUserName", $(ConvertTo-SecureString $DomainAdministratorPassword -AsPlainText -Force))
-            DependsOn = "[Script]configureWS"
+            DiskNumber = 4
+            DriveLetter = "H"
         }
-
-
-        WindowsFeature ADPS
-        {
-            Name = "RSAT-AD-PowerShell"
-            Ensure = "Present"
-        }
-     
         
         LocalConfigurationManager
         {
@@ -146,7 +102,7 @@ else
 
 WaitForPendingMof
 
-JoinAD -ConfigurationData $configData -OutputPath $PSScriptRoot
+DiskManager -ConfigurationData $configData -OutputPath $PSScriptRoot
 
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
