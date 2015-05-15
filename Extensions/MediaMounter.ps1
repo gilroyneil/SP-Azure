@@ -1,11 +1,5 @@
 ﻿param
 (
-    [Parameter(Mandatory)]
-    [String]$SQLFileName,
-
-    [Parameter(Mandatory)]
-    [String]$SPFileName,
-    
         
     [Parameter(Mandatory)]
     [String]$MediaContainerName,
@@ -32,8 +26,6 @@ $destination = "e:\data\media"
 $StorageAccountName = "armstorageacc"
 $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
 $MediaContainerName = "media"
-$SQLFileName =  "SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828.ISO"
-$SPFileName = "GU32_TAP_16.0.4021.1203.zip"
 
 if ((test-path $destination) -ne $true)
 {

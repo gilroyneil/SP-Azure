@@ -58,6 +58,10 @@
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
+        
+        "MediaContainerName":"media",
+        "StorageAccountName":"armstorageacc",
+        "StorageAccountKey":"tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg==",
         "DCHardware":"Basic_A0",
         "SPHardware":"[parameters('vmSizeSP')]",
         "SQLHardware":"[parameters('vmSizeSQL')]",        
@@ -83,10 +87,9 @@
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
         "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",               
-        "CreateSPCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\CreateSPServer.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('administratorAccount'),'\" -DomainAdministratorPassword \"',parameters('administratorPassword'), '\" -ServiceUserName \"SQLService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
-        "SetupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainNetBiosName \"',parameters('domainNetBiosName'),'\" -SQLServiceAccount \"SQLService\" -SQLServiceAccountPassword \"',parameters('servicePassword'), '\" -SQLAgentAccount \"SQLAgent\" -SQLAgentAccountPassword \"',parameters('servicePassword'), '\" -SQLDrive  \"F\"  -SetupAccount \"SPSetup\"')]",
-        "SetupSPCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSP.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('administratorAccount'),'\" -DomainAdministratorPassword \"',parameters('administratorPassword'), '\" -ServiceUserName \"SQLService\" -ServicePassword \"',parameters('servicePassword'), '\"')]"
-            
+        "disksCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\DiskManager.ps1",
+        "mediaCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\MediaMounter.ps1 -MediaContainerName \"',variables('MediaContainerName'),'\"-StorageAccountName \"',variables('StorageAccountName'), '\" -StorageAccountKey \"',variables('StorageAccountKey')]"
+     
     },
     "resources": [
         
@@ -148,7 +151,7 @@
                                 "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
             ]*/
             
-        }/*,
+        },
         
                 {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
@@ -166,19 +169,108 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
                             
                         ],
-                        "commandToExecute": "[variables('domainJoinCommand')]"
+                        "commandToExecute": "[variables('disksCommand')]"
                     }
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SQL1Name'),'/domainJoinCommand')]",
+            "name": "[concat(variables('SP1Name'),'/disksCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SP1Name'),'/extensions/domainJoinCommand')]"
             ]
             
+        },
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('disksCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQL1Name'),'/disksCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/domainJoinCommand')]"
+            ]
+            
         }
-        */
+        
+        
+        ,
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('mediaCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SP1Name'),'/mediaCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SP1Name'),'/extensions/disksCommand')]"
+            ]
+            
+        }
+        
+          ,
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('mediaCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQL1Name'),'/mediaCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/disksCommand')]"
+            ]
+            
+        }
+        
         
 
     ]

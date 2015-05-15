@@ -1,21 +1,4 @@
 
-param
-(
-    [Parameter(Mandatory)]
-    [String]$ServiceName,
-
-    [Parameter(Mandatory)]
-    [String]$DiskInfo,
-
-    [Parameter(Mandatory)]
-    [String]$ServiceUserName,
-
-    [Parameter(Mandatory)]
-    [String]$ServicePassword,
-
-    [String]$EncryptionCertificateThumbprint
-)
-
 . "$PSScriptRoot\Common.ps1"
 
 Start-ScriptLog
