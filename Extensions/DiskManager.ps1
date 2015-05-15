@@ -20,6 +20,31 @@ param
 
 Start-ScriptLog
 
+function change-CDRomDriveLetter
+{
+    $LastDriveLetter = "z"
+    Get-WmiObject win32_logicaldisk -filter 'DriveType=5' | Sort-Object -property DeviceID -Descending | ForEach-Object {
+        write-host "Found CDROM drive on $($_.DeviceID)"
+        $a = mountvol $_.DeviceID /l
+        # Get first free drive letter starting from Z: and working backwards.
+        # Many scripts on the Internet recommend using the following line:
+        # $UseDriveLetter = Get-ChildItem function:[d-$LastDriveLetter]: -Name | Where-Object {-not (Test-Path -Path $_)} | Sort-Object -Descending | Select-Object -First 1
+        # However, if you run Test-Path on a CD-ROM or other drive letter
+        # without any media, it will return False even though the drive letter
+        # itself is in use. So to ensure accuracy we use the following line:
+        $UseDriveLetter = Get-ChildItem function:[d-$LastDriveLetter]: -Name | Where-Object { (New-Object System.IO.DriveInfo($_)).DriveType -eq 'NoRootDirectory' } | Sort-Object -Descending | Select-Object -First 1
+        If ($UseDriveLetter -ne $null -AND $UseDriveLetter -ne "") {
+          write-host "$UseDriveLetter is available to use"
+          write-host "Changing $($_.DeviceID) to $UseDriveLetter"
+          mountvol $_.DeviceID /d
+          $a = $a.Trim()
+          mountvol $UseDriveLetter $a
+        } else {
+          write-host "No available drive letters found."
+        }
+      }
+}
+
 if ($EncryptionCertificateThumbprint)
 {
     Write-Verbose -Message "Decrypting parameters with certificate $EncryptionCertificateThumbprint..."
@@ -33,41 +58,78 @@ else
     Write-Verbose -Message "No encryption certificate specified. Assuming cleartext parameters."
 }
 
+change-CDRomDriveLetter
+
 configuration DiskManager
 {
     Import-DscResource -ModuleName xComputerManagement
 
-    Node $env:COMPUTERNAME
+    if ($env:COMPUTERNAME.ToString().ToLower() -match "-sp")
     {
-        Script PowerPlan
-        {
-            SetScript = { Powercfg -SETACTIVE SCHEME_MIN }
-            TestScript = { return ( Powercfg -getactivescheme) -like "*High Performance*" }
-            GetScript = { return @{ Powercfg = ( "{0}" -f ( powercfg -getactivescheme ) ) } }
-        }
 
-        xDisk DataDisk1
+        Node $env:COMPUTERNAME
         {
-            DiskNumber = 2
-            DriveLetter = "E"
-        }
+            Script PowerPlan
+            {
+                SetScript = { Powercfg -SETACTIVE SCHEME_MIN }
+                TestScript = { return ( Powercfg -getactivescheme) -like "*High Performance*" }
+                GetScript = { return @{ Powercfg = ( "{0}" -f ( powercfg -getactivescheme ) ) } }
+            }
 
-        xDisk DataDisk2
-        {
-            DiskNumber = 3
-            DriveLetter = "F"
-        }
+            xDisk DataDisk1
+            {
+                DiskNumber = 2
+                DriveLetter = "E"
+            }
+
+            xDisk DataDisk2
+            {
+                DiskNumber = 3
+                DriveLetter = "F"
+            }
        
-        xDisk DataDisk2
-        {
-            DiskNumber = 4
-            DriveLetter = "H"
-        }
+          #   xDisk DataDisk3
+           #  {
+            #     DiskNumber = 4
+            #     DriveLetter = "H"
+            # }
         
-        LocalConfigurationManager
-        {
-            CertificateId = $node.Thumbprint
+            LocalConfigurationManager
+            {
+                CertificateId = $node.Thumbprint
 
+            }
+        }
+    }
+    else
+    {
+        Node $env:COMPUTERNAME
+        {
+            Script PowerPlan
+            {
+                SetScript = { Powercfg -SETACTIVE SCHEME_MIN }
+                TestScript = { return ( Powercfg -getactivescheme) -like "*High Performance*" }
+                GetScript = { return @{ Powercfg = ( "{0}" -f ( powercfg -getactivescheme ) ) } }
+            }
+
+            xDisk DataDisk1
+            {
+                DiskNumber = 2
+                DriveLetter = "E"
+            }
+
+            xDisk DataDisk2
+            {
+                DiskNumber = 3
+                DriveLetter = "H"
+            }
+                   
+        
+            LocalConfigurationManager
+            {
+                CertificateId = $node.Thumbprint
+
+            }
         }
     }
 }

@@ -195,14 +195,14 @@
                         {
                             "diskName": "[variables('SQL1Disk2Name')]",
                             "caching": "None",
-                            "diskSize": "1023",
+                            "diskSize": "100",
                             "lun": "0",
                             "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk2Name'),'.vhd')]"
                         },
                         {
                             "diskName": "[variables('SQL1Disk3Name')]",
                             "caching": "None",
-                            "diskSize": "1023",
+                            "diskSize": "100",
                             "lun": "1",
                             "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk3Name'),'.vhd')]"
                         }

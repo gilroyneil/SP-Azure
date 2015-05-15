@@ -1,5 +1,5 @@
 #
-# Copyright="© Microsoft Corporation. All rights reserved."
+# Copyright="Â© Microsoft Corporation. All rights reserved."
 #
 
 [CmdletBinding()]
@@ -10,6 +10,9 @@ param
 
     [Switch]$Force
 )
+
+
+
 
 function DownloadFile
 {
@@ -172,5 +175,10 @@ if ($PSVersionTable.PSVersion.Major -lt 4)
     Start-Sleep -Seconds 5
     Restart-Computer -Force
 }
+
+#Install Azure CMDLETs.
+$azureMSI = "$((get-location).Path)\azure-powershell.0.9.1.msi"
+Start-Process $azureMSI /qn -Wait
+
 
 Stop-ScriptLog

@@ -15,9 +15,10 @@
     
     
     [Parameter(Mandatory)]
-    [String]$StorageAccountKey,
+    [String]$StorageAccountKey
     
 )
+
 
 . "$PSScriptRoot\Common.ps1"
 
@@ -27,28 +28,36 @@ import-module "C:\Program Files (x86)\Microsoft SDKs\Azure\PowerShell\ServiceMan
 $StorageAccountName = $StorageAccountName
 $StorageAccountKey = $StorageAccountKey
 $destination = "e:\data\media"
-$context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
 
-Get-AzureStorageContainer -Name "sql" -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination 
+$StorageAccountName = "armstorageacc"
+$StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
+$MediaContainerName = "media"
+$SQLFileName =  "SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828.ISO"
+$SPFileName = "GU32_TAP_16.0.4021.1203.zip"
 
-if ($SQLFileName.ToLower().EndsWith("iso"))
+if ((test-path $destination) -ne $true)
 {
-    $imagePath = $($destination + "\" + $SQLFileName)
-    Mount-DiskImage $imagePath -PassThru
-    $diskimage = Get-DiskImage $imagePath
-    $volume = Get-Volume -DiskImage $diskimage
-    copy-item "$($volume.driveletter):\" -Destination $($destination + "\sql_extracted") -Recurse
-    Dismount-DiskImage $ImagePath
+    New-Item -Path $destination -ItemType directory
 }
 
-if ($SPFileName.ToLower().EndsWith("iso"))
+
+$context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
+Get-AzureStorageContainer -Name $MediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination 
+
+
+$isoFiles = Get-ChildItem -Path $destination -Include "*.iso" -Recurse
+foreach ($iso in $isoFiles)
 {
-    $imagePath = $($destination + "\" + $SPFileName)
+    $fileName = $iso.Name
+    $fileNameBase = $iso.BaseName
+    $imagePath = $($destination + "\" + $fileName)
     Mount-DiskImage $imagePath -PassThru
     $diskimage = Get-DiskImage $imagePath
     $volume = Get-Volume -DiskImage $diskimage
-    copy-item "$($volume.driveletter):\" -Destination $($destination + "\sp_extracted")  -Recurse
+    copy-item "$($volume.driveletter):\" -Destination $($destination + "\" + $fileNameBase) -Recurse
     Dismount-DiskImage $ImagePath
+
+
 }
 
 
