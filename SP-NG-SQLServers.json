@@ -227,7 +227,7 @@
                                    "https://armstorageacc.blob.core.windows.net/scripts/xNetworking.zip",
                                    "https://armstorageacc.blob.core.windows.net/scripts/xActiveDirectory.zip",
                                    "https://armstorageacc.blob.core.windows.net/scripts/xSQLServer_1.2.1.0.zip",
-                                   "https://armstorageacc.blob.core.windows.net/scripts/azure-powershell.0.9.1.zip"
+                                   "https://armstorageacc.blob.core.windows.net/scripts/azure-powershell.0.9.1.msi"
                                 ],
                                 "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\PrepareMachine.ps1 -Modules ', variables('SQLPrepareMachineModules'),' -Force')]"
                             }
