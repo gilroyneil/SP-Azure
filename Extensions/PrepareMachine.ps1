@@ -177,8 +177,17 @@ if ($PSVersionTable.PSVersion.Major -lt 4)
 }
 
 #Install Azure CMDLETs.
-$azureMSI = "$((get-location).Path)\azure-powershell.0.9.1.msi"
-Start-Process $azureMSI /qn -Wait
+try
+{
+    "$((get-location).Path)\azure-powershell.0.9.1.msi" >> "c:\deploymentlogs\azmodule.txt"
+    $azureMSI = "$((get-location).Path)\azure-powershell.0.9.1.msi" 
+ #   msiexec /i $azureMSI
+    Start-Process $azureMSI /qn -Wait  >> "c:\deploymentlogs\azmodule.txt"
+}
+catch
+{
+    $_  >> "c:\deploymentlogs\azmodule_err.txt"
+}
 
 
 Stop-ScriptLog
