@@ -127,7 +127,23 @@ function Stop-ScriptLog
 
 Start-ScriptLog
 
+
+
+#Install Azure CMDLETs.
+try
+{
+    "$((get-location).Path)\azure-powershell.0.9.1.msi" >> "c:\deploymentlogs\azmodule.txt"
+    $azureMSI = "$((get-location).Path)\azure-powershell.0.9.1.msi" 
+ #   msiexec /i $azureMSI
+    Start-Process $azureMSI /qn -Wait  >> "c:\deploymentlogs\azmodule.txt"
+}
+catch
+{
+    $_  >> "c:\deploymentlogs\azmodule_err.txt"
+}
+
 $VerbosePreference = 'Continue'
+
 
 
 # Download the required DSC modules for this node.
@@ -174,19 +190,6 @@ if ($PSVersionTable.PSVersion.Major -lt 4)
     # Installing WMF 4.0 always requires a restart.
     Start-Sleep -Seconds 5
     Restart-Computer -Force
-}
-
-#Install Azure CMDLETs.
-try
-{
-    "$((get-location).Path)\azure-powershell.0.9.1.msi" >> "c:\deploymentlogs\azmodule.txt"
-    $azureMSI = "$((get-location).Path)\azure-powershell.0.9.1.msi" 
- #   msiexec /i $azureMSI
-    Start-Process $azureMSI /qn -Wait  >> "c:\deploymentlogs\azmodule.txt"
-}
-catch
-{
-    $_  >> "c:\deploymentlogs\azmodule_err.txt"
 }
 
 
