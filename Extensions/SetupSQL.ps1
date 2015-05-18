@@ -22,6 +22,9 @@ param
     [String]$EncryptionCertificateThumbprint
 )
 
+
+$GLOBAL_scriptExitCode = 0
+
 . "$PSScriptRoot\Common.ps1"
 
 $DomainName = "osazure.com"
@@ -33,6 +36,9 @@ $ServicePassword = "ss"
 
 
 Start-ScriptLog
+
+
+
 
 if ($EncryptionCertificateThumbprint)
 {
@@ -136,59 +142,97 @@ else
 }
 
 
-WaitForPendingMof
 
-SQLServer2014 -ConfigurationData $configData -OutputPath $PSScriptRoot
 
-$cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
-$cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
-
-if ($EncryptionCertificateThumbprint)
+try
 {
-    Set-DscLocalConfigurationManager -CimSession $cimSession -Path $PSScriptRoot -Verbose
+
+        #Boiler Plate Logging setup START
+        $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+        $logPathPrefix = "c:\data\install\logs\"
+
+        if ((test-path $logPathPrefix) -ne $true)
+        {
+            new-item $logPathPrefix -itemtype directory 
+        }
+        LogStartTracing $($logPathPrefix + "SetupSQL" + $currentDate.ToString() + ".txt")    
+        #Boiler Plate Logging setup END
+        
+        #new step
+        LogStep "SQL DSC Work."
+
+
+        WaitForPendingMof
+        loginfo "Config about to be called"
+        SQLServer2014 -ConfigurationData $configData -OutputPath $PSScriptRoot
+
+        $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
+        $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
+
+        loginfo "cimSession Created"
+        if ($EncryptionCertificateThumbprint)
+        {
+            Set-DscLocalConfigurationManager -CimSession $cimSession -Path $PSScriptRoot -Verbose
+        }
+
+        # Run Start-DscConfiguration in a loop to make it more resilient to network outages.
+        $Stoploop = $false
+        $MaximumRetryCount = 5
+        $Retrycount = 0
+        $SecondsDelay = 0
+
+        do
+        {
+            try
+            {
+                $error.Clear()
+
+                Write-Verbose -Message "Attempt $Retrycount of $MaximumRetryCount ..."
+                loginfo $("Attempt " + $Retrycount + " of " + $MaximumRetryCount +" ...")
+                Start-DscConfiguration -CimSession $cimSession -Path $PSScriptRoot -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
+
+                if (!$error)
+                {
+                    $Stoploop = $true
+                }
+            }
+            catch
+            {
+                # $_ in the catch block to include more details about the error that occured.
+                Write-Warning ("SQL failed. Error:" + $_)
+                LogError $("SQL failed. Error:" + $_)
+
+                if ($Retrycount -ge $MaximumRetryCount)
+                {
+                    LogError $("SQL failed all retires")
+                    $Stoploop = $true
+                }
+                else
+                {
+                    $SecondsDelay = Get-TruncatedExponentialBackoffDelay -PreviousBackoffDelay $SecondsDelay -LowerBackoffBoundSeconds 10 -UpperBackoffBoundSeconds 120 -BackoffMultiplier 2
+                    loginfi $("SQL failed, retry again")
+                    Start-Sleep $SecondsDelay
+                    $Retrycount = $Retrycount + 1
+                }
+            }
+        }
+        while ($Stoploop -eq $false)
+
+        loginfo "Loop done, now check for reboot"
+        CheckForPendingReboot -Output $output
+
+
 }
-
-# Run Start-DscConfiguration in a loop to make it more resilient to network outages.
-$Stoploop = $false
-$MaximumRetryCount = 5
-$Retrycount = 0
-$SecondsDelay = 0
-
-do
+catch
 {
-    try
-    {
-        $error.Clear()
-
-        Write-Verbose -Message "Attempt $Retrycount of $MaximumRetryCount ..."
-        Start-DscConfiguration -CimSession $cimSession -Path $PSScriptRoot -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
-
-        if (!$error)
-        {
-            $Stoploop = $true
-        }
-    }
-    catch
-    {
-        # $_ in the catch block to include more details about the error that occured.
-        Write-Warning ("SPServerSoftware failed. Error:" + $_)
-
-        if ($Retrycount -ge $MaximumRetryCount)
-        {
-            Write-Warning ("SPServerSoftware operation failed all retries")
-            $Stoploop = $true
-        }
-        else
-        {
-            $SecondsDelay = Get-TruncatedExponentialBackoffDelay -PreviousBackoffDelay $SecondsDelay -LowerBackoffBoundSeconds 10 -UpperBackoffBoundSeconds 120 -BackoffMultiplier 2
-            Write-Warning -Message "An error has occurred, retrying in $SecondsDelay seconds ..."
-            Start-Sleep $SecondsDelay
-            $Retrycount = $Retrycount + 1
-        }
-    }
+    LogRuntimeError "An error occurred:" $_
+    $GLOBAL_scriptExitCode = 1
+     
 }
-while ($Stoploop -eq $false)
-
-CheckForPendingReboot -Output $output
+finally
+{
+    LogEndTracing
+    exit $GLOBAL_scriptExitCode
+} 
 
 Stop-ScriptLog

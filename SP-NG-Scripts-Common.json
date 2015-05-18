@@ -282,7 +282,7 @@
                     "public": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/JSetupSQL.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SetupSQL.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
                             "https://armstorageacc.blob.core.windows.net/scripts/xSQLServer_1.2.1.0.zip",
                             "https://armstorageacc.blob.core.windows.net/scripts/xSqlPs_1.1.3.1.zip"      
