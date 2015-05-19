@@ -56,7 +56,7 @@ try
         loginfo $("Media Container Name: " + $MediaContainerName)
 
         $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
-        Get-AzureStorageContainer -Name $MediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination
+        Get-AzureStorageContainer -Name $MediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
 
         LogStep "ISO Mount"
         $isoFiles = Get-ChildItem -Path $destination -Include "*.iso" -Recurse
