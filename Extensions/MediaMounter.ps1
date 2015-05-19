@@ -18,7 +18,7 @@ $GLOBAL_scriptExitCode = 0
 . "$PSScriptRoot\Common.ps1"
 
 Start-ScriptLog
-
+import-module storage
 
 try
 {
@@ -67,7 +67,7 @@ try
             $fileNameBase = $iso.BaseName
             $imagePath = $($destination + "\" + $fileName)
             loginfo $("About to mount: " + $imagePath)
-            Mount-DiskImage $imagePath -PassThru
+            Mount-DiskImage $imagePath -PassThru -ErrorAction Stop
             loginfo "Mounted"
             $diskimage = Get-DiskImage $imagePath
             $volume = Get-Volume -DiskImage $diskimage
