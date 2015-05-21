@@ -97,7 +97,7 @@ function InstallDSCModule
 function Start-ScriptLog
 {
     $logDirectory = $env:SystemDrive + "\DeploymentLogs"
-    $logFilePath = $logDirectory + "\preparemachine_log.txt"
+    $logFilePath = $logDirectory + "\log.txt"
 
     if(!(Test-Path -Path $logDirectory ))
     {
@@ -125,7 +125,7 @@ function Stop-ScriptLog
 
 
 
-Start-ScriptLog "Prep Machines"
+Start-ScriptLog
 
 
 
