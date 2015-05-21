@@ -67,9 +67,9 @@
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         "SP1Name":"[concat(parameters('ServiceName'),'-sp1')]", 
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
-        "SP1Disk1Name":"[concat(parameters('ServiceName'),'-qSP1-os')]",
-        "SP1Disk2Name":"[concat(parameters('ServiceName'),'-qSP1-data1')]",
-        "SP1Disk3Name":"[concat(parameters('ServiceName'),'-qSP1-data2')]",
+        "SP1Disk1Name":"[concat(parameters('ServiceName'),'-dSP1-os')]",
+        "SP1Disk2Name":"[concat(parameters('ServiceName'),'-dSP1-data1')]",
+        "SP1Disk3Name":"[concat(parameters('ServiceName'),'-dSP1-data2')]",
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",

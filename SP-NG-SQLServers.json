@@ -60,9 +60,9 @@
         "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
-        "SQL1Disk1Name":"[concat(parameters('ServiceName'),'-qSQL1-os')]",
-        "SQL1Disk2Name":"[concat(parameters('ServiceName'),'-qSQL1-data1')]",
-        "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-qSQL1-data2')]",
+        "SQL1Disk1Name":"[concat(parameters('ServiceName'),'-dSQL1-os')]",
+        "SQL1Disk2Name":"[concat(parameters('ServiceName'),'-dSQL1-data1')]",
+        "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-dSQL1-data2')]",
         
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
         "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201502.01-en.us-127GB.vhd",
