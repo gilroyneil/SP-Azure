@@ -28,7 +28,7 @@ param
 
 . "$PSScriptRoot\Common.ps1"
 
-Start-ScriptLog "DomainJoin"
+Start-ScriptLog
 
 if ($EncryptionCertificateThumbprint)
 {
