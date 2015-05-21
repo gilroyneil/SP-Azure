@@ -97,7 +97,7 @@ function InstallDSCModule
 function Start-ScriptLog
 {
     $logDirectory = $env:SystemDrive + "\DeploymentLogs"
-    $logFilePath = $logDirectory + "\preparemachine_log.txt"
+    $logFilePath = $logDirectory + "\log.txt"
 
     if(!(Test-Path -Path $logDirectory ))
     {
@@ -125,7 +125,7 @@ function Stop-ScriptLog
 
 
 
-Start-ScriptLog "Prep Machines"
+Start-ScriptLog
 
 
 
@@ -191,7 +191,6 @@ if ($PSVersionTable.PSVersion.Major -lt 4)
     Start-Sleep -Seconds 5
     Restart-Computer -Force
 }
-Start-Sleep -Seconds 5
-Restart-Computer -Force
+
 
 Stop-ScriptLog

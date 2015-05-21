@@ -17,7 +17,7 @@ $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
 
-Start-ScriptLog "MediaMounter"
+Start-ScriptLog
 import-module storage
 
 try
