@@ -1,7 +1,7 @@
 
 . "$PSScriptRoot\Common.ps1"
 
-Start-ScriptLog "Disk Manager"
+Start-ScriptLog "Disk Manager"""
 
 function change-CDRomDriveLetter
 {
