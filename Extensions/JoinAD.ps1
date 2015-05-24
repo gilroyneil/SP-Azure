@@ -199,4 +199,9 @@ while ($Stoploop -eq $false)
 
 CheckForPendingReboot -Output $output
 
+
+
+Start-Sleep -Seconds 5
+Restart-Computer -Force
+
 Stop-ScriptLog
