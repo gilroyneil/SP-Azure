@@ -81,7 +81,7 @@ configuration SQLServer2014
 
             SourcePath = "e:\data\media"
             SourceFolder = "\SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828"
-            Features= "SQLENGINE,REPLICATION,FULLTEXT,CONN,BC,BOL,SSMS,ADV_SSMS"
+            Features= "SQLENGINE,SSMS,ADV_SSMS"
             InstanceName="SP"
             InstanceID="SP"
             SQLSysAdminAccounts="BUILTIN\ADMINISTRATORS" 
