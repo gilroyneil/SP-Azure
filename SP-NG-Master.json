@@ -141,6 +141,8 @@
             }
         },
         */
+        
+        /*
         { 
              "apiVersion": "2015-01-01", 
              "name": "SQL-Servers-Template", 
@@ -171,11 +173,11 @@
                    
                },
             "dependsOn": [               
-               /* "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
+               
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ] 
               
-          }, 
+          }, */
             { 
              "apiVersion": "2015-01-01", 
              "name": "Network-Template", 
