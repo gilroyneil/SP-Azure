@@ -241,7 +241,7 @@
             ]  
               
           },*/
-          
+          /*
           { 
              "apiVersion": "2015-01-01", 
              "name": "SP-Scripts-Common", 
@@ -278,14 +278,11 @@
                
                "['Microsoft.Resources/deployments/SQL-Servers-Template']",
                "['Microsoft.Resources/deployments/SP-Servers-Template']"
-               /*
-                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]",
-                 "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SP1Name'))]"
-                 */                
+             
             ]
               
           }
   
-
+*/
     ]
 }
