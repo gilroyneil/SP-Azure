@@ -28,4 +28,4 @@ azure group deployment create --resource-group OsbornTest2RG --template-uri "htt
 
 iMac:
 
-azure group deployment create --resource-group OsbornTest2RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Master.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"
+azure group deployment create --resource-group OsbornTest4RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Master.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"

@@ -44,7 +44,10 @@
         },
         "subnetSPName": {
            "type": "string"
-        }        
+        }  ,
+        "numberSPServers": {
+            "type": "int"
+        }      
        
     },
     "variables":{
@@ -65,11 +68,21 @@
         "SPHardware":"[parameters('vmSizeSP')]",
         "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
+        /*
+        OLD Single Server code.
         "SP1Name":"[concat(parameters('ServiceName'),'-sp1')]", 
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
         "SP1Disk1Name":"[concat(parameters('ServiceName'),'-eSP1-os')]",
         "SP1Disk2Name":"[concat(parameters('ServiceName'),'-eSP1-data1')]",
         "SP1Disk3Name":"[concat(parameters('ServiceName'),'-eSP1-data2')]",
+        
+        */
+        /*New Multi server code*/
+        "SPName":"[concat(parameters('ServiceName'),'-sp')]",          
+        "SPDisk1Name":"[concat(parameters('ServiceName'),'-os-sp')]",
+        "SPDisk2Name":"[concat(parameters('ServiceName'),'-data-sp')]",
+        "SPDisk3Name":"[concat(parameters('ServiceName'),'-data2-sp')]",
+        
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
@@ -136,10 +149,14 @@
         },
         
          {
-            "type": "Microsoft.ClassicCompute/virtualMachines",
-            "name": "[variables('SP1Name')]",
+            "type": "Microsoft.ClassicCompute/virtualMachines",            
+            "name": "[concat(variables('SPName'), copyindex())]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
+             "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+            },
             "properties": {
                 "domainName": {
                     "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]"
@@ -174,7 +191,7 @@
                     "availabilitySet": "[concat(parameters('ServiceName'),'AvailSet')]"
                 },
                 "operatingSystemProfile": {
-                    "computerName": "[variables('SP1Name')]",
+                    "computerName": "[concat(variables('SPName'), copyindex())]",
                     "adminUserName": "[parameters('administratorAccount')]",
                     "adminPassword": "[parameters('administratorPassword')]",                   
                     "windowsOperatingSystemProfile": {
@@ -188,23 +205,23 @@
                 },
                 "storageProfile": {
                     "operatingSystemDisk": {
-                        "diskName": "[variables('SP1Disk1Name')]",
+                        "diskName": "[concat(variables('SPDisk1Name'), copyindex())]",
                         "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk1Name'),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
                     "dataDisks": [
                         {
-                            "diskName": "[variables('SP1Disk2Name')]",
+                            "diskName": "[concat(variables('SPDisk2Name'), copyindex())]",
                             "caching": "None",
-                            "diskSize": "100",
+                            "diskSize": "50",
                             "lun": "0",
                             "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk2Name'),'.vhd')]"
                         },
                         {
-                            "diskName": "[variables('SP1Disk3Name')]",
+                            "diskName": "[concat(variables('SPDisk3Name'), copyindex())]",
                             "caching": "None",
-                            "diskSize": "100",
+                            "diskSize": "50",
                             "lun": "1",
                             "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk3Name'),'.vhd')]"
                         }

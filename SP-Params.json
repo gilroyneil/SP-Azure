@@ -2,6 +2,14 @@
     "resourceLocation" : {
         "value":"West Europe"
     },
+    
+    "NumberSPServers" : {
+        "value":"2"
+    },
+        "NumberSQLServers" : {
+        "value":"2"
+    },
+    
     "servicePassword" : {
         "value":"whatsisthis1"
     },
@@ -35,6 +43,21 @@
     "domainNetBiosName" : {
         "value":"osazure"
     },
+    "MediaContainerName" : {
+        "value":"media"
+    },
+    "$StorageAccountName" : {
+        "value":"armstorageacc"
+    },
+    "StorageAccountKey" : {
+        "value":"tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
+    },
+    
+    
+    
+    
+   
+  
         "virtualNetworkName" : {
         "value":"vNetDom1"
     },

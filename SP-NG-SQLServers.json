@@ -44,6 +44,10 @@
         "subnetSQLName": {
             "type": "string"
         }
+        ,
+        "numberSQLServers": {
+            "type": "int"
+        }
     },
     "variables":{
         
@@ -245,93 +249,6 @@
             ]
         }
         
-        /*,
-        
-        
-        
-        
-        {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
-            "properties": {
-                "extension": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "version": "1.*",
-                "parameters": {
-                    "public": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
-                            
-                        ],
-                        "commandToExecute": "[variables('domainJoinCommand')]"
-                    }
-                }
-            },
-            "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SQL1Name'),'/domainJoinCommand')]",
-            "location": "[parameters('resourceLocation')]",
-            "dependsOn": [
-                                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
-            ]
-            
-        },
-        
-        
-        
-        
-        {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
-            "properties": {
-                "extension": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "version": "1.*",
-                "parameters": {
-                    "public": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/CreateSPServer.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xSqlPs.zip"
-                        ],
-                        "commandToExecute": "[variables('CreateSPCommand')]"
-                    }
-                }
-            },
-            "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SQL1Name'),'/CreateSPCommand')]",
-            "location": "[parameters('resourceLocation')]",
-            "dependsOn": [
-                                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/domainJoinCommand')]"
-            ]
-            
-            
-        },
-        
-        {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
-            "properties": {
-                "extension": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "version": "1.*",
-                "parameters": {
-                    "public": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SetupSP.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/ConfigureSharePointFarmInDomain.ps1"
-                        ],
-                        "commandToExecute": "[variables('SetupSPCommand')]"
-                    }
-                }
-            },
-            "apiVersion": "2014-06-01",
-            "location": "[parameters('resourceLocation')]",
-            "name": "[concat(variables('SQL1Name'),'/SetupSPCommand')]",
-            "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQL1Name'),'/extensions/CreateSPCommand')]"
-            ]
-        }
-*/
+       
     ]
 }

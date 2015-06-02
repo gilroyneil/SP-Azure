@@ -42,9 +42,9 @@ try
         $StorageAccountKey = $StorageAccountKey
         $destination = "e:\data\media"
 
-        $StorageAccountName = "armstorageacc"
-        $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
-        $MediaContainerName = "media"
+      #  $StorageAccountName = "armstorageacc"
+      #  $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
+      #  $MediaContainerName = "media"
 
         if ((test-path $destination) -ne $true)
         {

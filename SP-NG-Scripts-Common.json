@@ -44,6 +44,14 @@
         "virtualNetworkResourceGroup": {
             "type": "string"
         }
+        ,
+        "numberSQLServers": {
+            "type": "int"
+        }
+        ,
+        "numberSPServers": {
+            "type": "int"
+        }
     },
     "variables":{
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
@@ -59,9 +67,9 @@
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         
-        "MediaContainerName":"media",
-        "StorageAccountName":"armstorageacc",
-        "StorageAccountKey":"tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg==",
+        "MediaContainerName":"[parameters('MediaContainerName')]",
+        "StorageAccountName":"[parameters('StorageAccountName')]",
+        "StorageAccountKey":"[parameters('StorageAccountKey')]",
         "DCHardware":"Basic_A0",
         "SPHardware":"[parameters('vmSizeSP')]",
         "SQLHardware":"[parameters('vmSizeSQL')]",        

@@ -27,12 +27,12 @@ $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
 
-$DomainName = "osazure.com"
-$domainNetBiosName = "osazure"
-$DomainAdministratorUserName = "ngadmin"
-$DomainAdministratorPassword = "Start123"
-$ServiceUserName = "osazure2"
-$ServicePassword = "ss"
+#$DomainName = "osazure.com"
+#$domainNetBiosName = "osazure"
+#$DomainAdministratorUserName = "ngadmin"
+#$DomainAdministratorPassword = "Start123"
+#$ServiceUserName = "osazure2"
+#$ServicePassword = "ss"
 
 
 Start-ScriptLog "Setup SQL"

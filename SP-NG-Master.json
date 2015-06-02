@@ -8,6 +8,13 @@
         "resourceLocation": {
             "type": "string"
         },
+            
+    "NumberSPServers" : {
+        "type":"int"
+    },
+        "NumberSQLServers" : {
+        "type":"int"
+    },
         "administratorAccount": {
             "type": "string"
         },
@@ -137,7 +144,7 @@
         { 
              "apiVersion": "2015-01-01", 
              "name": "SQL-Servers-Template", 
-             "type": "Microsoft.Resources/deployments", 
+             "type": "Microsoft.Resources/deployments",             
              "properties": { 
                "mode": "incremental", 
                "templateLink": {"uri":"[variables('templatelink_SQLServers')]","contentVersion":"1.0.0.0"}, 
@@ -157,7 +164,8 @@
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},                  
-                  "subnetSQLName":{"value":"[parameters('subnetSQLName')]"}
+                  "subnetSQLName":{"value":"[parameters('subnetSQLName')]"},
+                  "NumberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
                   }            
                   
                    
@@ -215,7 +223,8 @@
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "subnetSPName":{"value":"[parameters('subnetSPName')]"}
+                  "subnetSPName":{"value":"[parameters('subnetSPName')]"},
+                  "NumberSPServers":{"value":"[parameters('NumberSPServers')]"}
                   
                   }            
                   
@@ -251,7 +260,10 @@
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
-                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"}
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "NumberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
+                  "NumberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  
                   
                   }            
                   
@@ -261,7 +273,7 @@
            "dependsOn": [
                
                "['Microsoft.Resources/deployments/SQL-Servers-Template']",
-               "['Microsoft.Resources/deployments/SP-Servers-Template']",
+               "['Microsoft.Resources/deployments/SP-Servers-Template']"
                /*
                 "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]",
                  "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SP1Name'))]"
