@@ -8,13 +8,7 @@
         "resourceLocation": {
             "type": "string"
         },
-            
-    "NumberSPServers" : {
-        "type":"int"
-    },
-        "NumberSQLServers" : {
-        "type":"int"
-    },
+       
         "administratorAccount": {
             "type": "string"
         },
