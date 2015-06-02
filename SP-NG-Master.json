@@ -8,13 +8,13 @@
         "resourceLocation": {
             "type": "string"
         },
-            /*
+            
     "NumberSPServers" : {
         "type":"int"
     },
         "NumberSQLServers" : {
         "type":"int"
-    },*/
+    },
         "administratorAccount": {
             "type": "string"
         },
@@ -114,7 +114,9 @@
                 "accountType": "[variables('StorageType')]"
             }
         },
-        /*{
+        
+        /*
+        {
             "type": "Microsoft.ClassicNetwork/virtualNetworks",
             "name": "[variables('VNetName')]",
             "apiVersion": "2014-06-01",
@@ -142,7 +144,6 @@
         },
         */
         
-        /*
         { 
              "apiVersion": "2015-01-01", 
              "name": "SQL-Servers-Template", 
@@ -177,10 +178,10 @@
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ] 
               
-          }, */
+          }, 
           
           
-          /*
+          
           
             { 
              "apiVersion": "2015-01-01", 
@@ -205,9 +206,9 @@
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ] 
               
-          }, */
+          }, 
           
-          /*
+          
         { 
              "apiVersion": "2015-01-01", 
              "name": "SP-Servers-Template", 
@@ -243,8 +244,8 @@
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ]  
               
-          },*/
-          /*
+          },
+          
           { 
              "apiVersion": "2015-01-01", 
              "name": "SP-Scripts-Common", 
@@ -286,6 +287,6 @@
               
           }
   
-*/
+
     ]
 }
