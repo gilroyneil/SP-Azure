@@ -39,6 +39,23 @@
         "domainNetBiosName": {
             "type": "string"
         },
+        
+        
+        "MediaContainerName": {
+            "type": "string"
+        },
+        
+        "StorageAccountName": {
+            "type": "string"
+        },
+        
+        "StorageAccountKey": {
+            "type": "string"
+        },
+        
+       
+        
+        
         "VMSizeSP": {
             "type": "string"
         },
@@ -287,6 +304,6 @@
               
           }
   
-
+ss
     ]
 }
