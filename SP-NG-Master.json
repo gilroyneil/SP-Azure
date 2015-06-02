@@ -165,7 +165,7 @@
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},                  
                   "subnetSQLName":{"value":"[parameters('subnetSQLName')]"},
-                  "NumberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
                   }            
                   
                    
@@ -224,7 +224,7 @@
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
                   "subnetSPName":{"value":"[parameters('subnetSPName')]"},
-                  "NumberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
                   
                   }            
                   
@@ -261,8 +261,8 @@
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "NumberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
-                  "NumberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
                   
                   
                   }            
