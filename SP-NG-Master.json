@@ -282,6 +282,12 @@
                   "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "MediaContainerName":{"value":"[parameters('MediaContainerName')]"},
+                  "StorageAccountName":{"value":"[parameters('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[parameters('StorageAccountKey')]"},
+                  
+                  
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
