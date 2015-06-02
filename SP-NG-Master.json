@@ -8,7 +8,13 @@
         "resourceLocation": {
             "type": "string"
         },
-       
+            /*
+    "NumberSPServers" : {
+        "type":"int"
+    },
+        "NumberSQLServers" : {
+        "type":"int"
+    },*/
         "administratorAccount": {
             "type": "string"
         },
@@ -172,6 +178,10 @@
             ] 
               
           }, */
+          
+          
+          /*
+          
             { 
              "apiVersion": "2015-01-01", 
              "name": "Network-Template", 
@@ -191,12 +201,11 @@
                   
                    
                },
-            "dependsOn": [               
-               /* "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
+            "dependsOn": [                              
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ] 
               
-          }, 
+          }, */
           
           /*
         { 
