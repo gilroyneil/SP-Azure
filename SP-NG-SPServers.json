@@ -218,7 +218,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "0",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk2Name'), copyindex())],'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk2Name'), copyindex(),'.vhd')]"
                         },
                         {
                             "diskName": "[concat(variables('SPDisk3Name'), copyindex())]",
@@ -226,7 +226,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk3Name'), copyindex())],'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), (variables('SPDisk3Name'), copyindex(),'.vhd')]"
                         }
                     ]
 
