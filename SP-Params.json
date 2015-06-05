@@ -5,10 +5,10 @@
     },
     
     "NumberSPServers" : {
-        "value":"2"
+        "value":2
     },
         "NumberSQLServers" : {
-        "value":"2"
+        "value":2
     },
     
     "servicePassword" : {
