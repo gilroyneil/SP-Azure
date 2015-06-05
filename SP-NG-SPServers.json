@@ -207,7 +207,7 @@
                     "operatingSystemDisk": {
                         "diskName": "[concat(variables('SPDisk1Name'), copyindex())]",
                         /*"diskName": "[concat(variables('SPDisk1Name'), '1')]",*/
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk1Name'), copyindex())],'.vhd')]",
+                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk1Name'), copyindex(),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
