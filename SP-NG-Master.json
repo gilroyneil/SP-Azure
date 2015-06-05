@@ -81,7 +81,10 @@
         "subnetSPName":"[parameters('subnetSPName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
-        
+          
+        "MediaContainerName":"[parameters('MediaContainerName')]",
+        "StorageAccountName":"[parameters('StorageAccountName')]",
+        "StorageAccountKey":"[parameters('StorageAccountKey')]",
         
         "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
         "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
@@ -268,7 +271,7 @@
              "name": "SP-Scripts-Common", 
              "type": "Microsoft.Resources/deployments", 
              "properties": { 
-               "mode": "incremental", 
+               "mode": "Incremental", 
                "templateLink": {"uri":"[variables('templatelink_Scripts_Common')]","contentVersion":"1.0.0.0"}, 
                "parameters": 
                { 
@@ -283,9 +286,9 @@
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
                   
-                  "MediaContainerName":{"value":"[parameters('MediaContainerName')]"},
-                  "StorageAccountName":{"value":"[parameters('StorageAccountName')]"},
-                  "StorageAccountKey":{"value":"[parameters('StorageAccountKey')]"},
+                  "MediaContainerName":{"value":"[variables('MediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
                   
                   
                   "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
