@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ServiceName": {
-            "type": "String"
+            "type": "string"
         },
         "resourceLocation": {
             "type": "string"
@@ -209,7 +209,7 @@
                     "operatingSystemDisk": {
                         /*"diskName": "[concat(variables('SPDisk1Name'), copyindex())]",*/
                         "diskName": "[concat(variables('SPDisk1Name'), '1')]",
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk1Name'),'.vhd')]",
+                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk1Name'), '1')],'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
@@ -220,7 +220,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "0",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk2Name'),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk2Name'), '1')],'.vhd')]"
                         },
                         {
                             /*"diskName": "[concat(variables('SPDisk3Name'), copyindex())]",*/
@@ -228,7 +228,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SP1Disk3Name'),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), [concat(variables('SPDisk3Name'), '1')],'.vhd')]"
                         }
                     ]
 

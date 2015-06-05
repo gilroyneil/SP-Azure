@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ServiceName": {
-            "type": "String"
+            "type": "string"
         },
         "resourceLocation": {
             "type": "string"
