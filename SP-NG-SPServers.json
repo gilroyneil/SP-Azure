@@ -174,7 +174,7 @@
                             "enableDirectServerReturn": "False",
                             "endpointName": "Remote Desktop",
                             "privatePort": 3389,
-                            "publicPort": 12345,
+                            "publicPort": "[concat('1234', copyindex())]",  
                             "protocol": "tcp"
                         },
                         {
