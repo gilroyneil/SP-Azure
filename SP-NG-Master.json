@@ -163,7 +163,7 @@
             }
         },
         */
-        /*
+        
         { 
              "apiVersion": "2015-01-01", 
              "name": "SQL-Servers-Template", 
@@ -201,7 +201,7 @@
           }, 
           
           
-          */
+          
           
           
             { 
@@ -308,7 +308,7 @@
                ,
            "dependsOn": [
                
-               /*"['Microsoft.Resources/deployments/SQL-Servers-Template']",*/
+               "['Microsoft.Resources/deployments/SQL-Servers-Template']",
                "['Microsoft.Resources/deployments/SP-Servers-Template']"
              
             ]
