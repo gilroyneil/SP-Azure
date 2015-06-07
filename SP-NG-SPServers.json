@@ -79,8 +79,8 @@
         */
         /*New Multi server code*/
         "SPName":"[concat(parameters('ServiceName'),'-sp')]",          
-        "SPDisk1Name":"[concat(parameters('ServiceName'),'-os-sp')]",
-        "SPDisk2Name":"[concat(parameters('ServiceName'),'-data-sp')]",
+        "SPDisk1Name":"[concat(parameters('ServiceName'),'-os1-sp')]",
+        "SPDisk2Name":"[concat(parameters('ServiceName'),'-data1-sp')]",
         "SPDisk3Name":"[concat(parameters('ServiceName'),'-data2-sp')]",
         
         
