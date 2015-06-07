@@ -163,7 +163,7 @@
             },
             "properties": {
                 "domainName": {                     
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'),copyindex()))]"
+                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'),copyindex() )]"
                 },
                "networkProfile": {
                     "virtualNetwork": {
