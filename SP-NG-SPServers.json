@@ -148,7 +148,7 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "label": "[concat(variables('SPDomainName'), copyindex())]"ß
+                "label": "[concat(variables('SPDomainName'), copyindex())]"
             }
         },
         
@@ -265,7 +265,7 @@
                 ]
             },
             "dependsOn": [
-               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]",
+               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName') , copyindex() )]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
                 /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
