@@ -265,7 +265,7 @@
                 ]
             },
             "dependsOn": [
-               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName') , copyindex() )]",
+               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'), copyindex())]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
                 /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
