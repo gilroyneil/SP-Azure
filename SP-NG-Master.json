@@ -308,7 +308,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SQL-Servers-Template']",
+               /*"['Microsoft.Resources/deployments/SQL-Servers-Template']",*/
                "['Microsoft.Resources/deployments/SP-Servers-Template']"
              
             ]
