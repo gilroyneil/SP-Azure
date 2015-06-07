@@ -140,11 +140,15 @@
        
         {
             "type": "Microsoft.ClassicCompute/domainNames",
-            "name": "[variables('SPDomainName')]",
+            "name": "[concat(variables('SPDomainName'), copyindex())]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
+             "copy": {
+                "name": "spServerLoopDomainName",
+                "count": "[parameters('numberSPServers')]"
+            },
             "properties": {
-                "label": "[variables('SPDomainName')]"
+                "label": "[concat(variables('SPDomainName'), copyindex())]"ß
             }
         },
         
