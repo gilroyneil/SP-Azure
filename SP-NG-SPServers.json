@@ -162,8 +162,8 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "domainName": {
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'))]"
+                "domainName": {                     
+                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'),copyindex()))]"
                 },
                "networkProfile": {
                     "virtualNetwork": {
@@ -264,6 +264,7 @@
 
                 ]
             },
+          
             "dependsOn": [
                "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'), copyindex())]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
