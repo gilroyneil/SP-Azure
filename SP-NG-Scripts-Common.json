@@ -89,6 +89,8 @@
         "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         "DC1Name":"[concat(parameters('ServiceName'),'-dc1')]", 
+        
+        /*
         "SP1Name":"[concat(parameters('ServiceName'),'-sp1')]", 
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
         "DC1Disk1Name":"[concat(parameters('ServiceName'),'-DC1-os')]",
@@ -99,6 +101,11 @@
         "SQL1Disk1Name":"[concat(parameters('ServiceName'),'-SQL1-os')]",
         "SQL1Disk2Name":"[concat(parameters('ServiceName'),'-SQL1-data1')]",
         "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-SQL1-data2')]",
+        */
+        
+        "SQLName":"[concat(parameters('ServiceName'),'-sql')]", 
+        "SPName":"[concat(parameters('ServiceName'),'-sp')]", 
+        
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
@@ -121,6 +128,10 @@
         
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+             "copy": {
+                "name": "spServerLoopDomainName",
+                "count": "[parameters('numberSPServers')]"
+            },
             "properties": {
                 "extension": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
@@ -140,12 +151,41 @@
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SP1Name'),'/domainJoinCommand')]",
-            "location": "[parameters('resourceLocation')]"
-            
-            
+            "name": "[concat(variables('SPName'), copyindex(),'/domainJoinCommand')]",
+            "location": "[parameters('resourceLocation')]"                        
         },
-               
+          
+          
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+             "copy": {
+                "name": "sqlServerLoopDomainName",
+                "count": "[parameters('numberSQLServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('domainJoinCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQLName'), copyindex(),'/domainJoinCommand')]",
+            "location": "[parameters('resourceLocation')]"                        
+        },
+                   
+           /*    
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -168,14 +208,81 @@
             },
             "apiVersion": "2014-06-01",
             "name": "[concat(variables('SQL1Name'),'/domainJoinCommand')]",
-            "location": "[parameters('resourceLocation')]"/*,
+            "location": "[parameters('resourceLocation')]"
+            
+        },
+        */
+
+
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "spServerLoopDisks",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('disksCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SPName'), copyindex(),'/disksCommand')]",
+            "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                                "[resourceId('Microsoft.ClassicCompute/virtualMachines', variables('SQL1Name'))]"
-            ]*/
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/domainJoinCommand')]"
+            ]
             
         },
         
-                {
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "sqlServerLoopDisks",
+                "count": "[parameters('numberSQLServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('disksCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQLName'), copyindex(),'/disksCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/domainJoinCommand')]"
+            ]
+            
+        },
+        
+                
+        /*
+        {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
                 "extension": "CustomScriptExtension",
@@ -203,6 +310,9 @@
             ]
             
         },
+        
+        */
+        /*
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -233,9 +343,13 @@
         }
         
         
-        ,
+        ,*/
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "spServerLoopMedia",
+                "count": "[parameters('numberSPServers')]"
+            },
             "properties": {
                 "extension": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
@@ -255,15 +369,48 @@
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SP1Name'),'/mediaCommand')]",
+            "name": "[concat(variables('SPName'), copyindex(),'/mediaCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SP1Name'),'/extensions/disksCommand')]"
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/disksCommand')]"
+            ]
+            
+        },
+        
+          {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "sqlServerLoopMedia",
+                "count": "[parameters('numberSQLServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('mediaCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQLName'), copyindex(),'/mediaCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/disksCommand')]"
             ]
             
         }
         
-          ,
+          /*
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -292,6 +439,7 @@
             ]
             
         }
+        */
         /*,
         
         {
