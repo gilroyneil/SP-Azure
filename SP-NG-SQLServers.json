@@ -63,18 +63,27 @@
         "SQLHardware":"[parameters('vmSizeSQL')]",        
         "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
+        
+         /*
+        OLD Single Server code.
         "SQL1Name":"[concat(parameters('ServiceName'),'-sql1')]", 
         "SQL1Disk1Name":"[concat(parameters('ServiceName'),'-fSQL1-os')]",
         "SQL1Disk2Name":"[concat(parameters('ServiceName'),'-fSQL1-data1')]",
         "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-fSQL1-data2')]",
+        */
+        "SQLName":"[concat(parameters('ServiceName'),'-sql')]",          
+        "SQLDisk1Name":"[concat(parameters('ServiceName'),'-os1-sql')]",
+        "SQLDisk2Name":"[concat(parameters('ServiceName'),'-data1-sql')]",
+        "SQLDisk3Name":"[concat(parameters('ServiceName'),'-data2-sql')]",
+        
         
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
-"DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201504.01-en.us-127GB.vhd",
+        "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201504.01-en.us-127GB.vhd",
         "SPImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201504.01-en.us-127GB.vhd",
         "SQLImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201504.01-en.us-127GB.vhd",
         
-                "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
-           
+        "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
+   
            
                    
         "CreateSPCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\CreateSPServer.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('administratorAccount'),'\" -DomainAdministratorPassword \"',parameters('administratorPassword'), '\" -ServiceUserName \"SQLService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
@@ -130,23 +139,31 @@
        
         {
             "type": "Microsoft.ClassicCompute/domainNames",
-            "name": "[variables('SQLDomainName')]",
+            "name": "[concat(variables('SQLDomainName'), copyindex())]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
+            "copy": {
+                "name": "sqlServerLoopDomainName",
+                "count": "[parameters('numberSQLServers')]"
+            },
             "properties": {
-                "label": "[variables('SQLDomainName')]"
+                "label": "[concat(variables('SQLDomainName'), copyindex())]"
             }
         },
         
         
         {
             "type": "Microsoft.ClassicCompute/virtualMachines",
-            "name": "[variables('SQL1Name')]",
+            "name": "[concat(variables('SQLName'), copyindex())]",      
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
+            "copy": {
+                "name": "sqlServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
             "properties": {
                 "domainName": {
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'))]"
+                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'),copyindex() )]"
                 },
                 "networkProfile": {
                     "virtualNetwork": {
@@ -160,7 +177,7 @@
                             "enableDirectServerReturn": "False",
                             "endpointName": "Remote Desktop",
                             "privatePort": 3389,
-                            "publicPort": 12345,
+                            "publicPort": "[concat('1234', copyindex())]",  
                             "protocol": "tcp"
                         },
                         {
@@ -177,7 +194,7 @@
                     "availabilitySet": "[concat(parameters('ServiceName'),'AvailSet')]"
                 },
                 "operatingSystemProfile": {
-                    "computerName": "[variables('SQL1Name')]",
+                    "computerName": "[concat(variables('SQLName'), copyindex())]",                      
                     "adminUserName": "[parameters('administratorAccount')]",
                     "adminPassword": "[parameters('administratorPassword')]",                   
                     "windowsOperatingSystemProfile": {
@@ -191,8 +208,9 @@
                 },
                 "storageProfile": {
                     "operatingSystemDisk": {
-                        "diskName": "[variables('SQL1Disk1Name')]",
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk1Name'),'.vhd')]",
+                        "diskName": "[concat(variables('SQLDisk1Name'), copyindex())]",
+                        /*"diskName": "[variables('SQL1Disk1Name')]",*/
+                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk1Name'),copyindex(),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
@@ -202,14 +220,14 @@
                             "caching": "None",
                             "diskSize": "100",
                             "lun": "0",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk2Name'),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk2Name'),copyindex(),'.vhd')]"
                         },
                         {
                             "diskName": "[variables('SQL1Disk3Name')]",
                             "caching": "None",
                             "diskSize": "100",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQL1Disk3Name'),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
                         }
                     ]
 
@@ -243,7 +261,7 @@
                 ]
             },
             "dependsOn": [
-               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'))]",
+               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'), copyindex())]",
                 /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
             ]
