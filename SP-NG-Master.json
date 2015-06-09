@@ -90,6 +90,7 @@
         "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
         "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json", 
         "templatelink_Scripts_Common":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Scripts-Common.json", 
+        "templatelink_Scripts_SQL":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Scripts-SQL.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
@@ -311,6 +312,49 @@
                "['Microsoft.Resources/deployments/SQL-Servers-Template']",
                "['Microsoft.Resources/deployments/SP-Servers-Template']"
              
+            ]
+              
+          },
+          
+          
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-SQL", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SQL')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "MediaContainerName":{"value":"[variables('MediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
+                  }            
+                  
+                   
+               }
+               ,
+           "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-Common']"                            
             ]
               
           }

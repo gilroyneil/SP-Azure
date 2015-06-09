@@ -292,7 +292,8 @@
             ]
             
         }
-        ,
+        /*,
+        
         {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
             "properties": {
@@ -322,7 +323,7 @@
             
         }
         
-        
+        */
 
     ]
 }

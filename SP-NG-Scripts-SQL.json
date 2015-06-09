@@ -1,0 +1,142 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServiceName": {
+            "type": "string"
+        },
+        "resourceLocation": {
+            "type": "string"
+        },
+        "administratorAccount": {
+            "type": "string"
+        },
+        "administratorPassword": {
+            "type": "string"
+        },
+        "servicePassword": {
+            "type": "string"
+        },
+        "domainJoinUserName": {
+            "type": "string"
+        },
+        "domainJoinPassword": {
+            "type": "string"
+        },
+        "domainJoinOU": {
+            "type": "string"
+        },
+        "domainName": {
+            "type": "string"
+        },
+        "domainNetBiosName": {
+            "type": "string"
+        },
+           
+        "MediaContainerName": {
+            "type": "string"
+        },
+        
+        "StorageAccountName": {
+            "type": "string"
+        },
+        
+        "StorageAccountKey": {
+            "type": "string"
+        },
+        
+        "VMSizeSP": {
+            "type": "string"
+        },
+        "VMSizeSQL": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "virtualNetworkResourceGroup": {
+            "type": "string"
+        }
+        ,
+        "numberSQLServers": {
+            "type": "int"
+        }
+        
+    },
+    "variables":{
+        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",        
+        "resourceLocation":"[parameters('resourceLocation')]",
+        
+        
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
+        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json", 
+        "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
+        "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
+        "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
+        "StorageType":"Standard_LRS",
+        
+        "MediaContainerName":"[parameters('MediaContainerName')]",
+        "StorageAccountName":"[parameters('StorageAccountName')]",
+        "StorageAccountKey":"[parameters('StorageAccountKey')]",
+        "DCHardware":"Basic_A0",
+        "SPHardware":"[parameters('vmSizeSP')]",
+        "SQLHardware":"[parameters('vmSizeSQL')]",        
+        "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
+        "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
+        "DC1Name":"[concat(parameters('ServiceName'),'-dc1')]", 
+       
+        "SQLName":"[concat(parameters('ServiceName'),'-sql')]",          
+       
+       
+        
+        "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
+        "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
+        "DCPrepareMachineModules":"\"xComputerManagement\",\"xActiveDirectory\"",
+        "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201502.01-en.us-127GB.vhd",
+        "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
+        "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
+        
+        "setupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainName \"',parameters('domainName'),'\"-domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]"
+     
+    },
+    "resources": [
+        
+  
+   
+ 
+        
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "sqlServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SetupSQL.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xSQLServer_1.2.1.0.zip",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xSqlPs_1.1.3.1.zip"      
+                            
+                        ],
+                        "commandToExecute": "[variables('setupSQLCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SQLName'),copyindex(),'/setupSQLCommand')]",
+            "location": "[parameters('resourceLocation')]"                       
+        }
+        
+        
+
+    ]
+}
