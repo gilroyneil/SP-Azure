@@ -191,7 +191,7 @@
                 "hardwareProfile": {
                     "size": "[variables('SQLHardware')]",
                     "platformGuestAgent": "true",
-                    "availabilitySet": "[concat(parameters('ServiceName'),'AvailSet')]"
+                    "availabilitySet": "[concat(variables('SQLName'),'-AvailSet')]"
                 },
                 "operatingSystemProfile": {
                     "computerName": "[concat(variables('SQLName'), copyindex())]",                      

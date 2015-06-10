@@ -192,7 +192,7 @@
                 "hardwareProfile": {
                     "size": "[variables('SPHardware')]",
                     "platformGuestAgent": "true",
-                    "availabilitySet": "[concat(parameters('ServiceName'),'AvailSet')]"
+                    "availabilitySet": "[concat(variables('SPName'),'-AvailSet')]"
                 },
                 "operatingSystemProfile": {
                     "computerName": "[concat(variables('SPName'), copyindex())]",                    
