@@ -2,7 +2,12 @@
 (
         
     [Parameter(Mandatory)]
-    [String]$MediaContainerName,
+    [String]$SQLMediaContainerName,
+    
+    
+    [Parameter(Mandatory)]
+    [String]$SPMediaContainerName,
+    
     
     [Parameter(Mandatory)]
     [String]$StorageAccountName,
@@ -53,10 +58,16 @@ try
 
         loginfo $("Storage Account Name: " + $StorageAccountName)
         loginfo $("Storage Account Key: " + $StorageAccountKey)
-        loginfo $("Media Container Name: " + $MediaContainerName)
+        loginfo $("SQL Media Container Name: " + $SQLMediaContainerName)
+        loginfo $("SP Media Container Name: " + $SPMediaContainerName)
 
         $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
-        Get-AzureStorageContainer -Name $MediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
+        loginfo "Download the SQL Media first"
+        Get-AzureStorageContainer -Name $SQLMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
+        loginfo "Download the SP Media"
+        Get-AzureStorageContainer -Name $SPMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
+
+
 
         LogStep "ISO Mount"
         $isoFiles = Get-ChildItem -Path $destination -Include "*.iso" -Recurse

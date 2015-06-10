@@ -41,7 +41,10 @@
         },
         
         
-        "MediaContainerName": {
+        "SQLMediaContainerName": {
+            "type": "string"
+        },
+        "SPMediaContainerName": {
             "type": "string"
         },
         
@@ -82,7 +85,9 @@
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
           
-        "MediaContainerName":"[parameters('MediaContainerName')]",
+        "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
+        "SPMediaContainerName":"[parameters('SPMediaContainerName')]",
+        
         "StorageAccountName":"[parameters('StorageAccountName')]",
         "StorageAccountKey":"[parameters('StorageAccountKey')]",
         
@@ -289,7 +294,8 @@
                   "domainName":{"value":"[parameters('domainName')]"},
                   "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
                   
-                  "MediaContainerName":{"value":"[variables('MediaContainerName')]"},
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},                  
                   "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
                   "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
                   

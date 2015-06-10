@@ -44,8 +44,11 @@
     "domainNetBiosName" : {
         "value":"osazure"
     },
-    "MediaContainerName" : {
-        "value":"media"
+    "SQLMediaContainerName" : {
+        "value":"sql2014"
+    },
+    "SPMediaContainerName" : {
+        "value":"gu34"
     },
     "StorageAccountName" : {
         "value":"armstorageacc"
