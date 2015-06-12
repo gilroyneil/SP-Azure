@@ -117,9 +117,9 @@
         "SQL1Disk2Name":"[concat(parameters('ServiceName'),'-SQL1-data1')]",
         "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-SQL1-data2')]",
         
-        "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
-        "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
-        "DCPrepareMachineModules":"\"xComputerManagement\",\"xActiveDirectory\"",
+        "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xPendingReboot_0.1.0.2\"",
+        "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\",\"xPendingReboot_0.1.0.2\"",
+        "DCPrepareMachineModules":"\"xComputerManagement\",\"xActiveDirectory\",\"xPendingReboot_0.1.0.2\"",
         "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201502.01-en.us-127GB.vhd",
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",        

@@ -29,3 +29,131 @@ azure group deployment create --resource-group OsbornTest2RG --template-uri "htt
 iMac:
 
 azure group deployment create --resource-group OsbornTest4RG --template-uri "https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Master.json" --parameters-file "/Volumes/Drobo5D/Dropbox/SkydriveNew/SkyDrive/Documents/GitHub/Repositories/Azure IAAS/SharePointAzure-master/SP-Azure/SP-Params.json"
+
+
+
+
+
+. "$PSScriptRoot\Common.ps1"
+
+Start-ScriptLog "Binaries Install"
+
+$p = start-process "E:\data\media\SP\prerequisiteinstaller.exe" -ArgumentList "/unattended" -Wait -PassThru
+                $p.WaitForExit()
+                $lExitCode = $p.ExitCode
+                #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
+                LogInfo $("Exit Code: " + $lExitCode)
+
+
+if ($lExitCode -eq 3010)
+{
+    loginfo "reboot needed"
+
+}
+else
+{
+loginfo "reboot not needed."
+}
+
+
+#Start-Sleep -Seconds 5
+#Restart-Computer -Force
+
+Stop-ScriptLog
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------
+
+
+
+. "$PSScriptRoot\Common.ps1"
+
+Start-ScriptLog "Binary Install Test"
+
+
+configuration Reboots
+{
+    # Get this from TechNet Gallery
+    Import-DsCResource -ModuleName xPendingReboot
+ 
+    node ($env:COMPUTERNAME)
+    {     
+        LocalConfigurationManager
+        {
+            # This is false by default
+            RebootNodeIfNeeded = 'true'
+        }
+       
+        Script TestReboot
+        {
+            GetScript  = { return 'foo'}
+            TestScript = { return $false}
+            SetScript  = {
+                $p = start-process "E:\data\media\SP\prerequisiteinstaller.exe" -ArgumentList "/unattended" -Wait -PassThru
+                $p.WaitForExit()
+                $lExitCode = $p.ExitCode
+                #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
+                #LogInfo $("Exit Code: " + $lExitCode)
+                $lExitCode = 3010
+
+                sleep -Seconds 60
+
+                if ($lExitCode -eq 3010)
+                {
+                    #loginfo "reboot needed"
+                    # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
+                    $global:DSCMachineStatus = 1
+
+                }
+                else
+                {
+                    #loginfo "reboot not needed."
+                    # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
+                    $global:DSCMachineStatus = 0
+                }
+
+ 
+                
+            }
+        }
+ 
+        # Reboot if pending
+        xPendingReboot RebootCheck1
+        {
+            Name = "RebootCheck1"
+        }
+ 
+    }
+}
+ 
+WaitForPendingMof
+
+Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
+ 
+Reboots
+
+
+$cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
+$cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
+ 
+Set-DscLocalConfigurationManager -Path .\Reboots -Verbose
+ 
+Start-DscConfiguration -CimSession $cimSession -Path .\Reboots -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
+#Start-DscConfiguration -Verbose -wait -Path .\Reboots -Force
