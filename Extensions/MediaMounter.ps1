@@ -46,6 +46,7 @@ try
         $StorageAccountName = $StorageAccountName
         $StorageAccountKey = $StorageAccountKey
         $destination = "e:\data\media"
+        $destinationSP = "e:\data\media\sp"
 
       #  $StorageAccountName = "armstorageacc"
       #  $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
@@ -67,7 +68,21 @@ try
         loginfo "Download the SP Media"
         Get-AzureStorageContainer -Name $SPMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
 
+    
+        logstep "ZIP Extract"
+        [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem")
+        $zipFiles = Get-ChildItem -Path $destination -Include "*.zip" -Recurse
+        foreach ($zip in $zipFiles)
+        {
+            $fileName = $zip.Name
+            loginfo $("ZIP found: " + $fileName)
+            $fileNameBase = $zip.BaseName
+            $fileNameFull = $zip.FullName
+            loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationSP)           
+            [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP)
+            loginfo "Extracted"
 
+        }
 
         LogStep "ISO Mount"
         $isoFiles = Get-ChildItem -Path $destination -Include "*.iso" -Recurse
@@ -92,6 +107,9 @@ try
             loginfo "Dismount"
 
         }
+
+
+        
 }
 catch
 {

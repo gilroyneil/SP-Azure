@@ -80,9 +80,6 @@ Stop-ScriptLog
 
 
 ---------------------------------------------
-
-
-
 . "$PSScriptRoot\Common.ps1"
 
 Start-ScriptLog "Binary Install Test"
@@ -93,12 +90,12 @@ configuration Reboots
     # Get this from TechNet Gallery
     Import-DsCResource -ModuleName xPendingReboot
  
-    node ($env:COMPUTERNAME)
+    node $env:COMPUTERNAME
     {     
         LocalConfigurationManager
         {
             # This is false by default
-            RebootNodeIfNeeded = 'true'
+            RebootNodeIfNeeded = $true
         }
        
         Script TestReboot
@@ -111,10 +108,8 @@ configuration Reboots
                 $lExitCode = $p.ExitCode
                 #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
                 #LogInfo $("Exit Code: " + $lExitCode)
-                $lExitCode = 3010
-
-                sleep -Seconds 60
-
+                
+                a
                 if ($lExitCode -eq 3010)
                 {
                     #loginfo "reboot needed"
@@ -153,7 +148,7 @@ Reboots
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
  
-Set-DscLocalConfigurationManager -Path .\Reboots -Verbose
+Set-DscLocalConfigurationManager -CimSession $cimSession -Path .\Reboots -Verbose
  
 Start-DscConfiguration -CimSession $cimSession -Path .\Reboots -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
 #Start-DscConfiguration -Verbose -wait -Path .\Reboots -Force
