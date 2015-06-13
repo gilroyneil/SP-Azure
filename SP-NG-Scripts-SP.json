@@ -33,7 +33,10 @@
             "type": "string"
         },
            
-        "MediaContainerName": {
+      "SQLMediaContainerName": {
+            "type": "string"
+        },
+        "SPMediaContainerName": {
             "type": "string"
         },
         
@@ -77,7 +80,8 @@
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         
-        "MediaContainerName":"[parameters('MediaContainerName')]",
+        "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
+        "SPMediaContainerName":"[parameters('SPMediaContainerName')]",
         "StorageAccountName":"[parameters('StorageAccountName')]",
         "StorageAccountKey":"[parameters('StorageAccountKey')]",
         "DCHardware":"Basic_A0",
