@@ -107,7 +107,7 @@ configuration Reboots
  
 WaitForPendingMof
 
-Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
+#Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
  
 Reboots
 
