@@ -86,7 +86,7 @@ configuration Reboots
             GetScript  = { return 'foo'}
             TestScript = { return $false}
             SetScript  = {
-
+$SPConfigSilentName = "SPConfigCustom.xml"
             $parentFolder = "E:\data\media\SP"
         
         $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
