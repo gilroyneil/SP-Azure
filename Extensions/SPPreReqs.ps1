@@ -61,7 +61,7 @@ try
 configuration Reboots
 {
     # Get this from TechNet Gallery
-    Import-DsCResource -ModuleName xPendingReboot
+    Import-DsCResource -ModuleName xPendingReboot, MSFT_xSystemSecurity
  
     node $env:COMPUTERNAME
     {     
@@ -75,6 +75,15 @@ configuration Reboots
             Credential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$DomainAdministratorUserName", $(ConvertTo-SecureString $DomainAdministratorPassword -AsPlainText -Force))
         }
 
+        MSFT_xSystemSecurity NeverNotifyAndDisableAll 
+        { 
+            Setting = "NeverNotifyAndDisableAll" 
+        } 
+        MSFT_xSystemSecurity DisableIEEsc 
+        { 
+            IsEnabled = $false 
+            UserRole = "Users" 
+        } 
 
         LocalConfigurationManager
         {
