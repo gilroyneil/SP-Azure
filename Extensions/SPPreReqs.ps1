@@ -1,4 +1,19 @@
-﻿
+﻿param
+(
+
+    [Parameter(Mandatory)]
+    [String]$domainNetBiosName,
+
+    [Parameter(Mandatory)]
+    [String]$DomainAdministratorUserName,
+
+    [Parameter(Mandatory)]
+    [String]$DomainAdministratorPassword,
+
+    [String]$EncryptionCertificateThumbprint
+)
+
+
 $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
@@ -50,6 +65,17 @@ configuration Reboots
  
     node $env:COMPUTERNAME
     {     
+        
+        
+        Group Administrators
+        {
+            Ensure = 'Present'
+            GroupName = 'Administrators'
+            MembersToInclude = @("$domainNetBiosName\sp-inst")
+            Credential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$DomainAdministratorUserName", $(ConvertTo-SecureString $DomainAdministratorPassword -AsPlainText -Force))
+        }
+
+
         LocalConfigurationManager
         {
             # This is false by default

@@ -103,7 +103,11 @@
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
         "spPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
-        "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1"
+        "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
+        
+        "spPreReqsCommand2" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]"
+ 
+     
         
     },
     "resources": [
@@ -128,12 +132,12 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('spPreReqsCommand')]"
+                        "commandToExecute": "[variables('spPreReqsCommand2')]"
                     }
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
+            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand2')]",
             "location": "[parameters('resourceLocation')]"                       
         },
         
