@@ -61,7 +61,7 @@ try
 configuration Reboots
 {
     # Get this from TechNet Gallery
-    Import-DsCResource -ModuleName xPendingReboot, MSFT_xSystemSecurity
+    Import-DsCResource -ModuleName xComputerManagement, xPendingReboot, MSFT_xSystemSecurity
  
     node $env:COMPUTERNAME
     {     
