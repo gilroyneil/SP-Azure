@@ -168,7 +168,7 @@
             "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand2')]"
             ]                   
         }
         
