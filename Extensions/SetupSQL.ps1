@@ -55,7 +55,7 @@ else
 
 configuration SQLServer2014
 {
-    Import-DscResource -ModuleName xComputerManagement, xSQLServer, MSFT_xSystemSecurity
+    Import-DscResource -ModuleName xComputerManagement, xSQLServer, xSystemSecurity
 
     Node $env:COMPUTERNAME
     {
@@ -75,11 +75,11 @@ configuration SQLServer2014
             Name = "Net-Framework-Core"
             Source = "c:\software\sxs"
         }
-        MSFT_xSystemSecurity NeverNotifyAndDisableAll 
+        xUAC NeverNotifyAndDisableAll 
         { 
             Setting = "NeverNotifyAndDisableAll" 
         } 
-        MSFT_xSystemSecurity DisableIEEsc 
+        xIEEsc DisableIEEsc 
         { 
             IsEnabled = $false 
             UserRole = "Users" 
