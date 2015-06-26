@@ -170,6 +170,9 @@ try
         #new step
         LogStep "SQL DSC Work."
 
+loginfo "Disable Firewalls - todo make this rules"
+        Get-NetFirewallProfile | Set-NetFirewallProfile -Enabled False
+        loginfo "Done - firewalls disabled"
 
         WaitForPendingMof
         loginfo "Config about to be called"

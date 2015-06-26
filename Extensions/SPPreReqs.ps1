@@ -142,9 +142,18 @@ configuration Reboots
  
 WaitForPendingMof
 
+
+$configData = @{
+        AllNodes = @(
+        @{
+            Nodename = $env:COMPUTERNAME
+            PSDscAllowPlainTextPassword = $true
+        }
+        )
+    }
 #Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
  
-Reboots
+Reboots -ConfigurationData $configData
 
 
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
