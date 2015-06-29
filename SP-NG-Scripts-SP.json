@@ -102,10 +102,11 @@
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
-        "spPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
+        "spOLDPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
         "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
         
-        "spPreReqsCommand2" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]",
+        "spPreReqsCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
+
         "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]"
  
      
@@ -133,12 +134,12 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('spPreReqsCommand2')]"
+                        "commandToExecute": "[variables('spPreReqsCommand')]"
                     }
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand2')]",
+            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
             "location": "[parameters('resourceLocation')]"                       
         },
         
@@ -169,7 +170,7 @@
             "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand2')]"
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
             ]                   
         }
         ,
