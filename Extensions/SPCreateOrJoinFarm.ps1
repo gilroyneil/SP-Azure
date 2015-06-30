@@ -10,6 +10,27 @@
     [Parameter(Mandatory)]
     [String]$DomainAdministratorPassword,
 
+     [Parameter(Mandatory)]
+    [String]$serviceName,
+
+     [Parameter(Mandatory)]
+    [String]$SQLServerInstance,
+
+    [Parameter(Mandatory)]
+    [String]$ServerRole,
+
+    [Parameter(Mandatory)]
+    [String]$FarmAdministratorUserName,
+    [Parameter(Mandatory)]
+    [String]$FarmAdministratorPassword,
+
+    [Parameter(Mandatory)]
+    [String]$InstallAdministratorUserName,
+
+    [Parameter(Mandatory)]
+    [String]$InstallAdministratorPassword,
+
+
     [String]$EncryptionCertificateThumbprint
 )
 
@@ -64,12 +85,32 @@ configuration CreateFarm
                 
             }
             TestScript = {
+            
+                #Script work for logging. START
+                $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                $logPathPrefix = "c:\data\install\logs\"
 
+                if ((test-path $logPathPrefix) -ne $true)
+                {
+                    new-item $logPathPrefix -itemtype directory 
+                }
+                $fileName = $($logPathPrefix + "SP-FarmCreateOrJoin-Get-" + $currentDate.ToString() + ".txt")    
+                #Script work for logging. END
+
+                "In Test Script of CreateFarm" >> $fileName
+                $using:domainNetBiosName >> $fileName
+
+                "Check Registry Key: HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions\16.0\Secure\ConfigDB" >> $fileName
                 $retVal = $false
-                $configDB = (Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions\16.0\Secure\ConfigDB")
+                $configDB = (Get-Item -Path "HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions\16.0\Secure\ConfigDB" -ErrorAction SilentlyContinue)
                 if ($configDB -ne $null)
                 {
+                    "Key value found, farm must exist" >> $fileName
                     $retVal = $true
+                }
+                else
+                {
+                    "Key value not found - Try and create a farm." >> $fileName
                 }
                 return $retVal
             
@@ -78,15 +119,66 @@ configuration CreateFarm
             SetScript  = {
 
 
-                        Add-PSSnapin Microsoft.SharePoint.PowerShell
+                #Script work for logging. START
+                $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                $logPathPrefix = "c:\data\install\logs\"
+
+                if ((test-path $logPathPrefix) -ne $true)
+                {
+                    new-item $logPathPrefix -itemtype directory 
+                }
+                $fileName = $($logPathPrefix + "SP-FarmCreateOrJoin-Set-" + $currentDate.ToString() + ".txt")    
+                #Script work for logging. END
+
+
+                Add-PSSnapin Microsoft.SharePoint.PowerShell
+                $ConfigDBName = "TAP_Config"
+                $CAAdminDBName = "TAP_CAContent"
+                $passphrase = "D1sabl3d281660"
+                $ConfigDBAlias = "osazure3-sql0\sp"
+
+                $serverRole = "WebFrontEnd"
+                $farmAdminUser = "osazure\sp-inst"
+                $farmAdminPassword = "D1sabl3d281660"
+
+                $installUser = "osazure\sp-inst"
+                $installPassword = "D1sabl3d281660"
+
+
+            $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))
+            write-verbose $env:COMPUTERNAME
+            $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
+            invoke-Command -Session $session -Verbose {
+            #invoke-Command -ComputerName $env:COMPUTERNAME -Credential $cred -Verbose {
+
+            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+        $logPathPrefix = "c:\data\install\logs\"
+
+        if ((test-path $logPathPrefix) -ne $true)
+        {
+            new-item $logPathPrefix -itemtype directory 
+        }
+        LogStartTracing $($logPathPrefix + "SP-FarmCreateOrJoin-Set" + $currentDate.ToString() + ".txt")    
+        #Boiler Plate Logging setup END
+        
+        #new step
+        LogStep "Start SPFarm Create Or Join"
+
+            Add-PSSnapin Microsoft.SharePoint.PowerShell
                     $ConfigDBName = "TAP_Config"
+                    $CAAdminDBName = "TAP_CAContent"
                     $passphrase = "D1sabl3d281660"
                     $ConfigDBAlias = "osazure3-sql0\sp"
+
                     $serverRole = "WebFrontEnd"
                     $farmAdminUser = "osazure\sp-inst"
                     $farmAdminPassword = "D1sabl3d281660"
 
-                    $secFarmAdminPassword = ConvertTo-SecureString $farmAdminPassword -AsPlaintext -Force 
+                    $installUser = "osazure\sp-inst"
+                    $installPassword = "D1sabl3d281660"
+               
+
+                $secFarmAdminPassword = ConvertTo-SecureString $farmAdminPassword -AsPlaintext -Force 
                     $FarmAccountCredentials = New-Object System.Management.Automation.PsCredential $farmAdminUser,$secFarmAdminPassword
 
                     $farmExists = $true
@@ -111,6 +203,12 @@ configuration CreateFarm
                         Install-SPFeature -AllExistingFeatures
                     }
             }
+
+                      
+
+      }
+                    
+            
         }
  
  
@@ -124,6 +222,7 @@ WaitForPendingMof
         AllNodes = @(
         @{
             Nodename = $env:COMPUTERNAME
+            Value1 = "aa"
             
         }
         )

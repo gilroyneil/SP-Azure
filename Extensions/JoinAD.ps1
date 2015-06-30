@@ -61,6 +61,7 @@ configuration JoinAD
             SetScript =
 @"
 # https://powertoe.wordpress.com/2011/04/29/enable-credssp-from-a-windows-7-home-client/  
+Enable-PSRemoting -Force
 Enable-WSManCredSSP -Role Client -DelegateComputer '*.$DomainName' -Force
 Enable-WSManCredSSP Server
 `$allowed = @('WSMAN/*.$DomainName','WSMAN/$($env:COMPUTERNAME)')  
