@@ -98,7 +98,8 @@ configuration CreateFarm
                 #Script work for logging. END
 
                 "In Test Script of CreateFarm" >> $fileName
-                $using:domainNetBiosName >> $fileName
+                
+
 
                 "Check Registry Key: HKLM:\SOFTWARE\Microsoft\Shared Tools\Web Server Extensions\16.0\Secure\ConfigDB" >> $fileName
                 $retVal = $false
@@ -132,81 +133,90 @@ configuration CreateFarm
 
 
                 Add-PSSnapin Microsoft.SharePoint.PowerShell
-                $ConfigDBName = "TAP_Config"
-                $CAAdminDBName = "TAP_CAContent"
+                
+                #Populate needed variables.
+                $ConfigDBName = $($using:serviceName +  "_Config")
+                $CAAdminDBName = $($using:serviceName +  "_CA_Content")                
                 $passphrase = "D1sabl3d281660"
-                $ConfigDBAlias = "osazure3-sql0\sp"
 
-                $serverRole = "WebFrontEnd"
-                $farmAdminUser = "osazure\sp-inst"
-                $farmAdminPassword = "D1sabl3d281660"
+                $ConfigDBAlias = $using:SQLServerInstance
+                $serverRole = $using:ServerRole
 
-                $installUser = "osazure\sp-inst"
-                $installPassword = "D1sabl3d281660"
+                $farmAdminUser = $using:FarmAdministratorUserName
+                $farmAdminPassword = $using:FarmAdministratorPassword
+                
+                $installUser = $using:InstallAdministratorUserName
+                $installPassword = $using:InstallAdministratorPassword
+                #Vairables ready.
 
+                "Install user:" >> $fileName
+                $installUser  >> $fileName
+                "SQL Server Instance:" >> $fileName
+                $ConfigDBAlias  >> $fileName
 
-            $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))
-            write-verbose $env:COMPUTERNAME
-            $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
-            invoke-Command -Session $session -Verbose {
-            #invoke-Command -ComputerName $env:COMPUTERNAME -Credential $cred -Verbose {
+                "Setup Session to remote to self:" >> $fileName
+                $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))
+                $env:COMPUTERNAME >> $fileName
 
-            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
-        $logPathPrefix = "c:\data\install\logs\"
+                $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
+                invoke-Command -Session $session -Verbose {                
+                param($ConfigDBName, $CAAdminDBName, $passphrase, $ConfigDBAlias, $serverRole, $farmAdminUser, $farmAdminPassword, $installUser, $installPassword) 
 
-        if ((test-path $logPathPrefix) -ne $true)
-        {
-            new-item $logPathPrefix -itemtype directory 
-        }
-        LogStartTracing $($logPathPrefix + "SP-FarmCreateOrJoin-Set" + $currentDate.ToString() + ".txt")    
-        #Boiler Plate Logging setup END
+                
+
+                $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                $logPathPrefix = "c:\data\install\logs\"
+
+                if ((test-path $logPathPrefix) -ne $true)
+                {
+                    new-item $logPathPrefix -itemtype directory 
+                }
+                LogStartTracing $($logPathPrefix + "SP-FarmCreateOrJoin-Set-Session" + $currentDate.ToString() + ".txt")    
+                #Boiler Plate Logging setup END
         
-        #new step
-        LogStep "Start SPFarm Create Or Join"
+                #new step
+                LogStep "Start SPFarm Create Or Join"
 
-            Add-PSSnapin Microsoft.SharePoint.PowerShell
-                    $ConfigDBName = "TAP_Config"
-                    $CAAdminDBName = "TAP_CAContent"
-                    $passphrase = "D1sabl3d281660"
-                    $ConfigDBAlias = "osazure3-sql0\sp"
+                "In Session now:" >> $fileName
+                "Install user:" >> $fileName
+                $installUser  >> $fileName
+                "SQL Server Instance:" >> $fileName
+                $ConfigDBAlias  >> $fileName
 
-                    $serverRole = "WebFrontEnd"
-                    $farmAdminUser = "osazure\sp-inst"
-                    $farmAdminPassword = "D1sabl3d281660"
 
-                    $installUser = "osazure\sp-inst"
-                    $installPassword = "D1sabl3d281660"
+                    Add-PSSnapin Microsoft.SharePoint.PowerShell
+                            
                
 
-                $secFarmAdminPassword = ConvertTo-SecureString $farmAdminPassword -AsPlaintext -Force 
-                    $FarmAccountCredentials = New-Object System.Management.Automation.PsCredential $farmAdminUser,$secFarmAdminPassword
+                        $secFarmAdminPassword = ConvertTo-SecureString $farmAdminPassword -AsPlaintext -Force 
+                            $FarmAccountCredentials = New-Object System.Management.Automation.PsCredential $farmAdminUser,$secFarmAdminPassword
 
-                    $farmExists = $true
-                    $connectFarm = Connect-SPConfigurationDatabase -DatabaseName $ConfigDBName  -DatabaseServer $ConfigDBAlias -LocalServerRole $serverRole  -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force   )
-                    If (-not $?)
-                    {
-                        #Farm doesnt exist yet - so we need to create it.                        
-                        New-SPConfigurationDatabase -DatabaseServer  $ConfigDBAlias -DatabaseName $ConfigDBName -LocalServerRole $serverRole -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force) -AdministrationContentDatabaseName $CAAdminDBName -FarmCredentials $FarmAccountCredentials
-                        Install-SPHelpCollection -All
-                        Initialize-SPResourceSecurity
-                        Install-SPService
-                        Install-SPFeature -AllExistingFeatures
-                        New-SPCentralAdministration -Port 8888 -WindowsAuthProvider NTLM
-                        Install-SPApplicationContent
+                            $farmExists = $true
+                            $connectFarm = Connect-SPConfigurationDatabase -DatabaseName $ConfigDBName  -DatabaseServer $ConfigDBAlias -LocalServerRole $serverRole  -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force   )
+                            If (-not $?)
+                            {
+                                #Farm doesnt exist yet - so we need to create it.                        
+                                New-SPConfigurationDatabase -DatabaseServer  $ConfigDBAlias -DatabaseName $ConfigDBName -LocalServerRole $serverRole -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force) -AdministrationContentDatabaseName $CAAdminDBName -FarmCredentials $FarmAccountCredentials
+                                Install-SPHelpCollection -All
+                                Initialize-SPResourceSecurity
+                                Install-SPService
+                                Install-SPFeature -AllExistingFeatures
+                                New-SPCentralAdministration -Port 8888 -WindowsAuthProvider NTLM
+                                Install-SPApplicationContent
 
-                    }
-                    else
-                    {
-                        Install-SPHelpCollection -All
-                        Initialize-SPResourceSecurity
-                        Install-SPService
-                        Install-SPFeature -AllExistingFeatures
-                    }
-            }
+                            }
+                            else
+                            {
+                                Install-SPHelpCollection -All
+                                Initialize-SPResourceSecurity
+                                Install-SPService
+                                Install-SPFeature -AllExistingFeatures
+                            }
+                    } -ArgumentList @($ConfigDBName, $CAAdminDBName, $passphrase, $ConfigDBAlias, $serverRole, $farmAdminUser, $farmAdminPassword, $installUser, $installPassword) -ErrorVariable Stop 
 
                       
 
-      }
+                }
                     
             
         }
