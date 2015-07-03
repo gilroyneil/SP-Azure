@@ -108,7 +108,17 @@
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
-      
+   
+              "serverRoles": { 
+                 "type": "array", 
+                     "defaultValue": [ 
+                     "WebFrontEnd", 
+                     "Application", 
+                     "DistributedCache",
+                     "Search" 
+                  ]
+              }, 
+     
 
         "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\" -ServerRole ')]"
  
@@ -123,16 +133,7 @@
        
          {
             "type": "Microsoft.ClassicCompute/virtualMachines/extensions",    
-            "parameters": { 
-              "serverRoles": { 
-                 "type": "array", 
-                     "defaultValue": [ 
-                     "WebFrontEnd", 
-                     "Application", 
-                     "DistributedCache",
-                     "Search" 
-                  ] 
-              },  
+            
             "copy": {
                 "name": "spServerLoopFarmCreatePart2",
                 "count": "[parameters('numberSPServers')]"
@@ -148,7 +149,7 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPCreateOrJoinFarm.ps1"                                                        
                         ],
-                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),parameters('serverRoles')[copyIndex()])]"
+                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),variables('serverRoles')[copyIndex()])]"
                     }
                 }
             },
