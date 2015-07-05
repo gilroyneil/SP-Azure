@@ -120,7 +120,7 @@
               }, 
      
 
-        "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\" -ServerRole ')]"
+        "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\" -ServerRole '\"')]"
  
      
         
