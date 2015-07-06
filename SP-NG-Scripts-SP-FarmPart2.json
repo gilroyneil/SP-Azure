@@ -144,12 +144,22 @@
                 "publisher": "Microsoft.Compute",
                 "version": "1.*",
                 "parameters": {
+                    
+                     "serverRoles2": { 
+                 "type": "array", 
+                     "defaultValue": [ 
+                     "WebFrontEnd", 
+                     "Application", 
+                     "DistributedCache",
+                     "Search" 
+                  ]
+              }, 
                     "public": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPCreateOrJoinFarm.ps1"                                                        
                         ],
-                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),variables('serverRoles')[copyIndex()])]"
+                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),parameters('serverRoles2')[copyIndex()])]"
                     }
                 }
             },
