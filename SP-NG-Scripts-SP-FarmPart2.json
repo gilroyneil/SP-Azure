@@ -159,7 +159,8 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPCreateOrJoinFarm.ps1"                                                        
                         ],
-                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', ' WebFrontEnd']"
+                        "vmScript": "[variables('sPCreateOrJoinFarmCommandMinusServerRole')]",
+                        "commandToExecute": "[concat(variables('vmScript'),' -ServerRole ', 'WebFrontEnd']"
                     }
                 }
             },
