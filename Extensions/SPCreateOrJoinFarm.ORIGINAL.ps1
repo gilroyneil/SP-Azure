@@ -17,7 +17,7 @@
     [String]$SQLServerInstance,
 
     [Parameter(Mandatory)]
-    [int]$ServerRole,
+    [String]$ServerRole,
 
     [Parameter(Mandatory)]
     [String]$FarmAdministratorUserName,
@@ -42,33 +42,6 @@ $GLOBAL_scriptExitCode = 0
 Start-ScriptLog "SP-FarmCreateOrJoin"
 
 
-
-
-function getServerRole
-{
-param (
-[Parameter(Mandatory=$true)]
-$number
-)
-    $serverRoleArray = @("WebFrontEnd", "Application", "DistributedCache", "Search")
-    $serverRoleRetVal =  $serverRoleArray[0]
-
-    #But of a hack to cope with WebFrontEnd.
-    if (($number -ne 0) -and ($number -ne 4) -and ($number -ne 8) -and ($number -ne 12) -and ($number -ne 16) -and ($number -ne 20) -and ($number -ne 24))
-    {
-        for ([int]$i = 1; $i -le 3; $i ++)
-        {
-            [int]$remainder = $number % $i        
-            if ($remainder -eq 0)
-            {
-                $serverRoleRetVal =  $serverRoleArray[$i]
-            }
-        }    
-    }
-    return $serverRoleRetVal
-}
-
-
 try
 {
 
@@ -86,8 +59,10 @@ try
         #new step
         LogStep "Start SPFarm Create Or Join"
 
-        $serverRole = getServerRole -number $ServerRole   
-        
+       
+
+
+
         
 configuration CreateFarm
 {
@@ -178,8 +153,6 @@ configuration CreateFarm
                 $installUser  >> $fileName
                 "SQL Server Instance:" >> $fileName
                 $ConfigDBAlias  >> $fileName
-                "ServerRole:" >> $fileName
-                $serverRole  >> $fileName
 
                 "Setup Session to remote to self:" >> $fileName
                 $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))

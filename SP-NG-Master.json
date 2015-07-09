@@ -496,7 +496,8 @@
            "dependsOn": [
                
                
-               "['Microsoft.Resources/deployments/SP-Servers-Template']"                              
+               /*"['Microsoft.Resources/deployments/SP-Servers-Template']"*/
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-FarmPart1']"                              
             ]
               
           }

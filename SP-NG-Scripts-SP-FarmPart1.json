@@ -110,9 +110,10 @@
         
       
 
-        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -ServerRole \"',variables('ServerRole'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\"')]"
+        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -ServerRole \"',variables('ServerRole'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\"')]",
  
-     
+          "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\"')]",
+        
         
     },
     "resources": [
@@ -133,7 +134,8 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPCreateOrJoinFarm.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('sPCreateOrJoinFarmCommand')]"
+                        /*"commandToExecute": "[variables('sPCreateOrJoinFarmCommand')]"*/
+                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', copyIndex())]"
                     }
                 }
             },
