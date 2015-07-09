@@ -17,7 +17,7 @@
     [String]$SQLServerInstance,
 
     [Parameter(Mandatory)]
-    [int]$ServerRole,
+    $ServerRole,
 
     [Parameter(Mandatory)]
     [String]$FarmAdministratorUserName,
