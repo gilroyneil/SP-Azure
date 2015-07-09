@@ -135,7 +135,7 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/SPCreateOrJoinFarm.ps1"                                                        
                         ],
                         /*"commandToExecute": "[variables('sPCreateOrJoinFarmCommand')]"*/
-                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', copyIndex())]"
+                        "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', 0)]"
                     }
                 }
             },
