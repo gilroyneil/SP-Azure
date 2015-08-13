@@ -5,7 +5,7 @@
     },
     
     "NumberSPServers" : {
-        "value":2
+        "value":1
     },
         "NumberSQLServers" : {
         "value":1
@@ -21,7 +21,7 @@
         "value": "D1sabl3d281660"
     },
     "ServiceName": {
-        "value": "osazure2"
+        "value": "osazure1"
     },
     "vmSizeSP": {
         "value": "Basic_A2"
