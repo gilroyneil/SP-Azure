@@ -157,6 +157,9 @@
             "name": "[concat(variables('SPName'), copyindex())]",            
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
+            "tags": {
+                "serverRole": "[copyIndex()]"
+            },
              "copy": {
                 "name": "spServerLoop",
                 "count": "[parameters('numberSPServers')]"
