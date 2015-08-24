@@ -158,7 +158,7 @@
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
             "tags": {
-                "serverRole": "[copyIndex()]"
+                "serverRole": "copyIndex()"
             },
              "copy": {
                 "name": "spServerLoop",
