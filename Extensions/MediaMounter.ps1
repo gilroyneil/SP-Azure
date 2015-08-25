@@ -56,7 +56,8 @@ try
         $destination = "e:\data\media"
         $destinationSP = "e:\data\media\sp"
         $destinationGeneralMedia = "e:\data\media"
-        $destinationBuildScripts = "e:\data\install"
+        $destinationBuildScripts = "e:\data\install\Packages"
+        $destinationBuildScriptsMain = "e:\data\install"
             
       #  $StorageAccountName = "armstorageacc"
       #  $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
@@ -66,6 +67,12 @@ try
         {
             New-Item -Path $destination -ItemType directory
         }
+
+        if ((test-path $destinationBuildScripts) -ne $true)
+        {
+            New-Item -Path $destinationBuildScripts -ItemType directory
+        }
+
 
         loginfo $("Storage Account Name: " + $StorageAccountName)
         loginfo $("Storage Account Key: " + $StorageAccountKey)
@@ -78,9 +85,85 @@ try
         loginfo "Download the Build Scripts"
         Get-AzureStorageContainer -Name $BuildScriptsContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destinationBuildScripts -force
         
+        
+        logstep "ZIP Extract"
+        [System.Reflection.Assembly]::LoadWithPartialName("System.IO.Compression.FileSystem")
+        $zipFiles = Get-ChildItem -Path $destinationBuildScripts -Include "*.zip" -Recurse
+        foreach ($zip in $zipFiles)
+        {
+            $fileName = $zip.Name
+            loginfo $("ZIP found: " + $fileName)
+            $fileNameBase = $zip.BaseName
+            $fileNameFull = $zip.FullName
+            if ($fileNameBase -match "package")
+            {
+                loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationBuildScriptsMain)  
+                try
+                {                     
+                    [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationBuildScriptsMain) 
+                }
+                catch{}
+
+                loginfo "Extracted"
+            }
+        }
+
+        foreach ($zip in $zipFiles)
+        {
+            $fileName = $zip.Name
+            loginfo $("ZIP found: " + $fileName)
+            $fileNameBase = $zip.BaseName
+            $fileNameFull = $zip.FullName
+            if (($fileNameBase -match "package") -eq $false)
+            {
+            
+                loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationBuildScripts)   
+                try
+                {        
+                    [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationBuildScripts)
+                }
+                catch
+                {
+                }
+                loginfo "Extracted"
+            }
+            
+
+        }
+
         loginfo "Download the General Media"
         Get-AzureStorageContainer -Name $GeneralMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destinationGeneralMedia -force
         
+        $zipFiles = Get-ChildItem -Path $destinationGeneralMedia -Include "*.zip" -Recurse
+        foreach ($zip in $zipFiles)
+        {
+            $fileName = $zip.Name
+            loginfo $("ZIP found: " + $fileName)
+            $fileNameBase = $zip.BaseName
+            $fileNameFull = $zip.FullName
+
+            $destinationFolder = $( $destinationGeneralMedia + "\" + $fileNameBase)
+
+             if ((test-path $destinationFolder) -ne $true)
+                {
+                    New-Item -Path $destinationFolder -ItemType directory
+                }
+
+            loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationGeneralMedia)    
+            try
+            {         
+                [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationGeneralMedia)
+            }
+            catch
+            {
+            }
+            loginfo "Extracted"
+            
+            
+
+        }
+
+
         
         loginfo "Download the SQL Media"
         Get-AzureStorageContainer -Name $SQLMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
@@ -97,8 +180,15 @@ try
             loginfo $("ZIP found: " + $fileName)
             $fileNameBase = $zip.BaseName
             $fileNameFull = $zip.FullName
-            loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationSP)           
-            [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP)
+            loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationSP)     
+            try
+            {      
+                [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP)
+            }
+            catch
+            {
+
+            }
             loginfo "Extracted"
 
         }
