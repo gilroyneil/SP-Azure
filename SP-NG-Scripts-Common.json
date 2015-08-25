@@ -83,6 +83,11 @@
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         
+        
+        "BuildScriptsContainerName":"buildscripts",        
+        "GeneralContainerName":"generalmedia",
+        
+        
         "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
         "SPMediaContainerName":"[parameters('SPMediaContainerName')]",
         "StorageAccountName":"[parameters('StorageAccountName')]",
@@ -120,7 +125,11 @@
         
         "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",               
         "disksCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\DiskManager.ps1",
-        "mediaCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\MediaMounter.ps1 -SQLMediaContainerName \"',variables('SQLMediaContainerName'),'\" -SPMediaContainerName \"',variables('SPMediaContainerName'),'\" -StorageAccountName \"',variables('StorageAccountName'), '\" -StorageAccountKey \"',variables('StorageAccountKey'), '\"')]",
+       /* "mediaCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\MediaMounter.ps1 -SQLMediaContainerName \"',variables('SQLMediaContainerName'),'\" -SPMediaContainerName \"',variables('SPMediaContainerName'),'\" -StorageAccountName \"',variables('StorageAccountName'), '\" -StorageAccountKey \"',variables('StorageAccountKey'), '\"')]",
+        */
+         "mediaCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\MediaMounter.ps1 -SQLMediaContainerName \"',variables('SQLMediaContainerName'),'\" -SPMediaContainerName \"',variables('SPMediaContainerName'),'\" -BuildScriptsContainerName \"',variables('BuildScriptsContainerName'),'\" -GeneralMediaContainerName \"',variables('GeneralContainerName'),'\" -StorageAccountName \"',variables('StorageAccountName'), '\" -StorageAccountKey \"',variables('StorageAccountKey'), '\"')]",
+         
+         
         "setupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainName \"',parameters('domainName'),'\"-domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]"
      
     },

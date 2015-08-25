@@ -8,6 +8,14 @@
     [Parameter(Mandatory)]
     [String]$SPMediaContainerName,
     
+      [Parameter(Mandatory)]
+    [String]$BuildScriptsContainerName,
+    
+      [Parameter(Mandatory)]
+    [String]$GeneralMediaContainerName,
+    
+    
+    
     
     [Parameter(Mandatory)]
     [String]$StorageAccountName,
@@ -47,7 +55,9 @@ try
         $StorageAccountKey = $StorageAccountKey
         $destination = "e:\data\media"
         $destinationSP = "e:\data\media\sp"
-
+        $destinationGeneralMedia = "e:\data\media"
+        $destinationBuildScripts = "e:\data\install"
+            
       #  $StorageAccountName = "armstorageacc"
       #  $StorageAccountKey = "tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg=="
       #  $MediaContainerName = "media"
@@ -61,9 +71,18 @@ try
         loginfo $("Storage Account Key: " + $StorageAccountKey)
         loginfo $("SQL Media Container Name: " + $SQLMediaContainerName)
         loginfo $("SP Media Container Name: " + $SPMediaContainerName)
+        loginfo $("Build Scripts Container Name: " + $BuildScriptsContainerName)
+        loginfo $("General Media Container Name: " + $GeneralMediaContainerName)
 
         $context = New-AzureStorageContext -StorageAccountName $StorageAccountName -StorageAccountKey $StorageAccountKey
-        loginfo "Download the SQL Media first"
+        loginfo "Download the Build Scripts"
+        Get-AzureStorageContainer -Name $BuildScriptsContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destinationBuildScripts -force
+        
+        loginfo "Download the General Media"
+        Get-AzureStorageContainer -Name $GeneralMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destinationGeneralMedia -force
+        
+        
+        loginfo "Download the SQL Media"
         Get-AzureStorageContainer -Name $SQLMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
         loginfo "Download the SP Media"
         Get-AzureStorageContainer -Name $SPMediaContainerName -Context $context | Get-AzureStorageBlob | Get-AzureStorageBlobContent -Destination $destination -force
