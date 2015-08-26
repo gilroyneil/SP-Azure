@@ -127,7 +127,7 @@
         "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),parameters('spFarmUserName'))]",
         "FarmAdminUserPassword":"[parameters('spFarmPassword')]",
         
-        "InstallUserName":"[concat(parameters('domainNetBiosName'),parameters('spInstallUserName')]",  
+        "InstallUserName":"[concat(parameters('domainNetBiosName'),parameters('spInstallUserName'))]",  
         "InstallUserPassword":"[parameters('spInstallPassword')]",
         
         "WebUserName":"[concat(parameters('domainNetBiosName'),parameters('spWebUserName'))]",
