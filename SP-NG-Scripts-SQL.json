@@ -63,6 +63,19 @@
         ,
         "numberSQLServers": {
             "type": "int"
+        },
+        
+                        "sqlServiceUserName": {
+            "type": "string"
+        },
+                "sqlServicePassword": {
+            "type": "string"
+        },
+                "spInstallUserName": {
+            "type": "string"
+        },
+                "spInstallPassword": {
+            "type": "string"
         }
         
     },
@@ -102,7 +115,7 @@
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
-        "setupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainName \"',parameters('domainName'),'\"-domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]"
+        "setupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainName \"',parameters('domainName'),'\"-domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\" -sqlServiceUserName \"',parameters('sqlServiceUserName'), '\" -sqlServicePassword \"',parameters('sqlServicePassword'), '\" -spInstallUserName \"',parameters('spInstallUserName'), '\" -spInstallPassword \"',parameters('spInstallPassword'), '\"')]"
      
     },
     "resources": [

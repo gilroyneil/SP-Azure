@@ -63,7 +63,36 @@
         ,
         "numberSPServers": {
             "type": "int"
+        },
+        
+          "spInstallUserName": {
+            "type": "string"
+        },
+                "spInstallPassword": {
+            "type": "string"
+        },
+            "spFarmUserName": {
+            "type": "string"
+        },
+                "spFarmPassword": {
+            "type": "string"
+        },          
+        
+                "spWebUserName": {
+            "type": "string"
+        },
+                "spWebPassword": {
+            "type": "string"
+        },
+                "spSvcUserName": {
+            "type": "string"
+        },
+                "spSvcPassword": {
+            "type": "string"
         }
+   
+   
+   
         
     },
     "variables":{
@@ -95,11 +124,20 @@
         "SQLInstanceName":"[concat(parameters('ServiceName'),'-sql','0\\SP')]",      
        
         "ServerRole":"WebFrontEnd",
-        "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),'\\sp-farm')]",
-        "FarmAdminUserPassword":"D1sabl3d281660",
+        "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),parameters('spFarmUserName'))]",
+        "FarmAdminUserPassword":"[parameters('spFarmPassword')]",
         
-        "InstallUserName":"[concat(parameters('domainNetBiosName'),'\\sp-inst')]",  
-        "InstallUserPassword":"D1sabl3d281660",
+        "InstallUserName":"[concat(parameters('domainNetBiosName'),parameters('spInstallUserName')]",  
+        "InstallUserPassword":"[parameters('spInstallPassword')]",
+        
+        "WebUserName":"[concat(parameters('domainNetBiosName'),parameters('spWebUserName'))]",
+        "WebUserPassword":"[parameters('spWebPassword')]",
+        
+        "SPSVCUserName":"[concat(parameters('domainNetBiosName'),parameters('spSvcUserName')]",  
+        "SPSVCUserPassword":"[parameters('spSvcPassword')]",
+        
+        
+        
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
@@ -120,7 +158,7 @@
               }, 
      
 
-        "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\"')]",
+    "sPCreateOrJoinFarmCommandMinusServerRole" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\" -WebUserName \"',variables('WebUserName'), '\" -WebUserPassword \"',variables('WebUserPassword'), '\" -SPSVCUserName \"',variables('SPSVCUserName'), '\" -SPSVCUserPassword \"',variables('SPSVCUserPassword'), '\"')]",
         
         
                 "vmScript" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -serviceName \"',parameters('ServiceName'), '\" -SQLServerInstance \"',variables('SQLInstanceName'), '\" -FarmAdministratorUserName \"',variables('FarmAdminUserName'),  '\" -FarmAdministratorPassword \"',variables('FarmAdminUserPassword'), '\" -InstallAdministratorUserName \"',variables('InstallUserName'), '\" -InstallAdministratorPassword \"',variables('InstallUserPassword'), '\"')]"

@@ -30,6 +30,21 @@
     [Parameter(Mandatory)]
     [String]$InstallAdministratorPassword,
 
+        
+    [Parameter(Mandatory)]
+    [String]$WebUserName,
+
+    [Parameter(Mandatory)]
+    [String]$WebUserPassword,
+
+    [Parameter(Mandatory)]
+    [String]$SPSVCUserName,
+
+    [Parameter(Mandatory)]
+    [String]$SPSVCUserPassword,
+
+
+
 
     [String]$EncryptionCertificateThumbprint
 )

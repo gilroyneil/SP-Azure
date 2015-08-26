@@ -55,10 +55,41 @@
         "StorageAccountKey": {
             "type": "string"
         },
+                
+                "sqlServiceUserName": {
+            "type": "string"
+        },
+                "sqlServicePassword": {
+            "type": "string"
+        },
+                "spInstallUserName": {
+            "type": "string"
+        },
+                "spInstallPassword": {
+            "type": "string"
+        },
         
-       
-        
-        
+                "spFarmUserName": {
+            "type": "string"
+        },
+                "spFarmPassword": {
+            "type": "string"
+        },          
+          
+                "spWebUserName": {
+            "type": "string"
+        },
+                "spWebPassword": {
+            "type": "string"
+        },
+                "spSvcUserName": {
+            "type": "string"
+        },
+                "spSvcPassword": {
+            "type": "string"
+        },
+   
+    
         "VMSizeSP": {
             "type": "string"
         },
@@ -356,7 +387,13 @@
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},                      
+                  "sqlServiceUserName":{"value":"[parameters('sqlServiceUserName')]"},
+                  "sqlServicePassword":{"value":"[parameters('sqlServicePassword')]"},
+                  "spInstallUserName":{"value":"[parameters('spInstallUserName')]"},
+                  "spInstallPassword":{"value":"[parameters('spInstallPassword')]"}
+                  
+                  
                   }            
                   
                    
@@ -442,7 +479,17 @@
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"},
+                  
+                  "spInstallUserName":{"value":"[parameters('spInstallUserName')]"},
+                  "spInstallPassword":{"value":"[parameters('spInstallPassword')]"},
+                  "spFarmUserName":{"value":"[parameters('spFarmUserName')]"},
+                  "spFarmPassword":{"value":"[parameters('spFarmPassword')]"},
+                  "spWebUserName":{"value":"[parameters('spWebUserName')]"},
+                  "spWebPassword":{"value":"[parameters('spWebPassword')]"},
+                  "spSvcUserName":{"value":"[parameters('spSvcUserName')]"},
+                  "spSvcPassword":{"value":"[parameters('spSvcPassword')]"}
+                  
                   }            
                   
                    
@@ -487,7 +534,16 @@
                   "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"},
+                  "spInstallUserName":{"value":"[parameters('spInstallUserName')]"},
+                  "spInstallPassword":{"value":"[parameters('spInstallPassword')]"},
+                  "spFarmUserName":{"value":"[parameters('spFarmUserName')]"},
+                  "spFarmPassword":{"value":"[parameters('spFarmPassword')]"},
+                  "spWebUserName":{"value":"[parameters('spWebUserName')]"},
+                  "spWebPassword":{"value":"[parameters('spWebPassword')]"},
+                  "spSvcUserName":{"value":"[parameters('spSvcUserName')]"},
+                  "spSvcPassword":{"value":"[parameters('spSvcPassword')]"}
+                  
                   }            
                   
                    

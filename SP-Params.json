@@ -61,9 +61,46 @@
     
     
     
+    "sqlServiceUserName": {
+    "value":"sp-sql"
+        },
+    "sqlServicePassword": {
+    "value":"D1sabl3d281660"
+        },
+    
+    
+        
+    "spInstallUserName": {
+    "value":"sp-inst"
+        },
+    "spInstallPassword": {
+    "value":"D1sabl3d281660"
+        },
+    
+      "spFarmUserName": {
+    "value":"sp-farm"
+        },
+    "spFarmPassword": {
+    "value":"D1sabl3d281660"
+        },
+          
+    "spWebUserName": {
+    "value":"sp-web"
+        },
+    "spWebPassword": {
+    "value":"D1sabl3d281660"
+        },
+    
+             
+    "spSvcUserName": {
+    "value":"sp-svc"
+        },
+    "spSvcPassword": {
+    "value":"D1sabl3d281660"
+        },
     
    
-  
+   
         "virtualNetworkName" : {
         "value":"vNetDom1"
     },

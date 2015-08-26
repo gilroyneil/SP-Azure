@@ -81,7 +81,7 @@ configuration SQLServer2014
         {
             Ensure = 'Present'
             GroupName = 'Administrators'
-            MembersToInclude = @("$domainNetBiosName\$spInstallUserName")
+            MembersToInclude = @("$domainNetBiosName\sp-inst")
             Credential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$DomainAdministratorUserName", $(ConvertTo-SecureString $DomainAdministratorPassword -AsPlainText -Force))
         }
 
@@ -110,8 +110,8 @@ configuration SQLServer2014
             InstanceName="SP"
             InstanceID="SP"
             SQLSysAdminAccounts="BUILTIN\ADMINISTRATORS" 
-            SQLSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
-            AgtSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
+            SQLSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\sp-sql", $(ConvertTo-SecureString "D1sabl3d281660" -AsPlainText -Force))
+            AgtSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\sp-sql", $(ConvertTo-SecureString "D1sabl3d281660" -AsPlainText -Force))
             SQMReporting  = "1"
             InstallSQLDataDir="E:\Apps\SQL\"
             SQLUserDBDir= "H:\Data\Dbs\"
@@ -122,7 +122,7 @@ configuration SQLServer2014
             #PID = "YQWTX-G8T4R-QW4XX-BVH62-GP68Y"
             UpdateEnabled = "False"
             UpdateSource = "." # Must point to an existing folder, even though UpdateEnabled is set to False - otherwise it will fail
-            SetupCredential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$spInstallUserName", $(ConvertTo-SecureString "$spInstallPassword" -AsPlainText -Force))
+            SetupCredential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\sp-inst", $(ConvertTo-SecureString "D1sabl3d281660" -AsPlainText -Force))
 
             DependsOn = "[WindowsFeature]installdotNet"
         }
