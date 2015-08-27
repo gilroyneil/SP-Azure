@@ -124,16 +124,16 @@
         "SQLInstanceName":"[concat(parameters('ServiceName'),'-sql','0\\SP')]",      
        
         "ServerRole":"WebFrontEnd",
-        "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),parameters('spFarmUserName'))]",
+        "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),'\\',parameters('spFarmUserName'))]",
         "FarmAdminUserPassword":"[parameters('spFarmPassword')]",
         
-        "InstallUserName":"[concat(parameters('domainNetBiosName'),parameters('spInstallUserName'))]",  
+        "InstallUserName":"[concat(parameters('domainNetBiosName'),'\\',parameters('spInstallUserName'))]",  
         "InstallUserPassword":"[parameters('spInstallPassword')]",
         
-        "WebUserName":"[concat(parameters('domainNetBiosName'),parameters('spWebUserName'))]",
+        "WebUserName":"[concat(parameters('domainNetBiosName'),'\\',parameters('spWebUserName'))]",
         "WebUserPassword":"[parameters('spWebPassword')]",
         
-        "SPSVCUserName":"[concat(parameters('domainNetBiosName'),parameters('spSvcUserName'))]",  
+        "SPSVCUserName":"[concat(parameters('domainNetBiosName'),'\\',parameters('spSvcUserName'))]",  
         "SPSVCUserPassword":"[parameters('spSvcPassword')]",
         
         
