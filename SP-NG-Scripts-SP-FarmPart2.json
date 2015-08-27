@@ -133,7 +133,7 @@
         "WebUserName":"[concat(parameters('domainNetBiosName'),parameters('spWebUserName'))]",
         "WebUserPassword":"[parameters('spWebPassword')]",
         
-        "SPSVCUserName":"[concat(parameters('domainNetBiosName'),parameters('spSvcUserName')]",  
+        "SPSVCUserName":"[concat(parameters('domainNetBiosName'),parameters('spSvcUserName'))]",  
         "SPSVCUserPassword":"[parameters('spSvcPassword')]",
         
         
