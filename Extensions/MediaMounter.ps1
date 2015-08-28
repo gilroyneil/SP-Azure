@@ -47,6 +47,23 @@ try
         LogStartTracing $($logPathPrefix + "MediaMounter" + $currentDate.ToString() + ".txt")    
         #Boiler Plate Logging setup END
         
+        
+        
+        #new step
+        LogStep "Firewall Disable & UAC"
+        netsh advfirewall set domainprofile state off
+        netsh advfirewall set publicprofile state off
+        netsh advfirewall set privateprofile state off
+        
+        loginfo "firewall done"
+      
+        LogInfo "`nDisable UAC"
+        Set-ItemProperty -Path registry::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\policies\system -Name EnableLUA -Value 0
+        
+        LogInfo "`nDisable LoopBackCheck"
+        New-ItemProperty HKLM:\System\CurrentControlSet\Control\Lsa -Name "DisableLoopbackCheck" -Value "1" -PropertyType dword -ErrorAction SilentlyContinue
+        
+        
         #new step
         LogStep "Storage Account Work"
 
