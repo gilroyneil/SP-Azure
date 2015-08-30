@@ -152,7 +152,7 @@ configuration SQLServer2014_SP
                     # passed into the script as a parameter.
                     $instanceName = 'SPC'
                     $computerName = $env:COMPUTERNAME
-                    Import-Module sqlps
+                    Import-Module sqlps -ErrorAction SilentlyContinue
                     $smo = 'Microsoft.SqlServer.Management.Smo.'
                     $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
@@ -227,7 +227,7 @@ configuration SQLServer2014_SP
                     # passed into the script as a parameter.
                     $instanceName = 'SPO'
                     $computerName = $env:COMPUTERNAME
-                    Import-Module sqlps
+                    Import-Module sqlps -ErrorAction SilentlyContinue
                     $smo = 'Microsoft.SqlServer.Management.Smo.'
                     $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
@@ -303,7 +303,7 @@ configuration SQLServer2014_SP
                     # passed into the script as a parameter.
                     $instanceName = 'SPS'
                     $computerName = $env:COMPUTERNAME
-                    Import-Module sqlps
+                    Import-Module sqlps -ErrorAction SilentlyContinue
                     $smo = 'Microsoft.SqlServer.Management.Smo.'
                     $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
