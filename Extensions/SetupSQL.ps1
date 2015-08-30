@@ -39,9 +39,13 @@ param
 )
 
 
+
 $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
+
+
+$serviceType = "SP"
 
 #$DomainName = "osazure.com"
 #$domainNetBiosName = "osazure"
@@ -69,7 +73,7 @@ else
     Write-Verbose -Message "No encryption certificate specified. Assuming cleartext parameters."
 }
 
-configuration SQLServer2014
+configuration SQLServer2014_SP
 {
     Import-DscResource -ModuleName xComputerManagement, xSQLServer, xSystemSecurity
 
@@ -101,24 +105,24 @@ configuration SQLServer2014
             UserRole = "Users" 
         } 
             
-        xSQLServerSetup installSqlServer
+        xSQLServerSetup installSqlServer_SPC
         {
 
             SourcePath = "e:\data\media"
             SourceFolder = "\SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828"
             Features= "SQLENGINE,SSMS,ADV_SSMS"
-            InstanceName="SP"
-            InstanceID="SP"
+            InstanceName="SPC"
+            InstanceID="SPC"
             SQLSysAdminAccounts="BUILTIN\ADMINISTRATORS" 
             SQLSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
             AgtSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
             SQMReporting  = "1"
             InstallSQLDataDir="E:\Apps\SQL\"
-            SQLUserDBDir= "H:\Data\Dbs\"
-            SQLUserDBLogDir="H:\Data\Logs\"
-            SQLTempDBDir="H:\Data\TempDb\"
-            SQLTempDBLogDir="H:\Data\TempDbLog\"
-            SQLBackupDir="H:\Data\Backup\"
+            SQLUserDBDir= "H:\Data\SPC\Dbs\"
+            SQLUserDBLogDir="H:\Data\SPC\Logs\"
+            SQLTempDBDir="H:\Data\SPC\TempDb\"
+            SQLTempDBLogDir="H:\Data\SPC\TempDbLog\"
+            SQLBackupDir="H:\Data\SPC\Backup\"
             #PID = "YQWTX-G8T4R-QW4XX-BVH62-GP68Y"
             UpdateEnabled = "False"
             UpdateSource = "." # Must point to an existing folder, even though UpdateEnabled is set to False - otherwise it will fail
@@ -128,7 +132,202 @@ configuration SQLServer2014
         }
 
 
+
+        Script SetSQLPort_SPC
+        {
+            GetScript  = { 
+                return 'foo'
+                
+                
+            }
+            TestScript = {
+            
+                return $false
+            }
+            SetScript  = {
+
+
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPC'
+                    $computerName = $env:COMPUTERNAME
+                    Import-Module sqlps
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
+
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3625"
+                    }
+                    $Tcp.Alter()
+
+                    # Restart the named instance of SQL Server to enable the changes.
+                    # The restart is performed in the calling batch file.
+
+                    Restart-Service $("MSSQL$" + $instanceName) -Force
+
+              } 
+
+              DependsOn = "[xSQLServerSetup]installSqlServer_SPC"
+            }
+
+
+                   
+        xSQLServerSetup installSqlServer_SPO
+        {
+
+            SourcePath = "e:\data\media"
+            SourceFolder = "\SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828"
+            Features= "SQLENGINE,SSMS,ADV_SSMS"
+            InstanceName="SPO"
+            InstanceID="SPO"
+            SQLSysAdminAccounts="BUILTIN\ADMINISTRATORS" 
+            SQLSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
+            AgtSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
+            SQMReporting  = "1"
+            InstallSQLDataDir="E:\Apps\SQL\"
+            SQLUserDBDir= "H:\Data\SPO\Dbs\"
+            SQLUserDBLogDir="H:\Data\SPO\Logs\"
+            SQLTempDBDir="H:\Data\SPO\TempDb\"
+            SQLTempDBLogDir="H:\Data\SPO\TempDbLog\"
+            SQLBackupDir="H:\Data\SPO\Backup\"
+            #PID = "YQWTX-G8T4R-QW4XX-BVH62-GP68Y"
+            UpdateEnabled = "False"
+            UpdateSource = "." # Must point to an existing folder, even though UpdateEnabled is set to False - otherwise it will fail
+            SetupCredential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$spInstallUserName", $(ConvertTo-SecureString "$spInstallPassword" -AsPlainText -Force))
+
+            DependsOn = "[WindowsFeature]installdotNet"
+        }
+
+
+
+        Script SetSQLPort_SPO
+        {
+            GetScript  = { 
+                return 'foo'
+                
+                
+            }
+            TestScript = {
+            
+                return $false
+            }
+            SetScript  = {
+
+
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPO'
+                    $computerName = $env:COMPUTERNAME
+                    Import-Module sqlps
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
+
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3627"
+                    }
+                    $Tcp.Alter()
+
+                    # Restart the named instance of SQL Server to enable the changes.
+                    # The restart is performed in the calling batch file.
+
+                    Restart-Service $("MSSQL$" + $instanceName) -Force
+
+              } 
+
+              DependsOn = "[xSQLServerSetup]installSqlServer_SPO"
+            }
         
+
+
+               
+        xSQLServerSetup installSqlServer_SPS
+        {
+
+            SourcePath = "e:\data\media"
+            SourceFolder = "\SW_DVD9_NTRL_SQL_Svr_Std_Ent_Dev_BI_2014_English_FPP_OEM_X19-33828"
+            Features= "SQLENGINE,SSMS,ADV_SSMS"
+            InstanceName="SPS"
+            InstanceID="SPS"
+            SQLSysAdminAccounts="BUILTIN\ADMINISTRATORS" 
+            SQLSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
+            AgtSvcAccount= New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$sqlServiceUserName", $(ConvertTo-SecureString "$sqlServicePassword" -AsPlainText -Force))
+            SQMReporting  = "1"
+            InstallSQLDataDir="E:\Apps\SQL\"
+            SQLUserDBDir= "H:\Data\SPS\Dbs\"
+            SQLUserDBLogDir="H:\Data\SPS\Logs\"
+            SQLTempDBDir="H:\Data\SPS\TempDb\"
+            SQLTempDBLogDir="H:\Data\SPS\TempDbLog\"
+            SQLBackupDir="H:\Data\SPS\Backup\"
+            #PID = "YQWTX-G8T4R-QW4XX-BVH62-GP68Y"
+            UpdateEnabled = "False"
+            UpdateSource = "." # Must point to an existing folder, even though UpdateEnabled is set to False - otherwise it will fail
+            SetupCredential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$spInstallUserName", $(ConvertTo-SecureString "$spInstallPassword" -AsPlainText -Force))
+
+            DependsOn = "[WindowsFeature]installdotNet"
+        }
+
+
+
+        Script SetSQLPort_SPS
+        {
+            GetScript  = { 
+                return 'foo'
+                
+                
+            }
+            TestScript = {
+            
+                return $false
+            }
+            SetScript  = {
+
+
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPS'
+                    $computerName = $env:COMPUTERNAME
+                    Import-Module sqlps
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
+
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3628"
+                    }
+                    $Tcp.Alter()
+
+                    # Restart the named instance of SQL Server to enable the changes.
+                    # The restart is performed in the calling batch file.
+
+                    Restart-Service $("MSSQL$" + $instanceName) -Force
+
+              } 
+
+              DependsOn = "[xSQLServerSetup]installSqlServer_SPS"
+            }
         
         LocalConfigurationManager
         {
@@ -192,7 +391,15 @@ loginfo "Disable Firewalls - todo make this rules"
 
         WaitForPendingMof
         loginfo "Config about to be called"
-        SQLServer2014 -ConfigurationData $configData -OutputPath $PSScriptRoot
+        loginfo $("Service Type: " + $serviceType)
+        if ($serviceType -eq "SP")
+        {
+            SQLServer2014_SP -ConfigurationData $configData -OutputPath $PSScriptRoot
+        }
+        else
+        {
+            loginfo "TODO"
+        }
 
         $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
         $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
