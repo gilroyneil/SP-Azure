@@ -121,7 +121,7 @@
         "DC1Name":"[concat(parameters('ServiceName'),'-dc1')]", 
        
         "SPName":"[concat(parameters('ServiceName'),'-sp')]",      
-        "SQLInstanceName":"[concat(parameters('ServiceName'),'-sql','0\\SP')]",      
+        "SQLInstanceName":"[concat(parameters('ServiceName'),'-sql','0\\SPO')]",      
        
         "ServerRole":"WebFrontEnd",
         "FarmAdminUserName":"[concat(parameters('domainNetBiosName'),'\\',parameters('spFarmUserName'))]",
