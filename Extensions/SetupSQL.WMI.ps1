@@ -146,32 +146,27 @@ configuration SQLServer2014_SP
             }
             SetScript  = {
 
-                    
+
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPC'
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    Import-Module sqlps -ErrorAction SilentlyContinue
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
-                    $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
-                    invoke-Command -Session $session -Verbose {                                
-                        $instanceName = 'SPC'
-                        $portNumber = "3625"           
-
-                        if ((test-path -path $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll")) -eq $True)  
-                        {                                                     
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-                        } 
-                        else
-                        {
-                            sleep 60
-                                $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-
-                        }       
-                    } 
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3625"
+                    }
+                    $Tcp.Alter()
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
@@ -227,32 +222,26 @@ configuration SQLServer2014_SP
             SetScript  = {
 
 
-                    
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPO'
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    Import-Module sqlps -ErrorAction SilentlyContinue
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
-                    $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
-                    invoke-Command -Session $session -Verbose {                                
-                        $instanceName = 'SPO'
-                        $portNumber = "3627"           
-
-                        if ((test-path -path $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll")) -eq $True)  
-                        {                                                     
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-                        } 
-                        else
-                        {
-                            sleep 60
-                                $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-
-                        }       
-                    } 
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3627"
+                    }
+                    $Tcp.Alter()
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
@@ -309,31 +298,26 @@ configuration SQLServer2014_SP
             SetScript  = {
 
 
+                    # Set the $instanceName value below to the name of the instance you
+                    # want to configure a static port for. This could conceivably be
+                    # passed into the script as a parameter.
+                    $instanceName = 'SPS'
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    Import-Module sqlps -ErrorAction SilentlyContinue
+                    $smo = 'Microsoft.SqlServer.Management.Smo.'
+                    $wmi = New-Object ($smo + 'Wmi.ManagedComputer')
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
-                    $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
-                    invoke-Command -Session $session -Verbose {                                
-                        $instanceName = 'SPS'
-                        $portNumber = "3628"           
-
-                        if ((test-path -path $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll")) -eq $True)  
-                        {                                                     
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-                        } 
-                        else
-                        {
-                            sleep 60
-                                $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpPort" -value $portNumber | Out-Null                                                                                                       
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "TcpDynamicPorts" -value "" | Out-Null 
-                            $retValue = Set-ItemProperty -path  $("HKLM:SOFTWARE\Microsoft\Microsoft SQL Server\MSSQL12." + $instanceName + "\MSSQLServer\SuperSocketNetLib\Tcp\IPAll") -name "DisplayName" -value "Any IP Address" | Out-Null 
-
-                        }       
-                    } 
+                    # For the named instance, on the current computer, for the TCP protocol,
+                    # loop through all the IPs and configure them to use the standard port
+                    # of 1433.
+                    $uri = "ManagedComputer[@Name='$computerName']/ServerInstance[@Name='$instanceName']/ServerProtocol[@Name='Tcp']"
+                    $Tcp = $wmi.GetSmoObject($uri)
+                    foreach ($ipAddress in $Tcp.IPAddresses)
+                    {
+                        $ipAddress.IPAddressProperties["TcpDynamicPorts"].Value = ""
+                        $ipAddress.IPAddressProperties["TcpPort"].Value = "3628"
+                    }
+                    $Tcp.Alter()
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
