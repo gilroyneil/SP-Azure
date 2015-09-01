@@ -54,6 +54,12 @@ $serviceType = "SP"
 #$ServiceUserName = "osazure2"
 #$ServicePassword = "ss"
 
+#$sqlServiceUserName = "sp-sql"
+#$sqlServicePassword = "D1sabl3d281660"
+
+#$spInstallUserName = "sp-inst"
+#$spInstallPassword = "D1sabl3d281660"
+
 
 Start-ScriptLog "Setup SQL"
 
@@ -148,10 +154,31 @@ configuration SQLServer2014_SP
 
                     
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    $installUserName = $using:spInstallUserName
+                    $installPassword = $using:spInstallPassword
+                    $instanceName = 'SPC'
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
+                    #Script work for logging. START
+                    $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                    $logPathPrefix = "c:\data\install\logs\"
+
+                    if ((test-path $logPathPrefix) -ne $true)
+                    {
+                        new-item $logPathPrefix -itemtype directory 
+                    }
+                    $fileName = $($logPathPrefix + "SP-SETUPSQL-" + $instanceName + "-" + $currentDate.ToString() + ".txt")    
+                    #Script work for logging. END
+
+                    "Install user:" >> $fileName
+                    $installUserName  >> $fileName
+                    "Install User Password:" >> $fileName
+                    $installPassword  >> $fileName
+                    "SQL Server Instance:" >> $fileName
+                    $instanceName  >> $fileName
+
+
+
+                    $cred = New-Object System.Management.Automation.PSCredential ($installUserName, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))               
                     $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
                     invoke-Command -Session $session -Verbose {                                
                         $instanceName = 'SPC'
@@ -175,7 +202,7 @@ configuration SQLServer2014_SP
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
-
+                    
                     Restart-Service $("MSSQL$" + $instanceName) -Force
 
               } 
@@ -229,10 +256,31 @@ configuration SQLServer2014_SP
 
                     
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    $installUserName = $using:spInstallUserName
+                    $installPassword = $using:spInstallPassword
+                    $instanceName = 'SPO'
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
+                    #Script work for logging. START
+                    $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                    $logPathPrefix = "c:\data\install\logs\"
+
+                    if ((test-path $logPathPrefix) -ne $true)
+                    {
+                        new-item $logPathPrefix -itemtype directory 
+                    }
+                    $fileName = $($logPathPrefix + "SP-SETUPSQL-" + $instanceName + "-" + $currentDate.ToString() + ".txt")    
+                    #Script work for logging. END
+
+                    "Install user:" >> $fileName
+                    $installUserName  >> $fileName
+                    "Install User Password:" >> $fileName
+                    $installPassword  >> $fileName
+                    "SQL Server Instance:" >> $fileName
+                    $instanceName  >> $fileName
+
+
+
+                    $cred = New-Object System.Management.Automation.PSCredential ($installUserName, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))                
                     $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
                     invoke-Command -Session $session -Verbose {                                
                         $instanceName = 'SPO'
@@ -256,7 +304,7 @@ configuration SQLServer2014_SP
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
-
+                    
                     Restart-Service $("MSSQL$" + $instanceName) -Force
 
               } 
@@ -310,10 +358,31 @@ configuration SQLServer2014_SP
 
 
                     $computerName = $env:COMPUTERNAME
-                    $spInstallUserName = $using:spInstallUserName
-                    $spInstallPassword = $using:spInstallPassword
+                    $installUserName = $using:spInstallUserName
+                    $installPassword = $using:spInstallPassword
+                    $instanceName = 'SPS'
 
-                    $cred = New-Object System.Management.Automation.PSCredential ($spInstallUserName, (ConvertTo-SecureString -String $spInstallPassword -AsPlainText -Force))               
+                    #Script work for logging. START
+                    $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                    $logPathPrefix = "c:\data\install\logs\"
+
+                    if ((test-path $logPathPrefix) -ne $true)
+                    {
+                        new-item $logPathPrefix -itemtype directory 
+                    }
+                    $fileName = $($logPathPrefix + "SP-SETUPSQL-" + $instanceName + "-" + $currentDate.ToString() + ".txt")    
+                    #Script work for logging. END
+
+                    "Install user:" >> $fileName
+                    $installUserName  >> $fileName
+                    "Install User Password:" >> $fileName
+                    $installPassword  >> $fileName
+                    "SQL Server Instance:" >> $fileName
+                    $instanceName  >> $fileName
+
+
+
+                    $cred = New-Object System.Management.Automation.PSCredential ($installUserName, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))                
                     $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
                     invoke-Command -Session $session -Verbose {                                
                         $instanceName = 'SPS'
@@ -337,7 +406,7 @@ configuration SQLServer2014_SP
 
                     # Restart the named instance of SQL Server to enable the changes.
                     # The restart is performed in the calling batch file.
-
+                    
                     Restart-Service $("MSSQL$" + $instanceName) -Force
 
               } 
