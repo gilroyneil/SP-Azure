@@ -79,9 +79,9 @@
         */
         /*New Multi server code*/
         "SPName":"[concat(parameters('ServiceName'),'-sp')]",          
-        "SPDisk1Name":"[concat(parameters('ServiceName'),'-osx1-sp')]",
-        "SPDisk2Name":"[concat(parameters('ServiceName'),'-datax1-sp')]",
-        "SPDisk3Name":"[concat(parameters('ServiceName'),'-datax2-sp')]",
+        "SPDisk1Name":"[concat(parameters('ServiceName'),'-osy1-sp')]",
+        "SPDisk2Name":"[concat(parameters('ServiceName'),'-datay1-sp')]",
+        "SPDisk3Name":"[concat(parameters('ServiceName'),'-datay2-sp')]",
         
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xPendingReboot_0.1.0.2\",\"xSystemSecurity_1.0\"",        
