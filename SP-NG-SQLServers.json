@@ -72,9 +72,9 @@
         "SQL1Disk3Name":"[concat(parameters('ServiceName'),'-fSQL1-data2')]",
         */
         "SQLName":"[concat(parameters('ServiceName'),'-sql')]",          
-        "SQLDisk1Name":"[concat(parameters('ServiceName'),'-osaa1-sql')]",
-        "SQLDisk2Name":"[concat(parameters('ServiceName'),'-dataaa1-sql')]",
-        "SQLDisk3Name":"[concat(parameters('ServiceName'),'-dataaa2-sql')]",
+        "SQLDisk1Name":"[concat(parameters('ServiceName'),'-osab1-sql')]",
+        "SQLDisk2Name":"[concat(parameters('ServiceName'),'-dataab1-sql')]",
+        "SQLDisk3Name":"[concat(parameters('ServiceName'),'-dataab2-sql')]",
         
         
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\",\"xPendingReboot_0.1.0.2\",\"xSystemSecurity_1.0\"",        
