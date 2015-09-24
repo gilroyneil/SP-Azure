@@ -62,15 +62,16 @@ configuration JoinAD
 @"
 # https://powertoe.wordpress.com/2011/04/29/enable-credssp-from-a-windows-7-home-client/  
 Enable-PSRemoting -Force
-Enable-WSManCredSSP -Role Client -DelegateComputer '*.$DomainName' -Force
+Enable-WSManCredSSP -Role Client -DelegateComputer '*' -Force
 Enable-WSManCredSSP Server
-`$allowed = @('WSMAN/*.$DomainName','WSMAN/$($env:COMPUTERNAME)')  
+`$allowed = @('WSMAN/*','WSMAN/$($env:COMPUTERNAME)')  
 
 `$key = 'hklm:\SOFTWARE\Policies\Microsoft\Windows\CredentialsDelegation'
 if (!(Test-Path `$key)) {
     md `$key
 }
 New-ItemProperty -Path `$key -Name AllowFreshCredentials -Value 1 -PropertyType Dword -Force            
+New-ItemProperty -Path `$key -Name AllowFreshCredentialsWhenNTLMOnly -Value 1 -PropertyType Dword -Force     
 
 `$key = Join-Path `$key 'AllowFreshCredentials'
 if (!(Test-Path `$key)) {
@@ -81,6 +82,18 @@ if (!(Test-Path `$key)) {
     New-ItemProperty -Path `$key -Name `$i -Value `$_ -PropertyType String -Force
     `$i++
 }
+
+
+`$key2 = Join-Path `$key 'AllowFreshCredentialsWhenNTLMOnly'
+if (!(Test-Path `$key2)) {
+    md `$key2
+}
+`$i = 1
+`$allowed |% {
+    New-ItemProperty -Path `$key2 -Name `$i -Value `$_ -PropertyType String -Force
+    `$i++
+}
+
 # We need to restart WinRM, but restarting the service just makes it stuck in stopping
 # Since we're doing the BEFORE joining the domain, that will happen automagically
 "@
