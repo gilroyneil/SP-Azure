@@ -59,6 +59,24 @@ Start-ScriptLog "SP-FarmCreateOrJoin"
 
 
 
+#$domainNetBiosName = "osazure" 
+#$DomainAdministratorUserName = "ngadmin" 
+#$DomainAdministratorPassword = "Start123" 
+#$serviceName = "osazure11" 
+#$SQLServerInstance = "osazure11-sql0\SPO" 
+#$FarmAdministratorUserName = "osazure\sp-farm" 
+#$FarmAdministratorPassword = "D1sabl3d281660" 
+#$InstallAdministratorUserName = "osazure\sp-inst" 
+#$InstallAdministratorPassword = "D1sabl3d281660" 
+#$WebUserName = "osazure\sp-web" 
+#$WebUserPassword = "D1sabl3d281660" 
+#$SPSVCUserName = "osazure\sp-svc" 
+#$SPSVCUserPassword = "D1sabl3d281660" 
+#$ServerRole = 0
+
+
+
+
 function getServerRole
 {
 param (
