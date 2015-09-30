@@ -16,6 +16,9 @@
      [Parameter(Mandatory)]
     [String]$SQLServerInstance,
 
+  [Parameter(Mandatory)]
+    [String]$SQLServerInstancePort,
+    
     [Parameter(Mandatory)]
     $ServerRole,
 
@@ -197,7 +200,7 @@ configuration CreateFarm
                 $CAAdminDBName = $($using:serviceName +  "_CA_Content")                
                 $passphrase = "D1sabl3d281660"
 
-                $ConfigDBAlias = $using:SQLServerInstance
+                $ConfigDBAlias = $($using:SQLServerInstance + "," + $using:SQLServerInstancePort)
                 $serverRole = $using:ServerRole
 
                 $farmAdminUser = $using:FarmAdministratorUserName
