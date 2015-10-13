@@ -1,6 +1,11 @@
 ﻿param
 (
 
+
+
+    [Parameter(Mandatory)]
+    [int]$numberSPServers,
+
     [Parameter(Mandatory)]
     [String]$domainNetBiosName,
 
@@ -84,22 +89,32 @@ function getServerRole
 {
 param (
 [Parameter(Mandatory=$true)]
-$number
+$number,
+$numServers
 )
-    $serverRoleArray = @("WebFrontEnd", "Application", "DistributedCache", "Search")
-    $serverRoleRetVal =  $serverRoleArray[0]
 
-    #But of a hack to cope with WebFrontEnd.
-    if (($number -ne 0) -and ($number -ne 4) -and ($number -ne 8) -and ($number -ne 12) -and ($number -ne 16) -and ($number -ne 20) -and ($number -ne 24))
+    if ($numServers -gt 1)
     {
-        for ([int]$i = 1; $i -le 3; $i ++)
+
+        $serverRoleArray = @("WebFrontEnd", "Application", "DistributedCache", "Search")
+        $serverRoleRetVal =  $serverRoleArray[0]
+
+        #But of a hack to cope with WebFrontEnd.
+        if (($number -ne 0) -and ($number -ne 4) -and ($number -ne 8) -and ($number -ne 12) -and ($number -ne 16) -and ($number -ne 20) -and ($number -ne 24))
         {
-            [int]$remainder = $number % $i        
-            if ($remainder -eq 0)
+            for ([int]$i = 1; $i -le 3; $i ++)
             {
-                $serverRoleRetVal =  $serverRoleArray[$i]
-            }
-        }    
+                [int]$remainder = $number % $i        
+                if ($remainder -eq 0)
+                {
+                    $serverRoleRetVal =  $serverRoleArray[$i]
+                }
+            }    
+        }
+    }
+    else
+    {
+       $serverRoleRetVal = 'SingleServer'
     }
     return $serverRoleRetVal
 }
@@ -122,7 +137,7 @@ try
         #new step
         LogStep "Start SPFarm Create Or Join"
 
-        $serverRole = getServerRole -number $ServerRole   
+        $serverRole = getServerRole -number $ServerRole -numServers $numberSPServers  
         
         
 configuration CreateFarm
