@@ -72,6 +72,7 @@ try
         $StorageAccountKey = $StorageAccountKey
         $destination = "e:\data\media"
         $destinationSP = "e:\data\media\sp"
+        $destinationSP_Patch = "e:\data\media\sppatch"
         $destinationGeneralMedia = "e:\data\media"
         $destinationBuildScripts = "e:\data\install\Packages"
         $destinationBuildScriptsMain = "e:\data\install"
@@ -95,6 +96,8 @@ try
         loginfo $("Storage Account Key: " + $StorageAccountKey)
         loginfo $("SQL Media Container Name: " + $SQLMediaContainerName)
         loginfo $("SP Media Container Name: " + $SPMediaContainerName)
+        loginfo $("SP Patch Media Container Name: " + $destinationSP_Patch)
+        
         loginfo $("Build Scripts Container Name: " + $BuildScriptsContainerName)
         loginfo $("General Media Container Name: " + $GeneralMediaContainerName)
 
@@ -197,15 +200,34 @@ try
             loginfo $("ZIP found: " + $fileName)
             $fileNameBase = $zip.BaseName
             $fileNameFull = $zip.FullName
-            loginfo $("About to extract file: " + $fileNameFull + " to folder: " + $destinationSP)     
-            try
-            {      
-                [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP)
-            }
-            catch
+            if ($fileNameBase -match "Patch_Build")
             {
-
-            }
+                loginfo $("About to extract PATCH BUILD file: " + $fileNameFull + " to folder: " + $destinationSP_Patch)
+                try
+                {      
+                    [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP_Patch)
+                }
+                catch
+                {
+    
+                }
+                
+            }     
+            else
+            {
+                
+                  loginfo $("About to extract BASE BUILD file: " + $fileNameFull + " to folder: " + $destinationSP)
+                try
+                {      
+                    [System.IO.Compression.ZipFile]::ExtractToDirectory($fileNameFull, $destinationSP)
+                }
+                catch
+                {
+    
+                }
+            
+            }    
+           
             loginfo "Extracted"
 
         }
