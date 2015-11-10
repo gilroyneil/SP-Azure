@@ -78,9 +78,10 @@
         
         
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\",\"xPendingReboot_0.1.0.2\",\"xSystemSecurity_1.0\"",        
-        "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150726-en.us-127GB.vhd",
-        "SPImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150726-en.us-127GB.vhd",
-        "SQLImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150726-en.us-127GB.vhd",
+        "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150916-en.us-127GB.vhd",
+        "SPImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150916-en.us-127GB.vhd",
+        "SQLImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150916-en.us-127GB.vhd",
+        
         
         "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
    
