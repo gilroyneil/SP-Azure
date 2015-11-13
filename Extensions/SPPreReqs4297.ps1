@@ -231,12 +231,12 @@ configuration Reboots
             }
         }
  
+       
         # Reboot if pending
-        xPendingReboot RebootCheck4297
+        xPendingReboot RebootCheck1
         {
-            Name = "RebootCheck4297"
+            Name = "RebootCheck1"
         }
- 
     }
 }
  
