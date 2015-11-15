@@ -82,7 +82,7 @@
      
      "SPNameTest":"[uniqueString('aaa')]",    
      
-        "SPDisk1Name":"[concat(parameters('ServiceName'),'-os-sp-', uniqueString(subscription().subscriptionId))]",
+        "SPDisk1Name":"[concat(parameters('ServiceName'),'-os-sp-', uniqueString(deployment().name))]",
         "SPDisk2Name":"[concat(parameters('ServiceName'),'-data-sp-', uniqueString(deployment().name))]",
         "SPDisk3Name":"[concat(parameters('ServiceName'),'-data-sp-', uniqueString(deployment().name))]",
         
