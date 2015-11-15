@@ -30,7 +30,7 @@ import-module storage
 
 try
 {
-sleep -Seconds 800
+
         #Boiler Plate Logging setup START
         $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
         $logPathPrefix = "c:\data\install\logs\"
@@ -44,6 +44,10 @@ sleep -Seconds 800
         
         #new step
         LogStep "Start Pre-Reqs Install (build 4297 special operations)"
+
+        loginfo "Sleeping to start"
+        sleep -Seconds 80
+        loginfo "Sleep done"
 
         if ($SPMediaContainerName -eq "4297")
         {
@@ -63,6 +67,7 @@ sleep -Seconds 800
             }
 
             loginfo $("We will run: " + $PreReqsExeLocation)
+            loginfo "First check for a Windows 10 MSU file"
 
         }
         else
