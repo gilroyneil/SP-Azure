@@ -73,8 +73,8 @@
         */
         "SQLName":"[concat(parameters('ServiceName'),'-sql')]",          
         "SQLDisk1Name":"[concat(parameters('ServiceName'),'-os-sql-', uniqueString(deployment().name))]",
-        "SQLDisk2Name":"[concat(parameters('ServiceName'),'-data-sql-', uniqueString(deployment().name))]",
-        "SQLDisk3Name":"[concat(parameters('ServiceName'),'-data-sql-', uniqueString(deployment().name))]",
+        "SQLDisk2Name":"[concat(parameters('ServiceName'),'-data1-sql-', uniqueString(deployment().name))]",
+        "SQLDisk3Name":"[concat(parameters('ServiceName'),'-data2-sql-', uniqueString(deployment().name))]",
         
         
         "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\",\"xPendingReboot_0.1.0.2\",\"xSystemSecurity_1.0\"",        
