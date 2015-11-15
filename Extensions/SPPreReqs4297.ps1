@@ -30,7 +30,7 @@ import-module storage
 
 try
 {
-sleep -Seconds 300
+sleep -Seconds 800
         #Boiler Plate Logging setup START
         $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
         $logPathPrefix = "c:\data\install\logs\"
