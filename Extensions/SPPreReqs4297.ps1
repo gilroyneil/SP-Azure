@@ -30,7 +30,7 @@ import-module storage
 
 try
 {
-
+sleep -Seconds 300
         #Boiler Plate Logging setup START
         $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
         $logPathPrefix = "c:\data\install\logs\"
@@ -80,24 +80,6 @@ configuration Reboots
     node $env:COMPUTERNAME
     {     
         
-        
-        Group Administrators
-        {
-            Ensure = 'Present'
-            GroupName = 'Administrators'
-            MembersToInclude = @("$domainNetBiosName\sp-inst")
-            Credential = New-Object System.Management.Automation.PSCredential ("$domainNetBiosName\$DomainAdministratorUserName", $(ConvertTo-SecureString $DomainAdministratorPassword -AsPlainText -Force))
-        }
-
-        xUAC NeverNotifyAndDisableAll 
-        { 
-            Setting = "NeverNotifyAndDisableAll" 
-        } 
-        xIEEsc DisableIEEsc 
-        { 
-            IsEnabled = $false 
-            UserRole = "Users" 
-        } 
 
         LocalConfigurationManager
         {
