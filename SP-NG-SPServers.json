@@ -80,6 +80,8 @@
         /*New Multi server code*/
         "SPName":"[concat(parameters('ServiceName'),'-sp')]",          
      
+     "SPNameTest":"[uniqueString('aaa')]",    
+     
         "SPDisk1Name":"[concat(parameters('ServiceName'),'-os-sp-', [uniqueString('aaa')])]",
         "SPDisk2Name":"[concat(parameters('ServiceName'),'-data-sp-', [uniqueString('aaa')])]",
         "SPDisk3Name":"[concat(parameters('ServiceName'),'-data-sp-', [uniqueString('aaa')])]",
