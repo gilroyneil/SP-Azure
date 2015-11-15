@@ -39,14 +39,14 @@ try
         {
             new-item $logPathPrefix -itemtype directory 
         }
-        LogStartTracing $($logPathPrefix + "SP-PreReqs-4297" + $currentDate.ToString() + ".txt")    
+        LogStartTracing $($logPathPrefix + "SP-PreReqs-4297-" + $currentDate.ToString() + ".txt")    
         #Boiler Plate Logging setup END
         
         #new step
         LogStep "Start Pre-Reqs Install (build 4297 special operations)"
 
         loginfo "Sleeping to start"
-        sleep -Seconds 80
+        sleep -Seconds 10
         loginfo "Sleep done"
 
         if ($SPMediaContainerName -eq "4297")
@@ -77,7 +77,7 @@ try
 
 
         
-configuration Reboots
+configuration Reboots4297
 {
     # Get this from TechNet Gallery
     Import-DsCResource -ModuleName xComputerManagement, xPendingReboot, xSystemSecurity
@@ -220,9 +220,9 @@ configuration Reboots
  
        
         # Reboot if pending
-        xPendingReboot RebootCheck1
+        xPendingReboot RebootCheck4297
         {
-            Name = "RebootCheck1"
+            Name = "RebootCheck4297"
         }
     }
 }
@@ -240,15 +240,15 @@ $configData = @{
     }
 #Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
  
-Reboots -ConfigurationData $configData
+Reboots4297 -ConfigurationData $configData
 
 
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
  
-Set-DscLocalConfigurationManager -CimSession $cimSession -Path .\Reboots -Verbose
+Set-DscLocalConfigurationManager -CimSession $cimSession -Path .\Reboots4297 -Verbose
  
-Start-DscConfiguration -CimSession $cimSession -Path .\Reboots -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
+Start-DscConfiguration -CimSession $cimSession -Path .\Reboots4297 -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
 
         
 }
