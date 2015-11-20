@@ -255,7 +255,7 @@ Start-DscConfiguration -CimSession $cimSession -Path .\Reboots4297 -Force -Wait 
 catch
 {
     LogRuntimeError "An error occurred:" $_
-    $GLOBAL_scriptExitCode = 1
+    $GLOBAL_scriptExitCode = 0
      
 }
 finally
