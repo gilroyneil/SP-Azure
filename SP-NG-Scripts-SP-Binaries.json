@@ -104,6 +104,7 @@
         
         "spOLDPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
         "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
+        "spBinaries4297Command" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries4297.ps1",
         
         "spPreReqsCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
 
@@ -162,19 +163,22 @@
                     "public": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries.ps1"                                                        
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries4297.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('spBinariesCommand')]"
+                        "commandToExecute": "[variables('spBinaries4297Command')]"
                     }
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
+            "name": "[concat(variables('SPName'),copyindex(),'/spBinaries4297Command')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
             ]                   
-        },
+        }
+        
+        /*,
         
         
         {
@@ -206,7 +210,7 @@
         },
         
        
-        
+        */
         
         
         
