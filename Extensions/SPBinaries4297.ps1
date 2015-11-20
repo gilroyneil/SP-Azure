@@ -1,32 +1,34 @@
-﻿param
-(
-
-    
-    [String]$domainNetBiosName,
-
-    
-    [String]$DomainAdministratorUserName,
-
-    
-    [String]$DomainAdministratorPassword,
-
-    [String]$SPMediaContainerName,
-
-    [String]$EncryptionCertificateThumbprint
-)
-
-
-#$domainNetBiosName = "osazure"
-#$DomainAdministratorUserName = "ngadmin"
-#$DomainAdministratorPassword = "Start123"
-#$SPMediaContainerName = "4297"
-
+﻿
 $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
 
-Start-ScriptLog "SP-PreReqs-4297"
+Start-ScriptLog "SP-Binaries"
 import-module storage
+
+$SPConfigSilentName = "SPConfigCustom.xml"
+
+$SPConfigSilent = "
+<Configuration>
+  <Package Id=""sts"">
+    <Setting Id=""LAUNCHEDFROMSETUPSTS"" Value=""Yes"" />
+  </Package>
+  <Package Id=""spswfe"">
+    <Setting Id=""SETUPCALLED"" Value=""1"" />
+    <Setting Id=""OFFICESERVERPREMIUM"" Value=""1"" />
+  </Package>
+  <ARP ARPCOMMENTS=""Installed by NG"" ARPCONTACT=""Neil Gilroy"" />
+  <Logging Type=""verbose"" Path=""C:\Data\Install\Logs"" Template=""SharePoint Server Setup(*).log"" />
+  <Display Level=""none"" CompletionNotice=""no"" AcceptEula=""Yes""/>
+  <PIDKEY Value=""N3MDM-DXR3H-JD7QH-QKKCR-BY2Y7"" />
+  <Setting Id=""SERVERROLE"" Value=""APPLICATION"" />
+  <Setting Id=""USINGUIINSTALLMODE"" Value=""1"" />
+  <Setting Id=""SETUPTYPE"" Value=""CLEAN_INSTALL"" />
+  <Setting Id=""SETUP_REBOOT"" Value=""Never"" />
+<INSTALLLOCATION Value=""E:\apps\Microsoft Office Servers\15"" />
+<DATADIR Value=""F:\data\Microsoft Office Servers\Data"" />
+</Configuration>
+"
 
 try
 {
@@ -39,16 +41,34 @@ try
         {
             new-item $logPathPrefix -itemtype directory 
         }
-        LogStartTracing $($logPathPrefix + "SP-PreReqs-4297-" + $currentDate.ToString() + ".txt")    
+        LogStartTracing $($logPathPrefix + "SP-Binaries" + $currentDate.ToString() + ".txt")    
         #Boiler Plate Logging setup END
         
         #new step
-        LogStep "Start Pre-Reqs Install (build 4297 special operations)"
+        LogStep "Start Pre-Reqs Install"
 
-        loginfo "Sleeping to start"
-        sleep -Seconds 10
-        loginfo "Sleep done"
+        $parentFolder = "E:\data\media\SP"
+        loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
+        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
+        if ($exeFiles -ne $null)
+        {            
+            $SetupEXELocation = $exeFiles.FullName
+            loginfo $("Found: " + $SetupEXELocation)
+            $parentFolder = $exeFiles.Directory.FullName
+        }
+        else
+        {
+            loginfo "Nothing found... throw error"
+            throw "Cannot find setup.exe"
+        }
 
+        loginfo $("We will run: " + $SetupEXELocation)
+
+        loginfo $("Write Config file contents to the same folder: " + $parentFolder)
+        Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
+        
+        $SPMediaContainerName = "4297"
+        
         if ($SPMediaContainerName -eq "4297")
         {
 
@@ -75,17 +95,15 @@ try
             loginfo "This isnt a 4297 install, do nothing"
         }
 
-
         
-configuration Reboots4297
+        
+configuration Reboots
 {
     # Get this from TechNet Gallery
-    Import-DsCResource -ModuleName xComputerManagement, xPendingReboot, xSystemSecurity
+    Import-DsCResource -ModuleName xPendingReboot
  
     node $env:COMPUTERNAME
     {     
-        
-
         LocalConfigurationManager
         {
             # This is false by default
@@ -93,6 +111,55 @@ configuration Reboots4297
         }
        
         Script TestReboot
+        {
+            GetScript  = { return 'foo'}
+            TestScript = { return $false}
+            SetScript  = {
+$SPConfigSilentName = "SPConfigCustom.xml"
+            $parentFolder = "E:\data\media\SP"
+        
+        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
+        if ($exeFiles -ne $null)
+        {            
+            $SetupEXELocation = $exeFiles.FullName   
+            $parentFolder = $exeFiles.Directory.FullName 
+            $SPConfigFile = $($parentFolder + "\" + $SPConfigSilentName)  
+            
+            $processArgs = $("/config " + "`"" + $SPConfigFile + "`"")
+            
+
+            $p = start-process $SetupEXELocation -ArgumentList "$processArgs" -Wait -PassThru
+            $p.WaitForExit()
+            $lExitCode = $p.ExitCode
+            #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
+            #LogInfo $("Exit Code: " + $lExitCode)
+                
+                
+            if ($lExitCode -eq 3010)
+            {
+                #loginfo "reboot needed"
+                # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
+                $global:DSCMachineStatus = 1
+
+            }
+            else
+            {
+                #loginfo "reboot not needed."
+                # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
+                $global:DSCMachineStatus = 0
+            }
+
+
+        }
+
+            
+ 
+                
+            }
+        }
+        
+        
+        Script TestReboot4297
         {
             GetScript  = { return 'foo'}
             TestScript = {
@@ -218,37 +285,29 @@ configuration Reboots4297
             }
         }
  
-       
+ 
         # Reboot if pending
-        xPendingReboot RebootCheck4297
+        xPendingReboot RebootCheck1
         {
-            Name = "RebootCheck4297"
+            Name = "RebootCheck1"
         }
+ 
     }
 }
  
-#WaitForPendingMof
+WaitForPendingMof
 
-
-$configData = @{
-        AllNodes = @(
-        @{
-            Nodename = $env:COMPUTERNAME
-            PSDscAllowPlainTextPassword = $true
-        }
-        )
-    }
 #Set-Location "C:\Packages\Plugins\Microsoft.Compute.CustomScriptExtension\1.4\Downloads\1"
  
-Reboots4297 -ConfigurationData $configData
+Reboots
 
 
 $cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
  
-Set-DscLocalConfigurationManager -CimSession $cimSession -Path .\Reboots4297 -Verbose
+Set-DscLocalConfigurationManager -CimSession $cimSession -Path .\Reboots -Verbose
  
-Start-DscConfiguration -CimSession $cimSession -Path .\Reboots4297 -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
+Start-DscConfiguration -CimSession $cimSession -Path .\Reboots -Force -Wait -Verbose *>&1 | Tee-Object -Variable output
 
         
 }
