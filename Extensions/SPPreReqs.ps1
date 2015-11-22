@@ -91,6 +91,7 @@ configuration Reboots
             RebootNodeIfNeeded = $true
         }
        
+       
         Script TestReboot
         {
             GetScript  = { return 'foo'}
@@ -98,16 +99,42 @@ configuration Reboots
             SetScript  = {
 
             $parentFolder = "E:\data\media\SP"
+             $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+            $logPathPrefix = "c:\data\install\logs\"
+
+            if ((test-path $logPathPrefix) -ne $true)
+            {
+                new-item $logPathPrefix -itemtype directory 
+            }
+            $fileName = $($logPathPrefix + "SP-PreReqs-SET-" + $currentDate.ToString() + ".txt")
+
+
+            "Running:" >> $fileName
+            "Use folder: " >> $fileName
+            $parentFolder >> $fileName
+
+
+
         
         $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "prerequisiteinstaller"}
         if ($exeFiles -ne $null)
         {            
             $PreReqsExeLocation = $exeFiles.FullName        
         }
+        "Pre Reqs file found: " >> $fileName
+            $PreReqsExeLocation >> $fileName
+
+            "Time now: " >> $fileName
+            Get-Date -format "yyyy-MMM-d-HH-mm-ss" >> $fileName
+
 
                 $p = start-process $PreReqsExeLocation -ArgumentList "/unattended" -Wait -PassThru
                 $p.WaitForExit()
                 $lExitCode = $p.ExitCode
+                "Exit Code: " >> $fileName
+                $lExitCode >> $fileName
+                 "Time now: " >> $fileName
+            Get-Date -format "yyyy-MMM-d-HH-mm-ss" >> $fileName
                 #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
                 #LogInfo $("Exit Code: " + $lExitCode)
                 
