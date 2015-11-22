@@ -147,6 +147,11 @@ $SPConfigSilentName = "SPConfigCustom.xml"
                 #loginfo "reboot not needed."
                 # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
                 $global:DSCMachineStatus = 0
+                
+                 if ($lExitCode -eq 30066)
+                {
+                    throw "Pre Reqs Not Installed properly"
+                }
             }
 
 
