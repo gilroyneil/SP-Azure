@@ -20,7 +20,7 @@ $SPConfigSilent = "
   <ARP ARPCOMMENTS=""Installed by NG"" ARPCONTACT=""Neil Gilroy"" />
   <Logging Type=""verbose"" Path=""C:\Data\Install\Logs"" Template=""SharePoint Server Setup(*).log"" />
   <Display Level=""none"" CompletionNotice=""no"" AcceptEula=""Yes""/>
-  <PIDKEY Value=""N3MDM-DXR3H-JD7QH-QKKCR-BY2Y7"" />
+  <PIDKEY Value=""NQGJR-63HC8-XCRQH-MYVCH-3J3QR"" />
   <Setting Id=""SERVERROLE"" Value=""APPLICATION"" />
   <Setting Id=""USINGUIINSTALLMODE"" Value=""1"" />
   <Setting Id=""SETUPTYPE"" Value=""CLEAN_INSTALL"" />
@@ -151,6 +151,11 @@ $SPConfigSilentName = "SPConfigCustom.xml"
                  if ($lExitCode -eq 30066)
                 {
                     throw "Pre Reqs Not Installed properly"
+                }
+                
+                  if ($lExitCode -eq 30030)
+                {
+                    throw "Wrong CD Key"
                 }
             }
 
