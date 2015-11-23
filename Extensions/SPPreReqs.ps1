@@ -127,10 +127,37 @@ configuration Reboots
             "Time now: " >> $fileName
             Get-Date -format "yyyy-MMM-d-HH-mm-ss" >> $fileName
 
+            
+
+            $installUser = "$using:domainNetBiosName\sp-inst"
+                $installPassword = "D1sabl3d281660"
+                
+
+            "Install user:" >> $fileName
+                $installUser  >> $fileName
+                
+                "Setup Session to remote to self:" >> $fileName
+                $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))
+                $env:COMPUTERNAME >> $fileName
+
+                $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
+                $lExitCode = invoke-Command -Session $session -Verbose {                
+                param($PreReqsExeLocation, $fileName) 
+
+                
+
+
+
 
                 $p = start-process $PreReqsExeLocation -ArgumentList "/unattended" -Wait -PassThru
                 $p.WaitForExit()
                 $lExitCode = $p.ExitCode
+
+                $lExitCode
+
+                 } -ArgumentList @($PreReqsExeLocation, $fileName)  -ErrorVariable Stop 
+
+
                 "Exit Code: " >> $fileName
                 $lExitCode >> $fileName
                  "Time now: " >> $fileName
@@ -152,6 +179,8 @@ configuration Reboots
                     # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
                     $global:DSCMachineStatus = 0
                 }
+
+
 
  
                 
