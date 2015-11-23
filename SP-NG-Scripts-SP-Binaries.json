@@ -110,14 +110,43 @@
 
   "spPreReqsCommand4297" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs4297.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -SPMediaContainerName \"',parameters('SPMediaContainerName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
   
-        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]"
+        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]",
+ 
+       "restartCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command restart-computer -force"
  
      
         
     },
     "resources": [
         
-  
+ 
+ 
+        
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "rebootForce",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.*",
+                "parameters": {
+                    "public": {
+                        "fileUris": [                            
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
+                        ],
+                        "commandToExecute": "[variables('restartCommand')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SPName'),copyindex(),'/rebootForce')]",
+            "location": "[parameters('resourceLocation')]"                       
+        },
+        
+         
    
  
         
@@ -143,7 +172,10 @@
             },
             "apiVersion": "2014-06-01",
             "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
-            "location": "[parameters('resourceLocation')]"                       
+            "location": "[parameters('resourceLocation')]"    ,
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/rebootForce')]"
+            ]                                      
         },
         
         
@@ -171,7 +203,7 @@
                 }
             },
             "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SPName'),copyindex(),'/spBinaries4297Command')]",
+            "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
                 "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
