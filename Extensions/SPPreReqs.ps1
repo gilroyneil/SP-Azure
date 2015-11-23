@@ -165,10 +165,11 @@ configuration Reboots
                 #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
                 #LogInfo $("Exit Code: " + $lExitCode)
                 
-                
-                if ($lExitCode -eq 3010)
+               
+                if (($lExitCode -eq 3010) -or ($lExitCode -eq 1073741515) -or ($lExitCode -eq -1073741515))
                 {
                     #loginfo "reboot needed"
+                    "Reboot needed" >> $fileName
                     # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
                     $global:DSCMachineStatus = 1
 
@@ -176,6 +177,7 @@ configuration Reboots
                 else
                 {
                     #loginfo "reboot not needed."
+                    "Reboot not needed" >> $fileName
                     # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
                     $global:DSCMachineStatus = 0
                 }
