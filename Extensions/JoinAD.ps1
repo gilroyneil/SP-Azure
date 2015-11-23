@@ -45,7 +45,7 @@ else
 
 configuration JoinAD
 {
-    Import-DscResource -ModuleName xComputerManagement
+    Import-DscResource -ModuleName xComputerManagement, xSystemSecurity
 
     Node $env:COMPUTERNAME
     {
@@ -56,6 +56,15 @@ configuration JoinAD
             GetScript = { return @{ Powercfg = ( "{0}" -f ( powercfg -getactivescheme ) ) } }
         }
 
+        xUAC NeverNotifyAndDisableAll 
+        { 
+            Setting = "NeverNotifyAndDisableAll" 
+        } 
+        xIEEsc DisableIEEsc 
+        { 
+            IsEnabled = $false 
+            UserRole = "Users" 
+        }
        
         Script configureWS {
             SetScript =
