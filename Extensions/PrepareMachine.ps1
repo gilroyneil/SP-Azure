@@ -142,6 +142,22 @@ catch
     $_  >> "c:\deploymentlogs\azmodule_err.txt"
 }
 
+
+
+#Install VC Redist
+try
+{
+    "$((get-location).Path)\vc_redist.x64.exe" >> "c:\deploymentlogs\vcdistx64.txt"
+    $execFile = "$((get-location).Path)\vc_redist.x64.exe" 
+    Unblock-File -Path $execFile
+    Start-Process $execFile -argumentlist "/install /quiet /norestart /log c:\deploymentlogs\vcdistx64_internal_log.txt" -Wait  >> "c:\deploymentlogs\vcdistx64.txt"
+}
+catch
+{
+    $_  >> "c:\deploymentlogs\vcdistx64_err.txt"
+}
+
+
 $VerbosePreference = 'Continue'
 
 
