@@ -140,9 +140,9 @@ configuration Reboots
                 $cred = New-Object System.Management.Automation.PSCredential ($installUser, (ConvertTo-SecureString -String $installPassword -AsPlainText -Force))
                 $env:COMPUTERNAME >> $fileName
 
-                $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
-                $lExitCode = invoke-Command -Session $session -Verbose {                
-                param($PreReqsExeLocation, $fileName) 
+             #   $session = New-PSSession -ComputerName $env:COMPUTERNAME -Credential $cred -Authentication CredSSP
+             #   $lExitCode = invoke-Command -Session $session -Verbose {                
+             #   param($PreReqsExeLocation, $fileName) 
 
                 
 
@@ -153,9 +153,9 @@ configuration Reboots
                 $p.WaitForExit()
                 $lExitCode = $p.ExitCode
 
-                $lExitCode
+           #     $lExitCode
 
-                 } -ArgumentList @($PreReqsExeLocation, $fileName)  -ErrorVariable Stop 
+           #      } -ArgumentList @($PreReqsExeLocation, $fileName)  -ErrorVariable Stop 
 
 
                 "Exit Code: " >> $fileName
