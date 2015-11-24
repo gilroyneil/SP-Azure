@@ -166,7 +166,7 @@ configuration Reboots
                 #LogInfo $("Exit Code: " + $lExitCode)
                 
                
-                if (($lExitCode -eq 3010) -or ($lExitCode -eq 1073741515) -or ($lExitCode -eq -1073741515))
+                if (($lExitCode -eq 3010) -or ($lExitCode -eq 1073741515) -or ($lExitCode -eq -1073741515) -or ($lExitCode -eq -1))
                 {
                     #loginfo "reboot needed"
                     "Reboot needed" >> $fileName
