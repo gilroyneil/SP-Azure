@@ -255,6 +255,7 @@
                             "public": {
                                 "fileUris":[  
                                    "https://armstorageacc.blob.core.windows.net/scripts/PrepareMachine.ps1",
+                                   "https://armstorageacc.blob.core.windows.net/scripts/vc_redist.x64.exe",
                                    "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
                                    "https://armstorageacc.blob.core.windows.net/scripts/xNetworking.zip",
                                    "https://armstorageacc.blob.core.windows.net/scripts/xActiveDirectory.zip",
