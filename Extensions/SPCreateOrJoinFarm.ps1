@@ -65,8 +65,8 @@ $GLOBAL_scriptExitCode = 0
 Start-ScriptLog "SP-FarmCreateOrJoin"
 
 
-
-
+#$SQLServerInstancePort = "3627"
+#$numberSPServers = 1
 #$domainNetBiosName = "osazure" 
 #$DomainAdministratorUserName = "ngadmin" 
 #$DomainAdministratorPassword = "Start123" 
@@ -114,7 +114,7 @@ $numServers
     }
     else
     {
-       $serverRoleRetVal = 'SingleServer'
+       $serverRoleRetVal = 'SingleServerFarm'
     }
     return $serverRoleRetVal
 }
@@ -249,11 +249,12 @@ configuration CreateFarm
                 {
                     new-item $logPathPrefix -itemtype directory 
                 }
-                LogStartTracing $($logPathPrefix + "SP-FarmCreateOrJoin-Set-Session" + $currentDate.ToString() + ".txt")    
+                
+                $fileName = $($logPathPrefix + "SP-FarmCreateOrJoin-SetSession--" + $currentDate.ToString() + ".txt")   
                 #Boiler Plate Logging setup END
         
                 #new step
-                LogStep "Start SPFarm Create Or Join"
+                "Start SPFarm Create Or Join" >> $fileName
 
                 "In Session now:" >> $fileName
                 "Install user:" >> $fileName
@@ -273,18 +274,23 @@ configuration CreateFarm
                             $connectFarm = Connect-SPConfigurationDatabase -DatabaseName $ConfigDBName  -DatabaseServer $ConfigDBAlias -LocalServerRole $serverRole  -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force   )
                             If (-not $?)
                             {
+                                "Farm doesnt exist:" >> $fileName
                                 #Farm doesnt exist yet - so we need to create it.                        
                                 New-SPConfigurationDatabase -DatabaseServer  $ConfigDBAlias -DatabaseName $ConfigDBName -LocalServerRole $serverRole -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force) -AdministrationContentDatabaseName $CAAdminDBName -FarmCredentials $FarmAccountCredentials
+                                "Config DB created:" >> $fileName
                                 Install-SPHelpCollection -All
                                 Initialize-SPResourceSecurity
                                 Install-SPService
                                 Install-SPFeature -AllExistingFeatures
+                                "Up to Install-SPFeature -AllExistingFeatures" >> $fileName
                                 New-SPCentralAdministration -Port 8888 -WindowsAuthProvider NTLM
+                                "CA Built:" >> $fileName
                                 Install-SPApplicationContent
 
                             }
                             else
                             {
+                                "Farm exists already:" >> $fileName
                                 Install-SPHelpCollection -All
                                 Initialize-SPResourceSecurity
                                 Install-SPService
