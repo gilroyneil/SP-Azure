@@ -294,6 +294,112 @@ $SPConfigSilentName = "SPConfigCustom.xml"
                 
             }
         }
+
+
+
+
+
+        
+        Script 4297ExtraFiles
+        {
+            GetScript  = { return 'foo'}
+            TestScript = {
+
+
+            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+            $logPathPrefix = "c:\data\install\logs\"
+
+            if ((test-path $logPathPrefix) -ne $true)
+            {
+                new-item $logPathPrefix -itemtype directory 
+            }
+            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-TEST-" + $currentDate.ToString() + ".txt")
+
+
+            "SPMediaContainerName:" >> $fileName
+            $using:SPMediaContainerName  >> $fileName
+                
+
+            if ($using:SPMediaContainerName -eq "4297")
+            {            
+                "RUN:" >> $fileName
+             return $false}
+             else
+             {
+                "DONT RUN:" >> $fileName
+                return $true
+             }
+             }
+            SetScript  = {
+            
+            $parentFolder = "E:\data\media\sppatch"
+            
+
+            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+            $logPathPrefix = "c:\data\install\logs\"
+
+            if ((test-path $logPathPrefix) -ne $true)
+            {
+                new-item $logPathPrefix -itemtype directory 
+            }
+            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-SET-" + $currentDate.ToString() + ".txt")
+
+
+            "Running:" >> $fileName
+            "Use folder: " >> $fileName
+            $parentFolder >> $fileName
+
+            
+
+            
+            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "sts"}
+            if ($stsMSP -ne $null)
+            {            
+                $MSPLocation = $stsMSP.FullName  
+            
+                "Found this STS.MSP file: " >> $fileName      
+                $MSPLocation >> $fileName
+
+            }
+            else
+            {
+                throw "Cannot find MSP file"
+            }
+
+            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+            $p.WaitForExit()
+            $lExitCode = $p.ExitCode
+
+            "Exit Code (2359302 means already installed): " >> $fileName
+            $lExitCode >> $fileName
+
+
+            
+            
+            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "wssmui"}
+            if ($stsMSP -ne $null)
+            {            
+                $MSPLocation = $stsMSP.FullName  
+            
+                "Found this wssmui.MSP file: " >> $fileName      
+                $MSPLocation >> $fileName
+
+            }
+            else
+            {
+                throw "Cannot find MSP file"
+            }
+
+            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+            $p.WaitForExit()
+            $lExitCode = $p.ExitCode
+
+            "Exit Code (2359302 means already installed): " >> $fileName
+            $lExitCode >> $fileName
+
+
+            }
+        }
  
  
         # Reboot if pending
