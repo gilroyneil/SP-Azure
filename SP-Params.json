@@ -102,17 +102,17 @@
    
    
         "virtualNetworkName" : {
-        "value":"vNetDom1"
+        "value":"vNetARM1"
     },
         "virtualNetworkResourceGroup" : {
-        "value":"Default-Networking"
+        "value":"OsbornNetRG1"
     },
         "subnetSPName" : {
-        "value":"Subnet-1"
+        "value":"subnet1"
     }
     ,
         "subnetSQLName" : {
-        "value":"Subnet-2"
+        "value":"subnet2"
     }
     
 }
