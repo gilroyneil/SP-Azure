@@ -56,7 +56,7 @@
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSPName":"[parameters('subnetSPName')]",
         
-           "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
+           "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",             
         "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",
     
     
@@ -107,7 +107,7 @@
        
   
          {
-            "type": "Microsoft.ClassicStorage/StorageAccounts",
+            "type": "Microsoft.Storage/StorageAccounts",
             "name": "[variables('StorageName')]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -143,7 +143,7 @@
         },*/
        
         {
-            "type": "Microsoft.ClassicCompute/domainNames",
+            "type": "Microsoft.Compute/domainNames",
             "name": "[concat(variables('SPDomainName'), copyindex())]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -158,7 +158,7 @@
         },
         
          {
-            "type": "Microsoft.ClassicCompute/virtualMachines",            
+            "type": "Microsoft.Compute/virtualMachines",            
             "name": "[concat(variables('SPName'), copyindex())]",            
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -169,7 +169,7 @@
             },
             "properties": {
                 "domainName": {                     
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'),copyindex() )]"
+                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.Compute/domainNames/', variables('SPDomainName'),copyindex() )]"
                 },
                "networkProfile": {
                     "virtualNetwork": {
@@ -217,7 +217,7 @@
                     "operatingSystemDisk": {
                         "diskName": "[concat(variables('SPDisk1Name'), copyindex())]",
                         /*"diskName": "[concat(variables('SPDisk1Name'), '1')]",*/
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk1Name'), copyindex(),'.vhd')]",
+                        "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk1Name'), copyindex(),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
@@ -228,7 +228,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "0",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk2Name'), copyindex(),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk2Name'), copyindex(),'.vhd')]"
                         },
                         {
                             "diskName": "[concat(variables('SPDisk3Name'), copyindex())]",
@@ -236,7 +236,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk3Name'), copyindex(),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk3Name'), copyindex(),'.vhd')]"
                         }
                     ]
 
@@ -275,9 +275,9 @@
             },
           
             "dependsOn": [
-               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SPDomainName'), copyindex())]",
+               "[concat('Microsoft.Compute/domainNames/', variables('SPDomainName'), copyindex())]",
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
-                "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
+                "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]"
                 /*"[resourceId('Microsoft.Network/networkInterfaces', parameters('nicNameSP'))]"*/
             ]
          }

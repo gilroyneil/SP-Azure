@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ServiceName": {
-            "type": "String"
+            "type": "string"
         },
         "resourceLocation": {
             "type": "string"
@@ -55,7 +55,7 @@
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
         "resourceLocation":"[parameters('resourceLocation')]",
-        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.ClassicNetwork/virtualNetworks', parameters('virtualNetworkName'))]",             
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",             
         "subnetSQLRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSQLName'))]",
         
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
@@ -94,7 +94,7 @@
     },
     "resources": [
          {
-            "type": "Microsoft.ClassicStorage/StorageAccounts",
+            "type": "Microsoft.Storage/StorageAccounts",
             "name": "[variables('StorageName')]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -139,7 +139,7 @@
         },*/
        
         {
-            "type": "Microsoft.ClassicCompute/domainNames",
+            "type": "Microsoft.Compute/domainNames",
             "name": "[concat(variables('SQLDomainName'), copyindex())]",
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -154,7 +154,7 @@
         
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines",
+            "type": "Microsoft.Compute/virtualMachines",
             "name": "[concat(variables('SQLName'), copyindex())]",      
             "apiVersion": "2014-06-01",
             "location": "[parameters('resourceLocation')]",
@@ -164,7 +164,7 @@
             },
             "properties": {
                 "domainName": {
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'),copyindex() )]"
+                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.Compute/domainNames/', variables('SQLDomainName'),copyindex() )]"
                 },
                 "networkProfile": {
                     "virtualNetwork": {
@@ -211,7 +211,7 @@
                     "operatingSystemDisk": {
                         "diskName": "[concat(variables('SQLDisk1Name'), copyindex())]",
                         /*"diskName": "[variables('SQL1Disk1Name')]",*/
-                        "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk1Name'),copyindex(),'.vhd')]",
+                        "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk1Name'),copyindex(),'.vhd')]",
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
@@ -222,7 +222,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "0",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk2Name'),copyindex(),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk2Name'),copyindex(),'.vhd')]"
                         },
                         {
                             "diskName": "[concat(variables('SQLDisk3Name'), copyindex())]",
@@ -230,7 +230,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
+                            "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
                         }
                     ]
 
@@ -266,9 +266,9 @@
                 ]
             },
             "dependsOn": [
-               "[concat('Microsoft.ClassicCompute/domainNames/', variables('SQLDomainName'), copyindex())]",
+               "[concat('Microsoft.Compute/domainNames/', variables('SQLDomainName'), copyindex())]",
                 /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
-                "[concat('Microsoft.ClassicStorage/storageAccounts/', variables('StorageName'))]"
+                "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]"
             ]
         }
         
