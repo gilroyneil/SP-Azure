@@ -56,7 +56,7 @@
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSPName":"[parameters('subnetSPName')]",
         
-           "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",             
+        "vnetID": "[resourceId(parameters('virtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",                        
         "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",
     
     "publicIPAddressType":"Dynamic",
