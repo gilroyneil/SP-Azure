@@ -168,7 +168,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
               },
               "subnet": {
                 "id": "[variables('subnetSPRef')]"
@@ -196,7 +196,7 @@
                        
                    "networkInterfaces": [
                             {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicNameSP'))]"
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces/',variables('nicNameSP'))]"
                             }
                         ],
           
