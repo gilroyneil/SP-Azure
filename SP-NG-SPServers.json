@@ -144,22 +144,7 @@
                 ]
             }
         },*/
-       
-        {
-            "type": "Microsoft.Compute/domainNames",
-            "name": "[concat(variables('SPDomainName'), copyindex())]",
-            "apiVersion": "2015-06-15",
-            "location": "[parameters('resourceLocation')]",
-           
-             "copy": {
-                "name": "spServerLoopDomainName",
-                "count": "[parameters('numberSPServers')]"
-            },
-            "properties": {
-                "label": "[concat(variables('SPDomainName'), copyindex())]"
-            }
-        },
-        
+    
         {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",

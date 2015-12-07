@@ -137,21 +137,7 @@
                 "label": "[variables('DCDomainName')]"
             }
         },*/
-       
-        {
-            "type": "Microsoft.Compute/domainNames",
-            "name": "[concat(variables('SQLDomainName'), copyindex())]",
-            "apiVersion": "2015-06-15",
-            "location": "[parameters('resourceLocation')]",
-            "copy": {
-                "name": "sqlServerLoopDomainName",
-                "count": "[parameters('numberSQLServers')]"
-            },
-            "properties": {
-                "label": "[concat(variables('SQLDomainName'), copyindex())]"
-            }
-        },
-        
+     
         
         {
             "type": "Microsoft.Compute/virtualMachines",
