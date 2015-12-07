@@ -68,7 +68,7 @@
         "StorageType":"Standard_LRS",
         "SPHardware":"[parameters('vmSizeSP')]",
         /*"StorageName":"[concat(parameters('ServiceName'),'storage')]",*/    
-        "StorageName":"[concat(parameters('ServiceName'),'spstorage', toLower(uniqueString(deployment().name)))]",
+        "StorageName":"[concat(parameters('ServiceName'), toLower(uniqueString(deployment().name)))]",
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         /*
         OLD Single Server code.
