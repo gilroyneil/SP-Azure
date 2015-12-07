@@ -61,7 +61,8 @@
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         "SQLHardware":"[parameters('vmSizeSQL')]",        
-        "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
+        /*"StorageName":"[concat(parameters('ServiceName'),'storage')]",*/    
+        "StorageName":"[concat(parameters('ServiceName'),'sqlstorage', toLower(uniqueString(deployment().name)))]",
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         
          /*
