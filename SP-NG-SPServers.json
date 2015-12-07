@@ -190,9 +190,7 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "domainName": {                     
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.Compute/domainNames/', variables('SPDomainName'),copyindex() )]"
-                },
+                
                "networkProfile": 
                    {
                        

@@ -149,10 +149,7 @@
                 "name": "sqlServerLoop",
                 "count": "[parameters('numberSQLServers')]"
             },
-            "properties": {
-                "domainName": {
-                    "id": "[concat(resourceGroup().id, '/providers/Microsoft.Compute/domainNames/', variables('SQLDomainName'),copyindex() )]"
-                },
+            "properties": {                
                 "networkProfile": {
                     "virtualNetwork": {
                         "id": "[variables('vnetID')]",
