@@ -60,9 +60,7 @@
         "subnetSPRef": "[concat(variables('vnetID'),'/subnets/', parameters('subnetSPName'))]",
     
     "publicIPAddressType":"Dynamic",
-    "publicIPName": {
-      "value": "SPPUBLICIP"
-    },
+    "publicIPName": "SPPUBLICIP",
         "resourceLocation":"[parameters('resourceLocation')]",
         "nicNameSP":"SPNIC",
         "nicNameSQL":"SQLNIC",
