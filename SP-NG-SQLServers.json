@@ -251,8 +251,7 @@
 
                 ]
             },
-            "dependsOn": [
-               "[concat('Microsoft.Compute/domainNames/', variables('SQLDomainName'), copyindex())]",
+            "dependsOn": [               
                 /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]"
             ]
