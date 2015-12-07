@@ -96,7 +96,7 @@
          {
             "type": "Microsoft.Storage/StorageAccounts",
             "name": "[variables('StorageName')]",
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "location": "[parameters('resourceLocation')]",
             "properties": {
                 "accountType": "[variables('StorageType')]"
@@ -141,7 +141,7 @@
         {
             "type": "Microsoft.Compute/domainNames",
             "name": "[concat(variables('SQLDomainName'), copyindex())]",
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "location": "[parameters('resourceLocation')]",
             "copy": {
                 "name": "sqlServerLoopDomainName",
