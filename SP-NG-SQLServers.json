@@ -220,7 +220,7 @@
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
-                            "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
+                            /*"vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"*/
                             "vhdUri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
                         }
                     ]
