@@ -75,9 +75,9 @@
         "resourceLocation":"[parameters('resourceLocation')]",
         
         
-        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
-        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
-        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json", 
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SPServers.json", 
+        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Network.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
