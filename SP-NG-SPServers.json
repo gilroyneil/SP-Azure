@@ -159,7 +159,7 @@
       "name": "[variables('nicNameSP')]",
       "location": "[parameters('resourceLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('variables'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'))]"
       ],
       "properties": {
         "ipConfigurations": [
