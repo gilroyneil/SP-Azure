@@ -123,7 +123,7 @@
  
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "rebootForce",
                 "count": "[parameters('numberSPServers')]"
@@ -151,7 +151,7 @@
  
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "spServerLoopPreReqs",
                 "count": "[parameters('numberSPServers')]"
@@ -206,7 +206,7 @@
             "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
             ]                   
         }
         

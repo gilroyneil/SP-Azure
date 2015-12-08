@@ -161,7 +161,7 @@
  
        
          {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",           
+            "type": "Microsoft.Compute/virtualMachines/extensions",           
             "properties": {
                 "extension": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",

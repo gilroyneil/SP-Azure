@@ -140,7 +140,7 @@
  
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
              "copy": {
                 "name": "spServerLoopDomainName",
                 "count": "[parameters('numberSPServers')]"
@@ -170,7 +170,7 @@
           
           
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
              "copy": {
                 "name": "sqlServerLoopDomainName",
                 "count": "[parameters('numberSQLServers')]"
@@ -228,7 +228,7 @@
 
 
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "spServerLoopDisks",
                 "count": "[parameters('numberSPServers')]"
@@ -255,13 +255,13 @@
             "name": "[concat(variables('SPName'), copyindex(),'/disksCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/domainJoinCommand')]"
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/domainJoinCommand')]"
             ]
             
         },
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "sqlServerLoopDisks",
                 "count": "[parameters('numberSQLServers')]"
@@ -288,7 +288,7 @@
             "name": "[concat(variables('SQLName'), copyindex(),'/disksCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/domainJoinCommand')]"
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/domainJoinCommand')]"
             ]
             
         },
@@ -358,7 +358,7 @@
         
         ,*/
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "spServerLoopMedia",
                 "count": "[parameters('numberSPServers')]"
@@ -385,13 +385,13 @@
             "name": "[concat(variables('SPName'), copyindex(),'/mediaCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/disksCommand')]"
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/disksCommand')]"
             ]
             
         },
         
           {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "sqlServerLoopMedia",
                 "count": "[parameters('numberSQLServers')]"
@@ -418,7 +418,7 @@
             "name": "[concat(variables('SQLName'), copyindex(),'/mediaCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/disksCommand')]"
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/disksCommand')]"
             ]
             
         }

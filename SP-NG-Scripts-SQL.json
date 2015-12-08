@@ -125,7 +125,7 @@
  
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "sqlServerLoop",
                 "count": "[parameters('numberSQLServers')]"

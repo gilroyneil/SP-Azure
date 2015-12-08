@@ -175,7 +175,7 @@
  
        
          {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",    
+            "type": "Microsoft.Compute/virtualMachines/extensions",    
             
             "copy": {
                 "name": "spServerLoopFarmCreatePart2",
