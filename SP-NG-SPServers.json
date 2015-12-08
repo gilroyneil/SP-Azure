@@ -218,11 +218,9 @@
                     ]
                },
                 "hardwareProfile": {
-                    "size": "[variables('SPHardware')]",
-                    "platformGuestAgent": "true",
-                    "availabilitySet": "[concat(variables('SPName'),'-AvailSet')]"
+                    "vmSize": "[variables('SPHardware')]"
                 },
-                "operatingSystemProfile": {
+                "osProfile": {
                     "computerName": "[concat(variables('SPName'), copyindex())]",                    
                     "adminUserName": "[parameters('administratorAccount')]",
                     "adminPassword": "[parameters('administratorPassword')]",                   
@@ -236,32 +234,41 @@
                     }
                 },
                 "storageProfile": {
-                    "operatingSystemDisk": {
-                        "diskName": "[concat(variables('SPDisk1Name'), copyindex())]",
+                    "osDisk": {
+                        "name": "[concat(variables('SPDisk1Name'), copyindex())]",
                         /*"diskName": "[concat(variables('SPDisk1Name'), '1')]",*/
                        /* "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk1Name'), copyindex(),'.vhd')]",*/
-                       "vhdUri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk1Name'),copyindex(),'.vhd')]",
+                       "vhd":
+                       {
+                        "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk1Name'),copyindex(),'.vhd')]"
+                       },
                         "caching": "ReadWrite",
                         "sourceImageName": "[variables('SPImage')]"
                     },
                     "dataDisks": [
                         {
-                            "diskName": "[concat(variables('SPDisk2Name'), copyindex())]",
+                            "name": "[concat(variables('SPDisk2Name'), copyindex())]",
                             /*"diskName": "[concat(variables('SPDisk2Name'), '1')]",*/
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "0",
                            /* "vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk2Name'), copyindex(),'.vhd')]"*/
-                            "vhdUri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk2Name'),copyindex(),'.vhd')]"
+                            "vhd":
+                            {
+                                "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk2Name'),copyindex(),'.vhd')]"
+                            }
                         },
                         {
-                            "diskName": "[concat(variables('SPDisk3Name'), copyindex())]",
+                            "name": "[concat(variables('SPDisk3Name'), copyindex())]",
                             /*"diskName": "[concat(variables('SPDisk3Name'), '1')]",*/
                             "caching": "None",
                             "diskSize": "50",
                             "lun": "1",
                             /*"vhdUri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))).endpoints[0], 'vhds/', parameters('ServiceName'), variables('SPDisk3Name'), copyindex(),'.vhd')]"*/
-                            "vhdUri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk3Name'),copyindex(),'.vhd')]"
+                             "vhd":
+                            {
+                                "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk3Name'),copyindex(),'.vhd')]"
+                            }
                         }
                     ]
 
