@@ -250,6 +250,10 @@
         "name": "[concat(variables('SQLName'),copyindex(),'/SQLPrepareMachineModules')]",
         "apiVersion": "2015-06-15",
         "location": "[parameters('resourceLocation')]",
+        "copy": {
+                "name": "sqlServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
         "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('SQLName'), copyindex())]"
         ],
