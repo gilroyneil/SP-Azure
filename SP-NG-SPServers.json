@@ -88,7 +88,11 @@
         "SPDisk2Name":"[concat(parameters('ServiceName'),'-data1-sp-', uniqueString(deployment().name))]",
         "SPDisk3Name":"[concat(parameters('ServiceName'),'-data2-sp-', uniqueString(deployment().name))]",
         
-        
+        "imagePublisher": "MicrosoftWindowsServer",
+        "imageOffer": "WindowsServer",
+        "imageSKU": "2012-Datacenter",
+        "imageVersion": "latest",
+    
         
         "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xPendingReboot_0.1.0.2\",\"xSystemSecurity_1.0\"",        
         /*SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
@@ -227,6 +231,12 @@
                    
                 },
                 "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('imageSKU')]",
+                        "version": "[variables('imageVersion')]"
+                    },
                     "osDisk": {
                         "name": "[concat(variables('SPDisk1Name'), copyindex())]",
                         /*"diskName": "[concat(variables('SPDisk1Name'), '1')]",*/
@@ -236,7 +246,7 @@
                         "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk1Name'),copyindex(),'.vhd')]"
                        },
                         "caching": "ReadWrite",
-                        "sourceImageName": "[variables('SPImage')]"
+                        "createOption": "FromImage"
                     },
                     "dataDisks": [
                         {
@@ -249,7 +259,8 @@
                             "vhd":
                             {
                                 "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk2Name'),copyindex(),'.vhd')]"
-                            }
+                            },
+                            "createOption": "Empty"
                         },
                         {
                             "name": "[concat(variables('SPDisk3Name'), copyindex())]",
@@ -261,7 +272,8 @@
                              "vhd":
                             {
                                 "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SPDisk3Name'),copyindex(),'.vhd')]"
-                            }
+                            },
+                            "createOption": "Empty"
                         }
                     ]
 

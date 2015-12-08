@@ -84,6 +84,12 @@
         "SQLImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-20150916-en.us-127GB.vhd",
         
         
+        "imagePublisher": "MicrosoftWindowsServer",
+        "imageOffer": "WindowsServer",
+        "imageSKU": "2012-Datacenter",
+        "imageVersion": "latest",
+        
+        
         "domainJoinCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\JoinAD.ps1 -DomainName \"',parameters('domainName'),'\" -domainNetBiosName \"',parameters('domainNetBiosName'),'\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'),'\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'),'\" -DomainJoinOU \"',parameters('domainJoinOU'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\"')]",
    
            
@@ -183,6 +189,13 @@
                     
                 },
                 "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[variables('imageSKU')]",
+                        "version": "[variables('imageVersion')]"
+                    },
+          
                     "osDisk": {
                         "name": "[concat(variables('SQLDisk1Name'), copyindex())]",
                         /*"diskName": "[variables('SQL1Disk1Name')]",*/
@@ -193,7 +206,7 @@
                         },
     
                         "caching": "ReadWrite",
-                        "sourceImageName": "[variables('SPImage')]"
+                        "createOption": "FromImage"
                     },
                     "dataDisks": [
                         {
@@ -206,7 +219,8 @@
                              "vhd":
                             {
                                 "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SQLDisk2Name'),copyindex(),'.vhd')]"
-                            }
+                            },
+                            "createOption": "Empty"
                         },
                         {
                             "name": "[concat(variables('SQLDisk3Name'), copyindex())]",
@@ -218,7 +232,8 @@
                              "vhd":
                             {
                                 "uri": "[concat('http://',variables('StorageName'),'.blob.core.windows.net/vhds/', parameters('ServiceName'), variables('SQLDisk3Name'),copyindex(),'.vhd')]"
-                            }
+                            },
+                            "createOption": "Empty"
                         }
                     ]
 
