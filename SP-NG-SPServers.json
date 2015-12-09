@@ -292,7 +292,7 @@
             "dependsOn": [               
               /*  "[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
                 "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSP'))]"
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSP'), '-', copyIndex())]"
             ]
          },
          {
