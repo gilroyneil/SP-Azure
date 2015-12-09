@@ -160,19 +160,27 @@
          {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPName')]",
+      "name": "[concat(variables('publicIPName'),'-', copyindex())]",
       "location": "[parameters('resourceLocation')]",
+           "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
       }
     },
     {
       "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('nicNameSQL')]",
+      "type": "Microsoft.Network/networkInterfaces",      
+      "name": "[concat(variables('nicNameSQL'),'-', copyindex())]",
       "location": "[parameters('resourceLocation')]",
+       "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -181,7 +189,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(variables('publicIPName'), '-', copyindex()))]"
               },
               "subnet": {
                 "id": "[variables('subnetSQLRef')]"
@@ -290,8 +298,8 @@
             },
             "dependsOn": [               
                 /*"[concat('Microsoft.ClassicNetwork/virtualNetworks/', variables('VNetName'))]",*/
-                "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSQL'))]"
+                "[concat('Microsoft.Storage/storageAccounts/', variables('StorageName'))]",                
+                "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSQL'), '-', copyIndex())]"
             ]
         },
         {
