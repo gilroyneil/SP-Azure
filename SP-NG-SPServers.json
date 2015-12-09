@@ -62,8 +62,8 @@
     "publicIPAddressType":"Dynamic",
     "publicIPName": "SPPUBLICIP",
         "resourceLocation":"[parameters('resourceLocation')]",
-        "nicNameSP":"SPNIC",
-        "nicNameSQL":"SQLNIC",
+        "nicNameSP":"[concat(parameters('ServiceName'),'-SPNIC')]",
+        
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "StorageType":"Standard_LRS",
         "SPHardware":"[parameters('vmSizeSP')]",
@@ -151,8 +151,12 @@
         {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPName')]",
+      "name": "[concat(variables('publicIPName'),'-', copyindex())]",
       "location": "[parameters('resourceLocation')]",
+      "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+            },
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
       }
@@ -162,8 +166,12 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicNameSP')]",
       "location": "[parameters('resourceLocation')]",
+      "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+            },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]"
       ],
       "properties": {
         "ipConfigurations": [
@@ -172,7 +180,7 @@
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', variables('publicIPName'))]"
+                "id": "[resourceId(concat('Microsoft.Network/publicIPAddresses/', variables('publicIPName'), '-', copyindex())]"
               },
               "subnet": {
                 "id": "[variables('subnetSPRef')]"

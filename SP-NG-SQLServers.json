@@ -64,7 +64,9 @@
     "publicIPName": "SQLPUBLICIP",
         
         
-        "nicNameSQL":"SQLNIC",
+        
+        "nicNameSQL":"[concat(parameters('ServiceName'),'-SQLNIC')]",
+        
         
         
         
