@@ -213,8 +213,8 @@
                    {
                        
                    "networkInterfaces": [
-                            {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces/',variables('nicNameSQL'))]"
+                            {                            
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces/', concat(variables('nicNameSQL'), '-', copyIndex()))]"
                             }
                         ],
           
