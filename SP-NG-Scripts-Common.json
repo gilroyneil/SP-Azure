@@ -1,5 +1,5 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "ServiceName": {
@@ -146,11 +146,11 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "typeHandlerVersion": "1.*",
                 "parameters": {
-                    "public": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
@@ -176,11 +176,11 @@
                 "count": "[parameters('numberSQLServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
-                "parameters": {
-                    "public": {
+                "typeHandlerVersion": "1.*",
+                "typeHandlerVersion": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
@@ -234,11 +234,11 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "typeHandlerVersion": "1.*",
                 "parameters": {
-                    "public": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
@@ -267,11 +267,11 @@
                 "count": "[parameters('numberSQLServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "typeHandlerVersion": "1.*",
                 "parameters": {
-                    "public": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
@@ -364,11 +364,11 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "typeHandlerVersion": "1.*",
                 "parameters": {
-                    "public": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
@@ -397,11 +397,11 @@
                 "count": "[parameters('numberSQLServers')]"
             },
             "properties": {
-                "extension": "CustomScriptExtension",
+                "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "typeHandlerVersion": "1.*",
                 "parameters": {
-                    "public": {
+                    "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
