@@ -141,7 +141,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/rebootForce')]",
             "location": "[parameters('resourceLocation')]"                       
         },
@@ -170,7 +170,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
             "location": "[parameters('resourceLocation')]"    ,
             "dependsOn": [
@@ -182,7 +182,7 @@
         
         
         {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
                 "name": "spServerLoopbinaries",
                 "count": "[parameters('numberSPServers')]"
@@ -202,7 +202,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [

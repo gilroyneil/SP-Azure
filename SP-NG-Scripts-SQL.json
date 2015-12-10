@@ -148,7 +148,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'),copyindex(),'/setupSQLCommand')]",
             "location": "[parameters('resourceLocation')]"                       
         }

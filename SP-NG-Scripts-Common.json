@@ -163,7 +163,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/domainJoinCommand')]",
             "location": "[parameters('resourceLocation')]"                        
         },
@@ -193,7 +193,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/domainJoinCommand')]",
             "location": "[parameters('resourceLocation')]"                        
         },
@@ -251,7 +251,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/disksCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
@@ -284,7 +284,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/disksCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
@@ -381,7 +381,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/mediaCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
@@ -414,7 +414,7 @@
                     }
                 }
             },
-            "apiVersion": "2014-06-01",
+            "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/mediaCommand')]",
             "location": "[parameters('resourceLocation')]",
             "dependsOn": [
