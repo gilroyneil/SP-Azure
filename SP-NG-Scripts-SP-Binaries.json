@@ -131,7 +131,7 @@
             "properties": {
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.*",
+                "typeHandlerVersion": "1.4",
                 
                     "settings": {
                         "fileUris": [                            
@@ -159,7 +159,7 @@
             "properties": {
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.*",
+                "typeHandlerVersion": "1.4",
                 
                     "settings": {
                         "fileUris": [
@@ -190,7 +190,7 @@
             "properties": {
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.*",
+                "typeHandlerVersion": "1.4",
                 
                     "settings": {
                         "fileUris": [
@@ -222,7 +222,7 @@
             "properties": {
                 "extension": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "version": "1.*",
+                "version": "1.4",
                 "parameters": {
                     "public": {
                         "fileUris": [

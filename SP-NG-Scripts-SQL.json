@@ -133,7 +133,7 @@
             "properties": {
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.*",
+                "typeHandlerVersion": "1.4",
                 
                     "settings": {
                         "fileUris": [
