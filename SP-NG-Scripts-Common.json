@@ -136,9 +136,43 @@
     "resources": [
         
   
+  
+  
+        
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+             "copy": {
+                "name": "spServerLoopDomainName",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "type": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "typeHandlerVersion": "1.4",
+                
+                    "settings": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            
+                        ],
+                        "commandToExecute": "[variables('domainJoinCommand')]"
+                    }
+                
+            },
+            "apiVersion": "2015-06-15",
+            "name": "[concat(variables('SPName'), copyindex(),'/SPPrepareMachineModules')]",
+            "location": "[parameters('resourceLocation')]"                        
+        },
+          
+          
+          
    
  
-        
+        /*
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
              "copy": {
@@ -197,6 +231,9 @@
             "name": "[concat(variables('SQLName'), copyindex(),'/domainJoinCommand')]",
             "location": "[parameters('resourceLocation')]"                        
         },
+        
+        
+        */
                    
            /*    
         {
