@@ -186,8 +186,6 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
-                    
                     
               
                     "settings": {
@@ -199,7 +197,7 @@
                         "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', copyIndex())]"
                         /*"commandToExecute": "[concat(variables('vmScript'),' -ServerRole ', 'WebFrontEnd']"*/
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/sPCreateOrJoinFarmCommandMinusServerRole')]",

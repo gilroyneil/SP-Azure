@@ -166,7 +166,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -175,7 +175,7 @@
                         /*"commandToExecute": "[variables('sPCreateOrJoinFarmCommand')]"*/
                         "commandToExecute": "[concat(variables('sPCreateOrJoinFarmCommandMinusServerRole'),' -ServerRole ', 0)]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),0,'/sPCreateOrJoinFarmCommand')]",

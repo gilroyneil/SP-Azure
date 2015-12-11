@@ -149,7 +149,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -161,7 +161,7 @@
                         ],
                         "commandToExecute": "[variables('domainJoinCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/domainJoinCommand')]",
@@ -179,7 +179,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -191,7 +191,7 @@
                         ],
                         "commandToExecute": "[variables('domainJoinCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/domainJoinCommand')]",
@@ -237,7 +237,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -249,7 +249,7 @@
                         ],
                         "commandToExecute": "[variables('disksCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/disksCommand')]",
@@ -270,7 +270,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -282,7 +282,7 @@
                         ],
                         "commandToExecute": "[variables('disksCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/disksCommand')]",
@@ -367,7 +367,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -379,7 +379,7 @@
                         ],
                         "commandToExecute": "[variables('mediaCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'), copyindex(),'/mediaCommand')]",
@@ -400,7 +400,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -412,7 +412,7 @@
                         ],
                         "commandToExecute": "[variables('mediaCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'), copyindex(),'/mediaCommand')]",

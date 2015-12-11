@@ -295,6 +295,9 @@
                 "[concat('Microsoft.Network/networkInterfaces/', variables('nicNameSP'), '-', copyIndex())]"
             ]
          },
+         
+         
+         
          {
         "type": "Microsoft.Compute/virtualMachines/extensions",
         "name": "[concat(variables('SPName'),copyindex(),'/SPPrepareMachineModules')]",

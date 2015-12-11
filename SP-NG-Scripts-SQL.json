@@ -134,7 +134,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -146,7 +146,7 @@
                         ],
                         "commandToExecute": "[variables('setupSQLCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SQLName'),copyindex(),'/setupSQLCommand')]",

@@ -132,14 +132,14 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [                            
                             "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
                         ],
                         "commandToExecute": "[variables('restartCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/rebootForce')]",
@@ -160,7 +160,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -168,7 +168,7 @@
                         ],
                         "commandToExecute": "[variables('spPreReqsCommand')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
@@ -191,7 +191,7 @@
                 "type": "CustomScriptExtension",
                 "publisher": "Microsoft.Compute",
                 "typeHandlerVersion": "1.*",
-                "parameters": {
+                
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
@@ -200,7 +200,7 @@
                         ],
                         "commandToExecute": "[variables('spBinaries4297Command')]"
                     }
-                }
+                
             },
             "apiVersion": "2015-06-15",
             "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
