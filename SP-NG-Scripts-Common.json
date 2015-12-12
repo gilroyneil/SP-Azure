@@ -172,7 +172,7 @@
           
    
  
-        /*
+        
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
              "copy": {
@@ -233,7 +233,7 @@
         },
         
         
-        */
+        
                    
            /*    
         {
