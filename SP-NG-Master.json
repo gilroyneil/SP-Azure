@@ -127,6 +127,9 @@
         "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Network.json", 
         "templatelink_Scripts_Common":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-Common.json", 
         "templatelink_Scripts_Common-DomainJoin":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-Common-DomainJoin.json", 
+       "templatelink_Scripts_Common-Disks":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-Common-Disks.json",
+       
+       
         "templatelink_Scripts_SQL":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SQL.json", 
         "templatelink_Scripts_SP":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries.json", 
         "templatelink_Scripts_SP_FarmPart1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart1.json", 
@@ -362,6 +365,55 @@
           },
           
           
+          
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-Common-Disks", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_Common-Disks')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},                  
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  
+                  
+                  }            
+                  
+                   
+               }
+               ,
+            "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-Common-DomainJoin']"                            
+            ]
+              
+          },
+          
+          
+          
           { 
              "apiVersion": "2015-01-01", 
              "name": "SP-Scripts-Common", 
@@ -401,11 +453,15 @@
                    
                }
                ,
-           "dependsOn": [
+           /*"dependsOn": [
                
                "['Microsoft.Resources/deployments/SQL-Servers-Template']",
                "['Microsoft.Resources/deployments/SP-Servers-Template']"
              
+            ]*/
+            "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-Common-Disks']"                            
             ]
               
           },

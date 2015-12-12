@@ -136,13 +136,11 @@
     "resources": [
         
   
-  
-  
-        
+
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-             "copy": {
-                "name": "spServerLoopDomainName",
+            "copy": {
+                "name": "spServerLoopDisks",
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
@@ -159,21 +157,23 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
                             
                         ],
-                        "commandToExecute": "[variables('domainJoinCommand')]"
+                        "commandToExecute": "[variables('disksCommand')]"
                     }
                 
             },
             "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SPName'), copyindex(),'/SPPrepareMachineModules')]",
-            "location": "[parameters('resourceLocation')]"                        
+            "name": "[concat(variables('SPName'), copyindex(),'/disksCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/SPPrepareMachineModules')]"
+            ]
+            
         },
-        
-        
         
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-             "copy": {
-                "name": "spServerLoopDomainName",
+            "copy": {
+                "name": "sqlServerLoopDisks",
                 "count": "[parameters('numberSQLServers')]"
             },
             "properties": {
@@ -190,17 +190,18 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
                             
                         ],
-                        "commandToExecute": "[variables('domainJoinCommand')]"
+                        "commandToExecute": "[variables('disksCommand')]"
                     }
                 
             },
             "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SQLName'), copyindex(),'/SQLPrepareMachineModules')]",
-            "location": "[parameters('resourceLocation')]"                        
+            "name": "[concat(variables('SQLName'), copyindex(),'/disksCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SQLName'), copyindex(),'/extensions/SQLPrepareMachineModules')]"
+            ]
+            
         }
-          
-          
-          
-   
+
     ]
 }
