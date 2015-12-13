@@ -90,7 +90,7 @@
         
         "imagePublisher": "MicrosoftWindowsServer",
         "imageOffer": "WindowsServer",
-        "imageSKU": "2012-Datacenter",
+        "imageSKU": "2012-R2-Datacenter",
         "imageVersion": "latest",
     
         
