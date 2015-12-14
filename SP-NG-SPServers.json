@@ -337,12 +337,7 @@
                         "listeners": [
                             {
                             "protocol": "http"
-                            },
-                            {
-                            "protocol": "https"
-                            
-                            }
-                        ]
+                            }                        ]
                         },
                         "enableAutomaticUpdates": "true"
                     }
