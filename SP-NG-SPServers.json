@@ -171,7 +171,7 @@
                 "count": "[parameters('numberSPServers')]"
             },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]",
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]"
         /*"[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex())]",        
         "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RDP-VM')]",
         "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RENOTE-PS')]"
