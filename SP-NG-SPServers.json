@@ -296,21 +296,7 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                "windowsConfiguration": {
-            "provisionVMAgent": "true",
-            "winRM": {
-              "listeners": [
-                {
-                  "protocol": "http"
-                },
-                {
-                  "protocol": "https"
-                  
-                }
-              ]
-            },
-            "enableAutomaticUpdates": "true"
-          },
+                
         
                "networkProfile": 
                    {
@@ -344,7 +330,23 @@
                 "osProfile": {
                     "computerName": "[concat(variables('SPName'), copyindex())]",                    
                     "adminUserName": "[parameters('administratorAccount')]",
-                    "adminPassword": "[parameters('administratorPassword')]"                
+                    "adminPassword": "[parameters('administratorPassword')]"     ,
+                    "windowsConfiguration": {
+                        "provisionVMAgent": "true",
+                        "winRM": {
+                        "listeners": [
+                            {
+                            "protocol": "http"
+                            },
+                            {
+                            "protocol": "https"
+                            
+                            }
+                        ]
+                        },
+                        "enableAutomaticUpdates": "true"
+                    }
+                     
                    
                 },
                 "storageProfile": {
