@@ -171,7 +171,11 @@
                 "count": "[parameters('numberSPServers')]"
             },
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]"
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]",
+        /*"[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex())]",        
+        "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RDP-VM')]",
+        "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RENOTE-PS')]"
+        */
       ],
       "properties": {
         "ipConfigurations": [
@@ -185,12 +189,102 @@
               "subnet": {
                 "id": "[variables('subnetSPRef')]"
               }
+              /*
+              "loadBalancerBackendAddressPools": [
+                {
+                  "id": "[concat(variables('nicNameSP'),'-LB-', copyindex(), '/backendAddressPools/LoadBalancerBackend')]"
+                }
+              ],
+              "loadBalancerInboundNatRules": [
+                {
+                  "id": "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RDP-VM')]",
+                  "id": "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/inboundNatRules/', 'RDP-VM')]"
+                  
+                }
+              ]*/
             }
+            
           }
         ]
       }
     },
-        
+    
+    /*
+    
+    {
+      "apiVersion": "2015-06-15",
+      "name": "[concat(variables('nicNameSP'),'-LB-', copyindex())]",
+      "type": "Microsoft.Network/loadBalancers",
+      "location": "[parameters('resourceLocation')]",
+      "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/',  variables('publicIPName'), '-', copyindex())]"
+      ],
+      "properties": {
+        "frontendIPConfigurations": [
+          {
+            "name": "LoadBalancerFrontend",
+            "properties": {
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(variables('publicIPName'), '-', copyindex()))]"
+              }
+            }
+          }
+        ],
+        "backendAddressPools": [
+          {
+            "name": "LoadBalancerBackend"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+      "name": "[concat(variables('nicNameSP'),'-LB-', copyindex(), '/RDP-VM')]",
+      "location": "[parameters('resourceLocation')]",
+     "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex())]"
+      ],
+      "properties": {
+        "frontendIPConfiguration": {
+           "id": "[resourceId(concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/frontendIPConfigurations/loadBalancerFrontend')]"          
+        },
+        "protocol": "tcp",
+        "frontendPort": "[concat('1234', copyindex())]",  
+        "backendPort": 3389,
+        "enableFloatingIP": false
+      }
+    },
+      {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/loadBalancers/inboundNatRules",
+      "name": "[concat(variables('nicNameSP'),'-LB-', copyindex(), '/REMOTE-PS')]",
+      "location": "[parameters('resourceLocation')]",
+     "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex())]"
+      ],
+      "properties": {
+        "frontendIPConfiguration": {
+           "id": "[resourceId(concat('Microsoft.Network/loadBalancers/', variables('nicNameSP'),'-LB-', copyindex(), '/frontendIPConfigurations/loadBalancerFrontend')]"          
+        },
+        "protocol": "tcp",
+        "frontendPort": "5986",  
+        "backendPort": 5986,
+        "enableFloatingIP": false
+      }
+    },*/
          {
             "type": "Microsoft.Compute/virtualMachines",            
             "name": "[concat(variables('SPName'), copyindex())]",            
@@ -202,7 +296,22 @@
                 "count": "[parameters('numberSPServers')]"
             },
             "properties": {
-                
+                "windowsConfiguration": {
+            "provisionVMAgent": "true",
+            "winRM": {
+              "listeners": [
+                {
+                  "protocol": "http"
+                },
+                {
+                  "protocol": "https"
+                  
+                }
+              ]
+            },
+            "enableAutomaticUpdates": "true"
+          }
+        },
                "networkProfile": 
                    {
                        
