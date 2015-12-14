@@ -163,7 +163,7 @@ try
     $hostname = [System.Net.Dns]::GetHostName()
     $cert=New-SelfSignedCertificate -certstorelocation cert:\localmachine\my -dnsname $hostname
     winrm create winrm/config/listener?Address=*+Transport=HTTPS "@{Hostname=""$hostName"";CertificateThumbprint=""$($Cert.Thumbprint)"";port=""5986""}"
-    New-NetFirewallRule -Name WinRM-Https-In -DisplayName "Windows Remote Management (HTTPs-In)" -Direction Inbound –LocalPort 5986 -Protocol TCP -Action Allow    
+    New-NetFirewallRule -Name WinRM-Https-In -DisplayName "Windows Remote Management (HTTPs-In)" -Direction Inbound -LocalPort 5986 -Protocol TCP -Action Allow    
 }
 catch
 {
