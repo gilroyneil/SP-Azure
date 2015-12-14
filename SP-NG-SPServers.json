@@ -330,19 +330,7 @@
                 "osProfile": {
                     "computerName": "[concat(variables('SPName'), copyindex())]",                    
                     "adminUserName": "[parameters('administratorAccount')]",
-                    "adminPassword": "[parameters('administratorPassword')]"     ,
-                    "windowsConfiguration": {
-                        "provisionVMAgent": "true",
-                        "winRM": {
-                        "listeners": [
-                            {
-                            "protocol": "http"
-                            }                        ]
-                        },
-                        "enableAutomaticUpdates": "true"
-                    }
-                     
-                   
+                    "adminPassword": "[parameters('administratorPassword')]"   
                 },
                 "storageProfile": {
                     "imageReference": {

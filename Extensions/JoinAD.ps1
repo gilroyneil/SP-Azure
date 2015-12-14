@@ -171,7 +171,7 @@ WaitForPendingMof
 
 JoinAD -ConfigurationData $configData -OutputPath $PSScriptRoot
 
-$cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck #-UseSsl
+$cimSessionOption = New-CimSessionOption -SkipCACheck -SkipCNCheck -UseSsl
 $cimSession = New-CimSession -SessionOption $cimSessionOption -ComputerName $env:COMPUTERNAME -Port 5986
 
 if ($EncryptionCertificateThumbprint)
