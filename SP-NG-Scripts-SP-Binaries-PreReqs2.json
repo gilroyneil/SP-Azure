@@ -133,6 +133,7 @@
                 
                     "settings": {
                         "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/xPendingReboot_0.1.0.2.zip",
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries4297.ps1"                                                        
