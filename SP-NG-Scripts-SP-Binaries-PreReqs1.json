@@ -33,7 +33,7 @@
             "type": "string"
         },
            
-       "SQLMediaContainerName": {
+      "SQLMediaContainerName": {
             "type": "string"
         },
         "SPMediaContainerName": {
@@ -61,21 +61,8 @@
             "type": "string"
         }
         ,
-        "numberSQLServers": {
+        "numberSPServers": {
             "type": "int"
-        },
-        
-                        "sqlServiceUserName": {
-            "type": "string"
-        },
-                "sqlServicePassword": {
-            "type": "string"
-        },
-                "spInstallUserName": {
-            "type": "string"
-        },
-                "spInstallPassword": {
-            "type": "string"
         }
         
     },
@@ -85,15 +72,15 @@
         "resourceLocation":"[parameters('resourceLocation')]",
         
         
-        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SQLServers.json", 
-        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-SPServers.json", 
-        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/master/SP-NG-Network.json", 
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SPServers.json", 
+        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Network.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
         "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
         "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
         "StorageType":"Standard_LRS",
         
-         "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
+        "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
         "SPMediaContainerName":"[parameters('SPMediaContainerName')]",
         "StorageAccountName":"[parameters('StorageAccountName')]",
         "StorageAccountKey":"[parameters('StorageAccountKey')]",
@@ -104,7 +91,7 @@
         "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
         "DC1Name":"[concat(parameters('ServiceName'),'-dc1')]", 
        
-        "SQLName":"[concat(parameters('ServiceName'),'-sql')]",          
+        "SPName":"[concat(parameters('ServiceName'),'-sp')]",      
        
        
         
@@ -115,20 +102,33 @@
         "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
         "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
         
-        "setupSQLCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SetupSQL.ps1 -DomainName \"',parameters('domainName'),'\"-domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\" -ServiceUserName \"NGService\" -ServicePassword \"',parameters('servicePassword'), '\" -sqlServiceUserName \"',parameters('sqlServiceUserName'), '\" -sqlServicePassword \"',parameters('sqlServicePassword'), '\" -spInstallUserName \"',parameters('spInstallUserName'), '\" -spInstallPassword \"',parameters('spInstallPassword'), '\"')]"
+        "spOLDPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
+        "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
+        "spBinaries4297Command" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries4297.ps1",
+        
+        "spPreReqsCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
+
+  "spPreReqsCommand4297" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs4297.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -SPMediaContainerName \"',parameters('SPMediaContainerName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
+  
+        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]",
+ 
+       "restartCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command restart-computer -force"
+ 
      
+        
     },
     "resources": [
         
-  
+ 
+ 
    
  
         
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
-                "name": "sqlServerLoop",
-                "count": "[parameters('numberSQLServers')]"
+                "name": "spServerLoopPreReqs",
+                "count": "[parameters('numberSPServers')]"
             },
             "properties": {
                 "type": "CustomScriptExtension",
@@ -138,19 +138,15 @@
                     "settings": {
                         "fileUris": [
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SetupSQL.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xSQLServer_1.2.1.0.zip",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xSqlPs_1.1.3.1.zip"      
-                            
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('setupSQLCommand')]"
+                        "commandToExecute": "[variables('spPreReqsCommand')]"
                     }
                 
             },
             "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SQLName'),copyindex(),'/SQLPrepareMachineModules')]",
-            "location": "[parameters('resourceLocation')]"                       
+            "name": "[concat(variables('SPName'),copyindex(),'/SPPrepareMachineModules')]",
+            "location": "[parameters('resourceLocation')]"    
         }
         
         

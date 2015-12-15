@@ -120,67 +120,6 @@
     "resources": [
         
  
- 
-        
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "copy": {
-                "name": "rebootForce",
-                "count": "[parameters('numberSPServers')]"
-            },
-            "properties": {
-                "type": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.4",
-                
-                    "settings": {
-                        "fileUris": [                            
-                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
-                        ],
-                        "commandToExecute": "[variables('restartCommand')]"
-                    }
-                
-            },
-            "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SPName'),copyindex(),'/rebootForce')]",
-            "location": "[parameters('resourceLocation')]"                       
-        },
-        
-         
-   
- 
-        
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "copy": {
-                "name": "spServerLoopPreReqs",
-                "count": "[parameters('numberSPServers')]"
-            },
-            "properties": {
-                "type": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "typeHandlerVersion": "1.4",
-                
-                    "settings": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
-                        ],
-                        "commandToExecute": "[variables('spPreReqsCommand')]"
-                    }
-                
-            },
-            "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
-            "location": "[parameters('resourceLocation')]"    ,
-            "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/rebootForce')]"
-            ]                                      
-        },
-        
-        
-        
-        
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "copy": {
@@ -203,46 +142,9 @@
                 
             },
             "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
-            "location": "[parameters('resourceLocation')]",
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
-            ]                   
+            "name": "[concat(variables('SPName'),copyindex(),'/SPPrepareMachineModules')]",
+            "location": "[parameters('resourceLocation')]"
         }
-        
-        /*,
-        
-        
-        {
-            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
-            "copy": {
-                "name": "spServerLoopPreReqs4297",
-                "count": "[parameters('numberSPServers')]"
-            },
-            "properties": {
-                "extension": "CustomScriptExtension",
-                "publisher": "Microsoft.Compute",
-                "version": "1.4",
-                "parameters": {
-                    "public": {
-                        "fileUris": [
-                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs4297.ps1"                                                        
-                        ],
-                        "commandToExecute": "[variables('spPreReqsCommand4297')]"
-                    }
-                }
-            },
-            "apiVersion": "2014-06-01",
-            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand4297')]",
-            "location": "[parameters('resourceLocation')]"  ,
-                 "dependsOn": [
-                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spBinariesCommand')]"
-            ]                          
-        },
-        
-       
-        */
         
         
         

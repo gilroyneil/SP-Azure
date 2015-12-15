@@ -131,7 +131,9 @@
         "templatelink_Scripts_Common-MediaMounter":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-Common-MediaMounter.json",
        
         "templatelink_Scripts_SQL":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SQL.json", 
-        "templatelink_Scripts_SP":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries.json", 
+        "templatelink_Scripts_SP_Reboot":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Reboot.json",
+        "templatelink_Scripts_SP_PreReqs1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-PreReqs1.json",
+        "templatelink_Scripts_SP_PreReqs2":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-PreReqs2.json", 
         "templatelink_Scripts_SP_FarmPart1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart1.json", 
         "templatelink_Scripts_SP_FarmPart2":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart2.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
@@ -461,58 +463,7 @@
           },
           
           
-          { 
-             "apiVersion": "2015-01-01", 
-             "name": "SP-Scripts-Common", 
-             "type": "Microsoft.Resources/deployments", 
-             "properties": { 
-               "mode": "Incremental", 
-               "templateLink": {"uri":"[variables('templatelink_Scripts_Common')]","contentVersion":"1.0.0.0"}, 
-               "parameters": 
-               { 
-                  "ServiceName":{"value":"[parameters('ServiceName')]"},
-                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
-                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
-                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
-                  "servicePassword":{"value":"[parameters('servicePassword')]"},
-                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
-                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
-                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
-                  "domainName":{"value":"[parameters('domainName')]"},
-                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
-                  
-                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
-                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},                  
-                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
-                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
-                  
-                  
-                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
-                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
-                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
-                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
-                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
-                  
-                  
-                  }            
-                  
-                   
-               }
-               ,
-           /*"dependsOn": [
-               
-               "['Microsoft.Resources/deployments/SQL-Servers-Template']",
-               "['Microsoft.Resources/deployments/SP-Servers-Template']"
-             
-            ]*/
-            "dependsOn": [
-               
-               "['Microsoft.Resources/deployments/SP-Scripts-Common-MediaMounter']"                            
-            ]
-              
-          },
-          
+         
           
           { 
              "apiVersion": "2015-01-01", 
@@ -558,18 +509,18 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-Common']"                            
+               "['Microsoft.Resources/deployments/SP-Scripts-Common-MediaMounter']"                            
             ]
               
           },
           
           { 
              "apiVersion": "2015-01-01", 
-             "name": "SP-Scripts-SP", 
+             "name": "SP-Scripts-SP-Reboot", 
              "type": "Microsoft.Resources/deployments", 
              "properties": { 
                "mode": "Incremental", 
-               "templateLink": {"uri":"[variables('templatelink_Scripts_SP')]","contentVersion":"1.0.0.0"}, 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_Reboot')]","contentVersion":"1.0.0.0"}, 
                "parameters": 
                { 
                   "ServiceName":{"value":"[parameters('ServiceName')]"},
@@ -601,10 +552,100 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-Common']"                            
+               "['Microsoft.Resources/deployments/SP-Scripts-Common-MediaMounter']"                            
             ]
               
           },
+          
+          
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-SP-PreReqs1", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_PreReqs1')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  }            
+                  
+                   
+               }
+               ,
+           "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Reboot']"                            
+            ]
+              
+          },
+          
+          
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-SP-PreReqs2", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_PreReqs2')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  }            
+                  
+                   
+               }
+               ,
+           "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-PreReqs1']"                            
+            ]
+              
+          },
+          
+          
           
           { 
              "apiVersion": "2015-01-01", 
@@ -654,7 +695,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-SP']"      ,
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-PreReqs2']"      ,
                 "['Microsoft.Resources/deployments/SP-Scripts-SQL']"                            
             ]
               
