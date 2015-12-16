@@ -200,7 +200,7 @@
                 
             },
             "apiVersion": "2015-06-15",
-            "name": "[concat(variables('SPName'),copyindex(),'/sPCreateOrJoinFarmCommandMinusServerRole')]",
+            "name": "[concat(variables('SPName'),copyindex(),'/SPPrepareMachineModules')]",
             "location": "[parameters('resourceLocation')]"
             
         }
