@@ -695,7 +695,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-Main']"      ,
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Main']"      ,
                 "['Microsoft.Resources/deployments/SP-Scripts-SQL']"                            
             ]
               
