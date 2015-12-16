@@ -133,7 +133,7 @@
         "templatelink_Scripts_SQL":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SQL.json", 
         "templatelink_Scripts_SP_Reboot":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Reboot.json",
         "templatelink_Scripts_SP_PreReqs1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-PreReqs1.json",
-        "templatelink_Scripts_SP_PreReqs2":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-PreReqs2.json", 
+        "templatelink_Scripts_SP_Main":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Main.json", 
         "templatelink_Scripts_SP_FarmPart1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart1.json", 
         "templatelink_Scripts_SP_FarmPart2":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart2.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
@@ -604,11 +604,11 @@
           
           { 
              "apiVersion": "2015-01-01", 
-             "name": "SP-Scripts-SP-PreReqs2", 
+             "name": "SP-Scripts-SP-Main", 
              "type": "Microsoft.Resources/deployments", 
              "properties": { 
                "mode": "Incremental", 
-               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_PreReqs2')]","contentVersion":"1.0.0.0"}, 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_Main')]","contentVersion":"1.0.0.0"}, 
                "parameters": 
                { 
                   "ServiceName":{"value":"[parameters('ServiceName')]"},
@@ -695,7 +695,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-SP-PreReqs2']"      ,
+               "['Microsoft.Resources/deployments/SP-Scripts-Main']"      ,
                 "['Microsoft.Resources/deployments/SP-Scripts-SQL']"                            
             ]
               
