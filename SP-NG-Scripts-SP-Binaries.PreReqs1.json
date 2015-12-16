@@ -1,0 +1,252 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "ServiceName": {
+            "type": "string"
+        },
+        "resourceLocation": {
+            "type": "string"
+        },
+        "administratorAccount": {
+            "type": "string"
+        },
+        "administratorPassword": {
+            "type": "string"
+        },
+        "servicePassword": {
+            "type": "string"
+        },
+        "domainJoinUserName": {
+            "type": "string"
+        },
+        "domainJoinPassword": {
+            "type": "string"
+        },
+        "domainJoinOU": {
+            "type": "string"
+        },
+        "domainName": {
+            "type": "string"
+        },
+        "domainNetBiosName": {
+            "type": "string"
+        },
+           
+      "SQLMediaContainerName": {
+            "type": "string"
+        },
+        "SPMediaContainerName": {
+            "type": "string"
+        },
+        
+        "StorageAccountName": {
+            "type": "string"
+        },
+        
+        "StorageAccountKey": {
+            "type": "string"
+        },
+        
+        "VMSizeSP": {
+            "type": "string"
+        },
+        "VMSizeSQL": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "virtualNetworkResourceGroup": {
+            "type": "string"
+        }
+        ,
+        "numberSPServers": {
+            "type": "int"
+        }
+        
+    },
+    "variables":{
+        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
+        "virtualNetworkName":"[parameters('virtualNetworkName')]",        
+        "resourceLocation":"[parameters('resourceLocation')]",
+        
+        
+        "templatelink_SQLServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SQLServers.json", 
+        "templatelink_SPServers":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-SPServers.json", 
+        "templatelink_Network":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Network.json", 
+        "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
+        "SPDomainName":"[concat(parameters('ServiceName'),'-SP')]",
+        "SQLDomainName":"[concat(parameters('ServiceName'),'-SQL')]",
+        "StorageType":"Standard_LRS",
+        
+        "SQLMediaContainerName":"[parameters('SQLMediaContainerName')]",
+        "SPMediaContainerName":"[parameters('SPMediaContainerName')]",
+        "StorageAccountName":"[parameters('StorageAccountName')]",
+        "StorageAccountKey":"[parameters('StorageAccountKey')]",
+        "DCHardware":"Basic_A0",
+        "SPHardware":"[parameters('vmSizeSP')]",
+        "SQLHardware":"[parameters('vmSizeSQL')]",        
+        "StorageName":"[concat(parameters('ServiceName'),'storage')]",    
+        "VNetName":"[concat(parameters('ServiceName'),'VNet')]",    
+        "DC1Name":"[concat(parameters('ServiceName'),'-dc1')]", 
+       
+        "SPName":"[concat(parameters('ServiceName'),'-sp')]",      
+       
+       
+        
+        "SPPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\"",
+        "SQLPrepareMachineModules":"\"xComputerManagement\",\"xNetworking\",\"xActiveDirectory\",\"xSQLServer_1.2.1.0\"",
+        "DCPrepareMachineModules":"\"xComputerManagement\",\"xActiveDirectory\"",
+        "DCImage": "a699494373c04fc0bc8f2bb1389d6106__Windows-Server-2012-R2-201502.01-en.us-127GB.vhd",
+        "SPImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",
+        "SQLImage": "03f55de797f546a1b29d1b8d66be687a__Visual-Studio-2013-Ultimate-Update4-AzureSDK-2.5-WS2012-201502.23",  
+        
+        "spOLDPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
+        "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
+        "spBinaries4297Command" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries4297.ps1",
+        
+        "spPreReqsCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
+
+  "spPreReqsCommand4297" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs4297.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -SPMediaContainerName \"',parameters('SPMediaContainerName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
+  
+        "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]",
+ 
+       "restartCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command restart-computer -force"
+ 
+     
+        
+    },
+    "resources": [
+        
+ 
+ 
+        
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "copy": {
+                "name": "rebootForce",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "type": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "typeHandlerVersion": "1.4",
+                
+                    "settings": {
+                        "fileUris": [                            
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
+                        ],
+                        "commandToExecute": "[variables('restartCommand')]"
+                    }
+                
+            },
+            "apiVersion": "2015-06-15",
+            "name": "[concat(variables('SPName'),copyindex(),'/SPPrepareMachineModules')]",
+            "location": "[parameters('resourceLocation')]"                       
+        },
+        
+         
+   
+ 
+        
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "copy": {
+                "name": "spServerLoopPreReqs",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "type": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "typeHandlerVersion": "1.4",
+                
+                    "settings": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs.ps1"                                                        
+                        ],
+                        "commandToExecute": "[variables('spPreReqsCommand')]"
+                    }
+                
+            },
+            "apiVersion": "2015-06-15",
+            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand')]",
+            "location": "[parameters('resourceLocation')]"    ,
+            "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/rebootForce')]"
+            ]                                      
+        },
+        
+        
+        
+        
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "copy": {
+                "name": "spServerLoopbinaries",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "type": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "typeHandlerVersion": "1.4",
+                
+                    "settings": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries4297.ps1"                                                        
+                        ],
+                        "commandToExecute": "[variables('spBinaries4297Command')]"
+                    }
+                
+            },
+            "apiVersion": "2015-06-15",
+            "name": "[concat(variables('SPName'),copyindex(),'/spBinariesCommand')]",
+            "location": "[parameters('resourceLocation')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spPreReqsCommand')]"
+            ]                   
+        }
+        
+        /*,
+        
+        
+        {
+            "type": "Microsoft.ClassicCompute/virtualMachines/extensions",
+            "copy": {
+                "name": "spServerLoopPreReqs4297",
+                "count": "[parameters('numberSPServers')]"
+            },
+            "properties": {
+                "extension": "CustomScriptExtension",
+                "publisher": "Microsoft.Compute",
+                "version": "1.4",
+                "parameters": {
+                    "public": {
+                        "fileUris": [
+                            "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPPreReqs4297.ps1"                                                        
+                        ],
+                        "commandToExecute": "[variables('spPreReqsCommand4297')]"
+                    }
+                }
+            },
+            "apiVersion": "2014-06-01",
+            "name": "[concat(variables('SPName'),copyindex(),'/spPreReqsCommand4297')]",
+            "location": "[parameters('resourceLocation')]"  ,
+                 "dependsOn": [
+                "[concat('Microsoft.ClassicCompute/virtualMachines/',variables('SPName'), copyindex(),'/extensions/spBinariesCommand')]"
+            ]                          
+        },
+        
+       
+        */
+        
+        
+        
+        
+
+    ]
+}
