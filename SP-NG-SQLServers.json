@@ -167,7 +167,10 @@
                 "count": "[parameters('numberSQLServers')]"
             },
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(variables('SQLName'), copyindex())]"          
+        }
       }
     },
     {

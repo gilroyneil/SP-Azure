@@ -158,7 +158,10 @@
                 "count": "[parameters('numberSPServers')]"
             },
       "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]"
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(variables('SPName'), copyindex())]"          
+        }
       }
     },
     {
@@ -185,6 +188,7 @@
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses/', concat(variables('publicIPName'), '-', copyindex()))]"
+                
               },
               "subnet": {
                 "id": "[variables('subnetSPRef')]"
