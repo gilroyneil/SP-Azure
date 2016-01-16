@@ -51,7 +51,17 @@
        
     },
     "variables":{
-       
+       "minRole": { 
+            "type": "array", 
+                "defaultValue": [
+                    "WebFrontEnd", "Application", "DistributedCache", "Search",
+                    "WebFrontEnd", "Application", "DistributedCache", "Search",
+                    "WebFrontEnd", "Application", "DistributedCache", "Search",
+                    "WebFrontEnd", "Application", "DistributedCache", "Search",
+                    "WebFrontEnd", "Application", "DistributedCache", "Search",
+                    "WebFrontEnd", "Application", "DistributedCache", "Search"
+            ] 
+        },
        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSPName":"[parameters('subnetSPName')]",
@@ -299,6 +309,10 @@
                 "name": "spServerLoop",
                 "count": "[parameters('numberSPServers')]"
             },
+            "tags": {
+          "minRole": "variables('minRole')[copyIndex()]"
+          
+      },
             "properties": {
                 
         
