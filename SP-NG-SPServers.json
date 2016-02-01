@@ -47,7 +47,15 @@
         }  ,
         "numberSPServers": {
             "type": "int"
-        }      
+        },
+        "workspaceId": {
+            "type": "string"      
+        },
+        "workspaceKey": {
+            "type": "string"     
+        }
+    
+          
        
     },
     "variables":{
@@ -62,6 +70,7 @@
                     "WebFrontEnd", "Application", "DistributedCache", "Search"
             ] 
         },
+        "apiVersion": "2015-06-15",
        "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSPName":"[parameters('subnetSPName')]",
@@ -452,6 +461,28 @@
             "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\PrepareMachine.ps1 -Modules ', variables('SPPrepareMachineModules'),' -Force')]"
             }
         }
+        },
+        
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "Microsoft.EnterpriseCloud.Monitoring",
+          "apiVersion": "[variables('apiVersion')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('SPName'), copyindex())]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "MicrosoftMonitoringAgent",
+            "typeHandlerVersion": "1.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+			  "workspaceId": "[parameters('workspaceId')]"
+            },
+            "protectedSettings": {
+			  "workspaceKey": "[parameters('workspaceKey')]"
+            }
+          }
         }
          
          /*,

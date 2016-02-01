@@ -47,10 +47,16 @@
         ,
         "numberSQLServers": {
             "type": "int"
+        },
+        "workspaceId": {
+            "type": "string"      
+        },
+        "workspaceKey": {
+            "type": "string"     
         }
     },
     "variables":{
-        
+        "apiVersion": "2015-06-15",
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
         "virtualNetworkName":"[parameters('virtualNetworkName')]",
         "subnetSQLName":"[parameters('subnetSQLName')]",
@@ -348,6 +354,30 @@
             }
         }
         }
+        ,
+        
+        {
+          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "name": "Microsoft.EnterpriseCloud.Monitoring",
+          "apiVersion": "[variables('apiVersion')]",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('SQLName'), copyindex())]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.EnterpriseCloud.Monitoring",
+            "type": "MicrosoftMonitoringAgent",
+            "typeHandlerVersion": "1.0",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+			  "workspaceId": "[parameters('workspaceId')]"
+            },
+            "protectedSettings": {
+			  "workspaceKey": "[parameters('workspaceKey')]"
+            }
+          }
+        }
+         
     
         
        

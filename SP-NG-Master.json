@@ -108,6 +108,13 @@
         "subnetSQLName": {
             "type": "string"
         }
+        ,
+        "oms_workspaceid": {
+            "type": "string"      
+        },
+        "oms_workspacekey": {
+            "type": "string"     
+        }
     },
     "variables":{
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
@@ -234,7 +241,9 @@
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},                  
                   "subnetSQLName":{"value":"[parameters('subnetSQLName')]"},
-                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"}
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
+                  "workspaceId":{"value":"[parameters('oms_workspaceid')]"},
+                  "workspaceKey":{"value":"[parameters('oms_workspacekey')]"}
                   }            
                   
                    
@@ -300,7 +309,9 @@
                    "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
                   "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
                   "subnetSPName":{"value":"[parameters('subnetSPName')]"},
-                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"},
+                  "workspaceId":{"value":"[parameters('oms_workspaceid')]"},
+                  "workspaceKey":{"value":"[parameters('oms_workspacekey')]"}
                   
                   }            
                   
