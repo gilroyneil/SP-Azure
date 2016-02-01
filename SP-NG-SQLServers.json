@@ -358,9 +358,9 @@
         
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "Microsoft.EnterpriseCloud.Monitoring",
-          "apiVersion": "[variables('apiVersion')]",
-          "location": "[resourceGroup().location]",
+          "name": "[concat(variables('SQLName'),copyindex(),'/Microsoft.EnterpriseCloud.Monitoring')]",
+          "apiVersion": "[variables('apiVersion')]",                              
+          "location": "[parameters('resourceLocation')]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('SQLName'), copyindex())]"
           ],

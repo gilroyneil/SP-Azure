@@ -465,9 +465,13 @@
         
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "Microsoft.EnterpriseCloud.Monitoring",
+          "name": "[concat(variables('SPName'),copyindex(),'/Microsoft.EnterpriseCloud.Monitoring')]",          
           "apiVersion": "[variables('apiVersion')]",
-          "location": "[resourceGroup().location]",
+          "location": "[parameters('resourceLocation')]",
+           "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSPServers')]"
+            },
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('SPName'), copyindex())]"
           ],
