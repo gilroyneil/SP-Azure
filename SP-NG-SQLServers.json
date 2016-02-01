@@ -361,6 +361,10 @@
           "name": "[concat(variables('SQLName'),copyindex(),'/Microsoft.EnterpriseCloud.Monitoring')]",
           "apiVersion": "[variables('apiVersion')]",                              
           "location": "[parameters('resourceLocation')]",
+           "copy": {
+                "name": "spServerLoop",
+                "count": "[parameters('numberSQLServers')]"
+            },
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('SQLName'), copyindex())]"
           ],
