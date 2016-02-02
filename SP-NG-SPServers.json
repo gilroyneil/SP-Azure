@@ -461,7 +461,8 @@
             "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\PrepareMachine.ps1 -Modules ', variables('SPPrepareMachineModules'),' -Force')]"
             }
         }
-        },
+        }
+        /*,
         
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
@@ -488,7 +489,7 @@
             }
           }
         }
-         
+         */
          /*,
             
             
