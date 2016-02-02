@@ -155,10 +155,7 @@
            "copy": {
                 "name": "spServerLoop",
                 "count": "[parameters('numberSPServers')]"
-            },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('SPName'), copyindex())]"
-          ],
+            },         
           "properties": {
             "publisher": "Microsoft.EnterpriseCloud.Monitoring",
             "type": "MicrosoftMonitoringAgent",
@@ -183,10 +180,7 @@
            "copy": {
                 "name": "spServerLoop",
                 "count": "[parameters('numberSQLServers')]"
-            },
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('SQLName'), copyindex())]"
-          ],
+            },         
           "properties": {
             "publisher": "Microsoft.EnterpriseCloud.Monitoring",
             "type": "MicrosoftMonitoringAgent",
