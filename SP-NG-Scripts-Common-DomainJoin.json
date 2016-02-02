@@ -187,7 +187,8 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/JoinAD.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/DiskManager.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/MediaMounter.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip"
+                            "https://armstorageacc.blob.core.windows.net/scripts/xComputerManagement.zip",
+                            "https://armstorageacc.blob.core.windows.net/scripts/xSystemSecurity_1.0.zip"
                             
                         ],
                         "commandToExecute": "[variables('domainJoinCommand')]"
