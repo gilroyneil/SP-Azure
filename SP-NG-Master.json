@@ -382,55 +382,6 @@
           
           { 
              "apiVersion": "2015-01-01", 
-             "name": "SP-Scripts-Common-OMS", 
-             "type": "Microsoft.Resources/deployments", 
-             "properties": { 
-               "mode": "Incremental", 
-               "templateLink": {"uri":"[variables('templatelink_Scripts_Common-OMS')]","contentVersion":"1.0.0.0"}, 
-               "parameters": 
-               { 
-                  "ServiceName":{"value":"[parameters('ServiceName')]"},
-                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
-                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
-                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
-                  "servicePassword":{"value":"[parameters('servicePassword')]"},
-                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
-                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
-                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
-                  "domainName":{"value":"[parameters('domainName')]"},
-                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
-                  
-                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
-                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},                  
-                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
-                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
-                  
-                  
-                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
-                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
-                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
-                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
-                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
-                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"},
-                  "workspaceId":{"value":"[parameters('oms_workspaceid')]"},
-                  "workspaceKey":{"value":"[parameters('oms_workspacekey')]"}
-                  
-                  
-                  }            
-                  
-                   
-               }
-               ,
-            "dependsOn": [
-               
-               "['Microsoft.Resources/deployments/SP-Scripts-Common-DomainJoin']"                            
-            ]
-              
-          },
-          
-          
-          { 
-             "apiVersion": "2015-01-01", 
              "name": "SP-Scripts-Common-Disks", 
              "type": "Microsoft.Resources/deployments", 
              "properties": { 
@@ -470,7 +421,7 @@
                ,
             "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-Common-OMS']"                            
+               "['Microsoft.Resources/deployments/SP-Scripts-Common-DomainJoin']"                            
             ]
               
           },
@@ -815,9 +766,58 @@
                "['Microsoft.Resources/deployments/SP-Scripts-SP-FarmPart1']"                              
             ]
               
-          }
+          },
           
           
+          
+          
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-Common-OMS", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_Common-OMS')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},                  
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSQLServers":{"value":"[parameters('NumberSQLServers')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"},
+                  "workspaceId":{"value":"[parameters('oms_workspaceid')]"},
+                  "workspaceKey":{"value":"[parameters('oms_workspacekey')]"}
+                  
+                  
+                  }            
+                  
+                   
+               }
+               ,
+            "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-FarmPart2']"                            
+            ]
+              
+          },
           
           
   
