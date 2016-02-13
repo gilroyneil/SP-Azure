@@ -49,7 +49,7 @@ try
         sleep -Seconds 10
         loginfo "Sleep done"
 
-        if ($SPMediaContainerName -eq "4297")
+        if (($SPMediaContainerName -eq "4297") -or ($SPMediaContainerName -eq "4345"))
         {
 
             $parentFolder = "E:\data\media\sppatch"
