@@ -200,7 +200,7 @@ try
             loginfo $("ZIP found: " + $fileName)
             $fileNameBase = $zip.BaseName
             $fileNameFull = $zip.FullName
-            if ($fileNameBase -match "Patch_Build")
+            if (($fileNameBase -match "Patch_Build") -or ($fileNameBase -match "Patch-Build"))
             {
                 loginfo $("About to extract PATCH BUILD file: " + $fileNameFull + " to folder: " + $destinationSP_Patch)
                 try
