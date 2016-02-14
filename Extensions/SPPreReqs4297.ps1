@@ -112,7 +112,7 @@ configuration Reboots4297
             $using:SPMediaContainerName  >> $fileName
                 
 
-            if ($using:SPMediaContainerName -eq "4297")
+            if (($using:SPMediaContainerName -eq "4297") -or ($using:SPMediaContainerName -eq "4345"))
             {            
                 "RUN:" >> $fileName
              return $false}
