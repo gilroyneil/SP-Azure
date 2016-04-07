@@ -70,6 +70,8 @@ configuration JoinAD
             SetScript =
 @"
 # https://powertoe.wordpress.com/2011/04/29/enable-credssp-from-a-windows-7-home-client/  
+Restart-Service WinRM -Force 
+sleep 30
 Enable-PSRemoting -Force
 Enable-WSManCredSSP -Role Client -DelegateComputer '*' -Force
 Enable-WSManCredSSP Server
@@ -81,7 +83,7 @@ if (!(Test-Path `$key)) {
 }
 New-ItemProperty -Path `$key -Name AllowFreshCredentials -Value 1 -PropertyType Dword -Force            
 New-ItemProperty -Path `$key -Name AllowFreshCredentialsWhenNTLMOnly -Value 1 -PropertyType Dword -Force     
-
+`$keyOrig = `$key
 `$key = Join-Path `$key 'AllowFreshCredentials'
 if (!(Test-Path `$key)) {
     md `$key
@@ -93,7 +95,7 @@ if (!(Test-Path `$key)) {
 }
 
 
-`$key2 = Join-Path `$key 'AllowFreshCredentialsWhenNTLMOnly'
+`$key2 = Join-Path `$keyOrig 'AllowFreshCredentialsWhenNTLMOnly'
 if (!(Test-Path `$key2)) {
     md `$key2
 }
