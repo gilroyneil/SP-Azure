@@ -104,12 +104,13 @@
         
         "spOLDPreReqsCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1",
         "spBinariesCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries.ps1",
-        "spBinariesMainCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinariesMain.ps1",
+        "spBinaries4297Command" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinaries4297.ps1",
+        
+        "spBinariesPatch" : "powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPBinariesPatch.ps1",
         
         "spPreReqsCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
 
-  "spPreReqsCommand4297" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPPreReqs4297.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -SPMediaContainerName \"',parameters('SPMediaContainerName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',        parameters('domainJoinPassword'), '\"')]",
-  
+
         "sPCreateOrJoinFarmCommand" : "[concat('powershell.exe -ExecutionPolicy Unrestricted -Command .\\SPCreateOrJoinFarm.ps1 -domainNetBiosName \"',parameters('domainNetBiosName'), '\" -DomainAdministratorUserName \"',parameters('domainJoinUserName'), '\" -DomainAdministratorPassword \"',parameters('domainJoinPassword'), '\"')]",
  
        "restartCommand" : "powershell.exe -ExecutionPolicy Unrestricted -Command restart-computer -force"
@@ -136,9 +137,9 @@
                             "https://armstorageacc.blob.core.windows.net/scripts/xPendingReboot_0.1.0.2.zip",
                             "https://armstorageacc.blob.core.windows.net/scripts/Common.ps1",
                             "https://armstorageacc.blob.core.windows.net/scripts/SPBinaries.ps1",
-                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinariesMain.ps1"                                                        
+                            "https://armstorageacc.blob.core.windows.net/scripts/SPBinariesPatch.ps1"                                                        
                         ],
-                        "commandToExecute": "[variables('spBinariesMainCommand')]"
+                        "commandToExecute": "[variables('spBinariesPatch')]"
                     }
                 
             },

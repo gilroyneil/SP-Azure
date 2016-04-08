@@ -3,7 +3,7 @@ $GLOBAL_scriptExitCode = 0
 
 . "$PSScriptRoot\Common.ps1"
 
-Start-ScriptLog "SP-Binaries"
+Start-ScriptLog "SP-Binaries-Pre-Patch"
 import-module storage
 
 $SPConfigSilentName = "SPConfigCustom.xml"
@@ -41,11 +41,11 @@ try
         {
             new-item $logPathPrefix -itemtype directory 
         }
-        LogStartTracing $($logPathPrefix + "SP-Binaries" + $currentDate.ToString() + ".txt")    
+        LogStartTracing $($logPathPrefix + "SP-Binaries-Pre-Patch" + $currentDate.ToString() + ".txt")    
         #Boiler Plate Logging setup END
         
         #new step
-        LogStep "Start Pre-Reqs Install"
+        LogStep "Start Pre-Reqs Instal for a Patch"
 
         $parentFolder = "E:\data\media\SP"
         loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
@@ -110,63 +110,6 @@ configuration Reboots
             RebootNodeIfNeeded = $true
         }
        
-        Script TestReboot
-        {
-            GetScript  = { return 'foo'}
-            TestScript = { return $false}
-            SetScript  = {
-$SPConfigSilentName = "SPConfigCustom.xml"
-            $parentFolder = "E:\data\media\SP"
-        
-        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
-        if ($exeFiles -ne $null)
-        {            
-            $SetupEXELocation = $exeFiles.FullName   
-            $parentFolder = $exeFiles.Directory.FullName 
-            $SPConfigFile = $($parentFolder + "\" + $SPConfigSilentName)  
-            
-            $processArgs = $("/config " + "`"" + $SPConfigFile + "`"")
-            
-
-            $p = start-process $SetupEXELocation -ArgumentList "$processArgs" -Wait -PassThru
-            $p.WaitForExit()
-            $lExitCode = $p.ExitCode
-            #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
-            #LogInfo $("Exit Code: " + $lExitCode)
-                
-                
-            if ($lExitCode -eq 3010)
-            {
-                #loginfo "reboot needed"
-                # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
-                $global:DSCMachineStatus = 1
-
-            }
-            else
-            {
-                #loginfo "reboot not needed."
-                # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
-                $global:DSCMachineStatus = 0
-                
-                 if ($lExitCode -eq 30066)
-                {
-                    throw "Pre Reqs Not Installed properly"
-                }
-                
-                  if ($lExitCode -eq 30030)
-                {
-                    throw "Wrong CD Key"
-                }
-            }
-
-
-        }
-
-            
- 
-                
-            }
-        }
         
         
         Script TestReboot4297
@@ -294,121 +237,9 @@ $SPConfigSilentName = "SPConfigCustom.xml"
                 
             }
         }
-
-
-
-
-
-        
-        Script 4297ExtraFiles
-        {
-            GetScript  = { return 'foo'}
-            TestScript = {
-
-
-            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
-            $logPathPrefix = "c:\data\install\logs\"
-
-            if ((test-path $logPathPrefix) -ne $true)
-            {
-                new-item $logPathPrefix -itemtype directory 
-            }
-            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-TEST-" + $currentDate.ToString() + ".txt")
-
-
-            "SPMediaContainerName:" >> $fileName
-            $using:SPMediaContainerName  >> $fileName
-                
-
-            if ($using:SPMediaContainerName -eq "4297")
-            {            
-                "RUN:" >> $fileName
-             return $false}
-             else
-             {
-                "DONT RUN:" >> $fileName
-                return $true
-             }
-             }
-            SetScript  = {
-            
-            $parentFolder = "E:\data\media\sppatch"
-            
-
-            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
-            $logPathPrefix = "c:\data\install\logs\"
-
-            if ((test-path $logPathPrefix) -ne $true)
-            {
-                new-item $logPathPrefix -itemtype directory 
-            }
-            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-SET-" + $currentDate.ToString() + ".txt")
-
-
-            "Running:" >> $fileName
-            "Use folder: " >> $fileName
-            $parentFolder >> $fileName
-
-            
-
-            
-            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "sts"}
-            if ($stsMSP -ne $null)
-            {            
-                $MSPLocation = $stsMSP.FullName  
-            
-                "Found this STS.MSP file: " >> $fileName      
-                $MSPLocation >> $fileName
-
-            }
-            else
-            {
-                throw "Cannot find MSP file"
-            }
-
-            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
-            $p.WaitForExit()
-            $lExitCode = $p.ExitCode
-
-            "Exit Code (2359302 means already installed): " >> $fileName
-            $lExitCode >> $fileName
-
-
-            
-            
-            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "wssmui"}
-            if ($stsMSP -ne $null)
-            {            
-                $MSPLocation = $stsMSP.FullName  
-            
-                "Found this wssmui.MSP file: " >> $fileName      
-                $MSPLocation >> $fileName
-
-            }
-            else
-            {
-                throw "Cannot find MSP file"
-            }
-
-            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
-            $p.WaitForExit()
-            $lExitCode = $p.ExitCode
-
-            "Exit Code (2359302 means already installed): " >> $fileName
-            $lExitCode >> $fileName
-
-
-            }
-        }
- 
- 
-        # Reboot if pending
-        xPendingReboot RebootCheck1
-        {
-            Name = "RebootCheck1"
-        }
- 
     }
+
+
 }
  
 WaitForPendingMof

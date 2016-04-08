@@ -141,7 +141,10 @@
         "templatelink_Scripts_SQL":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SQL.json", 
         "templatelink_Scripts_SP_Reboot":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Reboot.json",
         "templatelink_Scripts_SP_PreReqs1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-PreReqs1.json",
-        "templatelink_Scripts_SP_Main":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Main.json", 
+        "templatelink_Scripts_SP_Main":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Main.json",         
+        "templatelink_Scripts_SP_Main_Pre_Patch":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Main-Pre-Patch.json",         
+        "templatelink_Scripts_SP_Main_Patch":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-Binaries-Main-Patch.json",
+         
         "templatelink_Scripts_SP_FarmPart1":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart1.json", 
         "templatelink_Scripts_SP_FarmPart2":"https://raw.githubusercontent.com/gilroyneil/SP-Azure/ARMV2/SP-NG-Scripts-SP-FarmPart2.json", 
         "DCDomainName":"[concat(parameters('ServiceName'),'-DC')]",    
@@ -661,6 +664,94 @@
           
           { 
              "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-SP-Main-Pre-Patch", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_Main_Pre_Patch')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  }            
+                  
+                   
+               }
+               ,
+           "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Main']"                            
+            ]
+              
+          },
+          
+             
+          { 
+             "apiVersion": "2015-01-01", 
+             "name": "SP-Scripts-SP-Main-Patch", 
+             "type": "Microsoft.Resources/deployments", 
+             "properties": { 
+               "mode": "Incremental", 
+               "templateLink": {"uri":"[variables('templatelink_Scripts_SP_Main_Patch')]","contentVersion":"1.0.0.0"}, 
+               "parameters": 
+               { 
+                  "ServiceName":{"value":"[parameters('ServiceName')]"},
+                  "resourceLocation":{"value":"[parameters('resourceLocation')]"},
+                  "administratorAccount":{"value":"[parameters('administratorAccount')]"},
+                  "administratorPassword":{"value":"[parameters('administratorPassword')]"},
+                  "servicePassword":{"value":"[parameters('servicePassword')]"},
+                  "domainJoinUserName":{"value":"[parameters('domainJoinUserName')]"},
+                  "domainJoinPassword":{"value":"[parameters('domainJoinPassword')]"},
+                  "domainJoinOU":{"value":"[parameters('domainJoinOU')]"},
+                  "domainName":{"value":"[parameters('domainName')]"},
+                  "domainNetBiosName":{"value":"[parameters('domainNetBiosName')]"},
+                  
+                  "SQLMediaContainerName":{"value":"[variables('SQLMediaContainerName')]"},
+                  "SPMediaContainerName":{"value":"[variables('SPMediaContainerName')]"},
+                  "StorageAccountName":{"value":"[variables('StorageAccountName')]"},
+                  "StorageAccountKey":{"value":"[variables('StorageAccountKey')]"},
+                  
+                  
+                  "VMSizeSP":{"value":"[parameters('VMSizeSP')]"},
+                  "VMSizeSQL":{"value":"[parameters('VMSizeSQL')]"},
+                   "virtualNetworkResourceGroup":{"value":"[parameters('virtualNetworkResourceGroup')]"},
+                  "virtualNetworkName":{"value":"[parameters('virtualNetworkName')]"},
+                  "numberSPServers":{"value":"[parameters('NumberSPServers')]"}
+                  }            
+                  
+                   
+               }
+               ,
+           "dependsOn": [
+               
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Pre-Patch']"                            
+            ]
+              
+          },
+          
+          
+          { 
+             "apiVersion": "2015-01-01", 
              "name": "SP-Scripts-SP-FarmPart1", 
              "type": "Microsoft.Resources/deployments", 
              "properties": { 
@@ -707,7 +798,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-SP-Main']"      ,
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Main-Patch']"      ,
                 "['Microsoft.Resources/deployments/SP-Scripts-SQL']"                            
             ]
               
