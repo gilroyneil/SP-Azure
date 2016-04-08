@@ -744,7 +744,7 @@
                ,
            "dependsOn": [
                
-               "['Microsoft.Resources/deployments/SP-Scripts-SP-Pre-Patch']"                            
+               "['Microsoft.Resources/deployments/SP-Scripts-SP-Main-Pre-Patch']"                            
             ]
               
           },
