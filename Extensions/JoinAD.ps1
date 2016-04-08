@@ -28,6 +28,10 @@ param
 
 . "$PSScriptRoot\Common.ps1"
 
+
+Restart-Service WinRM -Force 
+sleep 30
+
 Start-ScriptLog "DomainJoin"
 
 if ($EncryptionCertificateThumbprint)
@@ -70,8 +74,7 @@ configuration JoinAD
             SetScript =
 @"
 # https://powertoe.wordpress.com/2011/04/29/enable-credssp-from-a-windows-7-home-client/  
-Restart-Service WinRM -Force 
-sleep 30
+
 Enable-PSRemoting -Force
 Enable-WSManCredSSP -Role Client -DelegateComputer '*' -Force
 Enable-WSManCredSSP Server
