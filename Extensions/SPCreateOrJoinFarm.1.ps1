@@ -271,15 +271,8 @@ configuration CreateFarm
                             $FarmAccountCredentials = New-Object System.Management.Automation.PsCredential $farmAdminUser,$secFarmAdminPassword
 
                             $farmExists = $true
-                            try{
-                                $connectFarm = Connect-SPConfigurationDatabase -DatabaseName $ConfigDBName  -DatabaseServer $ConfigDBAlias -LocalServerRole $serverRole  -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force   )
-                                "Farm exists already:" >> $fileName
-                                Install-SPHelpCollection -All
-                                Initialize-SPResourceSecurity
-                                Install-SPService
-                                Install-SPFeature -AllExistingFeatures
-                            }
-                            catch  
+                            $connectFarm = Connect-SPConfigurationDatabase -DatabaseName $ConfigDBName  -DatabaseServer $ConfigDBAlias -LocalServerRole $serverRole  -Passphrase (ConvertTo-SecureString $passphrase  -AsPlainText -Force   )
+                            If (-not $?)
                             {
                                 "Farm doesnt exist:" >> $fileName
                                 #Farm doesnt exist yet - so we need to create it.                        
@@ -294,9 +287,15 @@ configuration CreateFarm
                                 "CA Built:" >> $fileName
                                 Install-SPApplicationContent
 
-                            
                             }
-                            
+                            else
+                            {
+                                "Farm exists already:" >> $fileName
+                                Install-SPHelpCollection -All
+                                Initialize-SPResourceSecurity
+                                Install-SPService
+                                Install-SPFeature -AllExistingFeatures
+                            }
                     } -ArgumentList @($ConfigDBName, $CAAdminDBName, $passphrase, $ConfigDBAlias, $serverRole, $farmAdminUser, $farmAdminPassword, $installUser, $installPassword) -ErrorVariable Stop 
 
                       
