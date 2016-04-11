@@ -210,6 +210,14 @@ configuration Reboots
             $lExitCode >> $fileName
 
 
+            if ($lExitCode -eq 0)
+            {
+
+                Start-Process "c:\Program Files\Common Files\Microsoft Shared\web server extensions\16\bin\PSConfig.exe" -ArgumentList " -cmd secureresources -cmd installfeatures -cmd upgrade -inplace b2b -force -wait -cmd applicationcontent -install" -Wait
+              
+
+            }
+
             }
         }
  
