@@ -13,10 +13,18 @@
     },
     
     "NumberSPServers" : {
-        "value":1
+        "value":1,
+        "description": "Number of SP Servers to Deploy",
+        "metadata": {          
+          "description": "NO_EDIT"
+        }
     },
         "NumberSQLServers" : {
-        "value":1
+        "value":1,
+        "description": "Number of SQL Servers to Deploy",
+        "metadata": {          
+          "description": "EDIT"
+        }
     },
     
     "servicePassword" : {
