@@ -17,7 +17,11 @@
     },
         
     "resourceLocation" : {
-        "value":"West Europe"
+        "value":"West Europe",
+        "description": "Provide the Service Location",
+        "metadata": {          
+          "description": "EDIT"
+        }
     },
     
     "NumberSPServers" : {
