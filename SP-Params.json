@@ -40,32 +40,16 @@
     },
     
     "servicePassword" : {
-        "value":"whatsisthis1",
-        "description": "Decide upon a service password",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
+        "value":"whatsisthis1"
     },
         "administratorAccount": {
-        "value": "ngadmin",
-        "description": "Define a local admin user for each server",
-        "metadata": {          
-         "description": "EDIT"
-        }
+        "value": "ngadmin"
     },
     "administratorPassword": {
-        "value": "D1sabl3d281660",
-        "description": "Local Admin User password",
-        "metadata": {          
-         "description": "EDIT"
-        }
+        "value": "D1sabl3d281660"
     },
     "ServiceName": {
-        "value": "osazure1",
-        "description": "Define a name for the Service",
-        "metadata": {          
-         "description": "EDIT"
-        }
+        "value": "osazure1"
     },
 
     "vmSizeSP": {
