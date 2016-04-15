@@ -1,35 +1,71 @@
 {
 
     "oms_workspaceid" : {
-        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3"
+        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3",
+        "description": "Your OMS Workspace ID",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     
     "oms_workspacekey" : {
-        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ=="
+        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ==",
+        "description": "Your OMS Workspace Key",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
         
     "resourceLocation" : {
-        "value":"West Europe"
+        "value":"West Europe",
+        "description": "Provide the Service Location",
+        "metadata": {          
+          "description": "EDIT"
+        }
     },
     
     "NumberSPServers" : {
-        "value":1
+        "value":1,
+        "description": "Number of SP Servers to Deploy",
+        "metadata": {          
+          "description": "NO_EDIT"
+        }
     },
         "NumberSQLServers" : {
-        "value":1
+        "value":1,
+        "description": "Number of SQL Servers to Deploy",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
     },
     
     "servicePassword" : {
-        "value":"whatsisthis1"
+        "value":"whatsisthis1",
+        "description": "Decide upon a service password",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
     },
     "administratorAccount": {
-        "value": "ngadmin"
+        "value": "ngadmin",
+        "description": "Define a local admin user for each server",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "administratorPassword": {
-        "value": "D1sabl3d281660"
+        "value": "D1sabl3d281660",
+        "description": "Local Admin User password",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "ServiceName": {
-        "value": "osazure1"
+        "value": "osazure1",
+        "description": "Define a name for the Service",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "vmSizeSP": {
         "value": "Basic_A2",
