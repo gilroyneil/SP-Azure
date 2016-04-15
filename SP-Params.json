@@ -49,7 +49,11 @@
         "value": "D1sabl3d281660"
     },
     "ServiceName": {
-        "value": "osazure1"
+        "value": "osazure1",
+        "description": "Define a service name",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
     },
 
     "vmSizeSP": {
