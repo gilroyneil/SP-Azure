@@ -1,11 +1,19 @@
 {
 
       "oms_workspaceid" : {
-        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3"
+        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3",
+        "description": "XXX",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     
     "oms_workspacekey" : {
-        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ=="
+        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ==",
+        "description": "TTT",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
         
     "resourceLocation" : {
