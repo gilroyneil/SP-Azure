@@ -39,20 +39,32 @@
         }
     },
     
-    "servicePassword" : {
-        "value":"whatsisthis1"
+  "servicePassword" : {
+        "value":"whatsisthis1",
+        "description": "Decide upon a service password",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
     },
-        "administratorAccount": {
-        "value": "ngadmin"
+    "administratorAccount": {
+        "value": "ngadmin",
+        "description": "Define a local admin user for each server",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "administratorPassword": {
-        "value": "D1sabl3d281660"
+        "value": "D1sabl3d281660",
+        "description": "Local Admin User password",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "ServiceName": {
         "value": "osazure1",
         "description": "Define a service name",
         "metadata": {          
-         "description": "NO_EDIT"
+         "description": "EDIT"
         }
     },
 
