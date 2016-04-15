@@ -46,16 +46,28 @@
          "description": "NO_EDIT"
         }
     },
-    
-    "administratorAccount": {
-        "value": "ngadmin"
+        "administratorAccount": {
+        "value": "ngadmin",
+        "description": "Define a local admin user for each server",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "administratorPassword": {
-        "value": "D1sabl3d281660"
+        "value": "D1sabl3d281660",
+        "description": "Local Admin User password",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "ServiceName": {
-        "value": "osazure1"
+        "value": "osazure1",
+        "description": "Define a name for the Service",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
+
     "vmSizeSP": {
         "value": "Basic_A2",
         "description": "Define a Azure VM Size for SP Servers. Basic_A2 is ok for testing purposes only",
