@@ -40,16 +40,32 @@
     },
     
   "servicePassword" : {
-        "value":"whatsisthis1"
+        "value":"whatsisthis1",
+        "description": "TTT",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
     },
     "administratorAccount": {
-        "value": "ngadmin"
+        "value": "ngadmin",
+        "description": "TTT",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "administratorPassword": {
-        "value": "D1sabl3d281660"
+        "value": "D1sabl3d281660",
+        "description": "TTT",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
     "ServiceName": {
-        "value": "osazure1"
+        "value": "osazure1",
+        "description": "TTT",
+        "metadata": {          
+         "description": "EDIT"
+        }
     },
 
     "vmSizeSP": {
