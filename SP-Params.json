@@ -1,27 +1,15 @@
 {
 
       "oms_workspaceid" : {
-        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3",
-        "description": "Your OMS Workspace ID",
-        "metadata": {          
-         "description": "EDIT"
-        }
+        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3"
     },
     
     "oms_workspacekey" : {
-        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ==",
-        "description": "Your OMS Workspace Key",
-        "metadata": {          
-         "description": "EDIT"
-        }
+        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ=="
     },
         
     "resourceLocation" : {
-        "value":"West Europe",
-        "description": "Provide the Service Location",
-        "metadata": {          
-          "description": "EDIT"
-        }
+        "value":"West Europe"
     },
     
     "NumberSPServers" : {
