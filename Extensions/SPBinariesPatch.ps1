@@ -101,6 +101,7 @@ configuration Reboots
             }
             $fileName = $($logPathPrefix + "SP-ExtraFilesPatch-TEST-" + $currentDate.ToString() + ".txt")
 
+            return $false
 
            # "SPMediaContainerName:" >> $fileName
           #  $using:SPMediaContainerName  >> $fileName
@@ -225,7 +226,7 @@ configuration Reboots
 
                 if ($stsEXEExists)
                 {
-                    $STSLogfileName = $($logPathPrefix + $stsEXE.Name + "_deploylog_" $currentDate.ToString() + ".txt")
+                    $STSLogfileName = $($logPathPrefix + $stsEXE.Name + "_deploylog_" + $currentDate.ToString() + ".txt")
                     $p = start-process $EXELocation -ArgumentList "/quiet /norestart" -Wait -PassThru
                     $p.WaitForExit()
                     $lExitCode = $p.ExitCode
@@ -257,7 +258,7 @@ configuration Reboots
 
                 if ($wsslocEXEExists)
                 {
-                    $WSSLocLogfileName = $($logPathPrefix + $wsslocEXE.Name + "_deploylog_" $currentDate.ToString() + ".txt")
+                    $WSSLocLogfileName = $($logPathPrefix + $wsslocEXE.Name + "_deploylog_" + $currentDate.ToString() + ".txt")
                     $p = start-process $EXELocation -ArgumentList "/quiet /norestart" -Wait -PassThru
                     $p.WaitForExit()
                     $lExitCode = $p.ExitCode

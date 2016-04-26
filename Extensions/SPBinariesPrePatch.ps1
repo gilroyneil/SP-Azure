@@ -126,7 +126,7 @@ configuration Reboots
             }
             $fileName = $($logPathPrefix + "SP-PreReqsPatch-TEST-" + $currentDate.ToString() + ".txt")
 
-
+return $false
      #       "SPMediaContainerName:" >> $fileName
      #       $using:SPMediaContainerName  >> $fileName
                 
