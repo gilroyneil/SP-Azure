@@ -47,54 +47,28 @@ try
         #new step
         LogStep "Start Pre-Reqs Install"
 
-        $parentFolder = "E:\data\media\SP"
-        loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
-        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
-        if ($exeFiles -ne $null)
-        {            
-            $SetupEXELocation = $exeFiles.FullName
-            loginfo $("Found: " + $SetupEXELocation)
-            $parentFolder = $exeFiles.Directory.FullName
-        }
-        else
-        {
-            loginfo "Nothing found... throw error"
-            throw "Cannot find setup.exe"
-        }
+#        $parentFolder = "E:\data\media\SP"
+#        loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
+#        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
+#        if ($exeFiles -ne $null)
+#        {            
+#            $SetupEXELocation = $exeFiles.FullName
+#            loginfo $("Found: " + $SetupEXELocation)
+#            $parentFolder = $exeFiles.Directory.FullName
+#        }
+#        else
+#        {
+#            loginfo "Nothing found... throw error"
+#            throw "Cannot find setup.exe"
+#        }
 
-        loginfo $("We will run: " + $SetupEXELocation)
+#        loginfo $("We will run: " + $SetupEXELocation)
 
-        loginfo $("Write Config file contents to the same folder: " + $parentFolder)
-        Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
+#        loginfo $("Write Config file contents to the same folder: " + $parentFolder)
+#        Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
         
       #  $SPMediaContainerName = "4297"
         
-     #   if ($SPMediaContainerName -eq "4297")
-     #   {
-
-            $parentFolder = "E:\data\media\sppatch"
-            loginfo $("Look for prerequisiteinstaller.exe in: " + $parentFolder + " and its children")
-            $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "prerequisiteinstaller"}
-            if ($exeFiles -ne $null)
-            {            
-                $PreReqsExeLocation = $exeFiles.FullName
-                loginfo $("Found: " + $PreReqsExeLocation)
-            }
-            else
-            {
-                loginfo "Nothing found... throw error"
-                throw "Cannot find prerequisiteinstaller.exe"
-            }
-
-            loginfo $("We will run: " + $PreReqsExeLocation)
-            loginfo "First check for a Windows 10 MSU file"
-
-   #     }
-    #    else
-    #    {
-   #         loginfo "This isnt a 4297 install, do nothing"
-   #     }
-
         
         
 configuration Reboots
@@ -144,79 +118,160 @@ configuration Reboots
              }
             SetScript  = {
             
-            $parentFolder = "E:\data\media\sppatch"
-            
+                $parentFolder = "E:\data\media\sppatch"
+                
 
-            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
-            $logPathPrefix = "c:\data\install\logs\"
+                $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                $logPathPrefix = "c:\data\install\logs\"
 
-            if ((test-path $logPathPrefix) -ne $true)
-            {
-                new-item $logPathPrefix -itemtype directory 
-            }
-            $fileName = $($logPathPrefix + "SP-ExtraFilesPatch-SET-" + $currentDate.ToString() + ".txt")
-
-
-            "Running:" >> $fileName
-            "Use folder: " >> $fileName
-            $parentFolder >> $fileName
-
-            
-
-            
-            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "sts"}
-            if ($stsMSP -ne $null)
-            {            
-                $MSPLocation = $stsMSP.FullName  
-            
-                "Found this STS.MSP file: " >> $fileName      
-                $MSPLocation >> $fileName
-
-            }
-            else
-            {
-                throw "Cannot find MSP file"
-            }
-
-            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
-            $p.WaitForExit()
-            $lExitCode = $p.ExitCode
-
-            "Exit Code (2359302 means already installed): " >> $fileName
-            $lExitCode >> $fileName
+                if ((test-path $logPathPrefix) -ne $true)
+                {
+                    new-item $logPathPrefix -itemtype directory 
+                }
+                $fileName = $($logPathPrefix + "SP-ExtraFilesPatch-SET-" + $currentDate.ToString() + ".txt")
 
 
-            
-            
-            $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "wssmui"}
-            if ($stsMSP -ne $null)
-            {            
-                $MSPLocation = $stsMSP.FullName  
-            
-                "Found this wssmui.MSP file: " >> $fileName      
-                $MSPLocation >> $fileName
+                "Running:" >> $fileName
+                "Use folder: " >> $fileName
+                $parentFolder >> $fileName
 
-            }
-            else
-            {
-                throw "Cannot find MSP file"
-            }
+                $stsMSPExists = $true
+                $wssMSPExists = $true
+                $stsEXEExists = $true
+                $wsslocEXEExists = $true
+                
 
-            $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
-            $p.WaitForExit()
-            $lExitCode = $p.ExitCode
+        #########################################################################################################################
+                    #Install the STS MSP file if it exists
+                
+                $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "sts"}
+                if ($stsMSP -ne $null)
+                {            
+                    $MSPLocation = $stsMSP.FullName              
+                    "Found this STS.MSP file: " >> $fileName      
+                    $MSPLocation >> $fileName
+                }
+                else
+                {
+                    loginfo "Cannot find MSP file"
+                    $stsMSPExists = $false
+                }
 
-            "Exit Code (2359302 means already installed): " >> $fileName
-            $lExitCode >> $fileName
+                if ($stsMSPExists)
+                {
+                    $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+                    $p.WaitForExit()
+                    $lExitCode = $p.ExitCode
+
+                    "Exit Code (2359302 means already installed): " >> $fileName
+                    $lExitCode >> $fileName
+                }
+                
+                
+
+        #########################################################################################################################
+                    #Install the WSSMUI MSP file if it exists
+                                
+                $stsMSP =  Get-ChildItem -Path $parentFolder -Include "*.msp" -Recurse | Where-Object {$_.Name -match "wssmui"}
+                if ($stsMSP -ne $null)
+                {            
+                    $MSPLocation = $stsMSP.FullName  
+                
+                    "Found this wssmui.MSP file: " >> $fileName      
+                    $MSPLocation >> $fileName
+
+                }
+                else
+                {
+                    loginfo "Cannot find WSSMUI MSP file"
+                    $wssMSPExists = $false
+                }
+
+                if ($stsMSPExists)
+                {
+                    $p = start-process $MSPLocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+                    $p.WaitForExit()
+                    $lExitCode = $p.ExitCode
+
+                    "Exit Code (2359302 means already installed): " >> $fileName
+                    $lExitCode >> $fileName
+
+                    if ($lExitCode -eq 0)
+                    {
+
+                        Start-Process "c:\Program Files\Common Files\Microsoft Shared\web server extensions\16\bin\PSConfig.exe" -ArgumentList " -cmd secureresources -cmd installfeatures -cmd upgrade -inplace b2b -force -wait -cmd applicationcontent -install" -Wait
+                    }
+                }
 
 
-            if ($lExitCode -eq 0)
-            {
 
-                Start-Process "c:\Program Files\Common Files\Microsoft Shared\web server extensions\16\bin\PSConfig.exe" -ArgumentList " -cmd secureresources -cmd installfeatures -cmd upgrade -inplace b2b -force -wait -cmd applicationcontent -install" -Wait
-              
+        #########################################################################################################################
+                    #Install the STS2016 EXE file if it exists
+                                
+                $stsEXE =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "sts2016"}
+                if ($stsEXE -ne $null)
+                {            
+                    $EXELocation = $stsEXE.FullName  
+                
+                    "Found this sts2016.exe file: " >> $fileName      
+                    $EXELocation >> $fileName
 
-            }
+                }
+                else
+                {
+                    loginfo "Cannot find sts2016 EXE file"
+                    $stsEXEExists = $false
+                }
+
+                if ($stsEXEExists)
+                {
+                    $STSLogfileName = $($logPathPrefix + $stsEXE.Name + "_deploylog_" $currentDate.ToString() + ".txt")
+                    $p = start-process $EXELocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+                    $p.WaitForExit()
+                    $lExitCode = $p.ExitCode
+
+                    "Exit Code (2359302 means already installed): " >> $fileName
+                    $lExitCode >> $fileName
+
+                   
+                }
+
+
+        #########################################################################################################################
+                    #Install the WSSLOC EXE file if it exists
+                                
+                $wsslocEXE =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "wssloc2016"}
+                if ($wsslocEXE -ne $null)
+                {            
+                    $EXELocation = $wsslocEXE.FullName  
+                
+                    "Found this wssloc2016.exe file: " >> $fileName      
+                    $EXELocation >> $fileName
+
+                }
+                else
+                {
+                    loginfo "Cannot find wssloc2016 EXE file"
+                    $wsslocEXEExists = $false
+                }
+
+                if ($wsslocEXEExists)
+                {
+                    $WSSLocLogfileName = $($logPathPrefix + $wsslocEXE.Name + "_deploylog_" $currentDate.ToString() + ".txt")
+                    $p = start-process $EXELocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+                    $p.WaitForExit()
+                    $lExitCode = $p.ExitCode
+
+                    "Exit Code (2359302 means already installed): " >> $fileName
+                    $lExitCode >> $fileName
+
+                    if ($lExitCode -eq 0)
+                    {
+
+                        Start-Process "c:\Program Files\Common Files\Microsoft Shared\web server extensions\16\bin\PSConfig.exe" -ArgumentList " -cmd secureresources -cmd installfeatures -cmd upgrade -inplace b2b -force -wait -cmd applicationcontent -install" -Wait
+                    }
+                }
+
 
             }
         }

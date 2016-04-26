@@ -67,36 +67,7 @@ try
         loginfo $("Write Config file contents to the same folder: " + $parentFolder)
         Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
         
-     #   $SPMediaContainerName = "4297"
-        
-        #if ($SPMediaContainerName -eq "4297")
-      #  {
-
-            $parentFolder = "E:\data\media\sppatch"
-            loginfo $("Look for prerequisiteinstaller.exe in: " + $parentFolder + " and its children")
-            $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "prerequisiteinstaller"}
-            if ($exeFiles -ne $null)
-            {            
-                $PreReqsExeLocation = $exeFiles.FullName
-                loginfo $("Found: " + $PreReqsExeLocation)
-            }
-            else
-            {
-                loginfo "Nothing found... throw error"
-                throw "Cannot find prerequisiteinstaller.exe"
-            }
-
-            loginfo $("We will run: " + $PreReqsExeLocation)
-            loginfo "First check for a Windows 10 MSU file"
-
-     #   }
-     #   else
-     #   {
-     #       loginfo "This isnt a 4297 install, do nothing"
-     #   }
-
-        
-        
+ 
 configuration Reboots
 {
     # Get this from TechNet Gallery

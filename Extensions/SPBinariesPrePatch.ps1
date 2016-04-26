@@ -45,27 +45,27 @@ try
         #Boiler Plate Logging setup END
         
         #new step
-        LogStep "Start Pre-Reqs Instal for a Patch"
+        LogStep "Start Pre-Reqs Instal for a Patch Build"
 
-        $parentFolder = "E:\data\media\SP"
-        loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
-        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
-        if ($exeFiles -ne $null)
-        {            
-            $SetupEXELocation = $exeFiles.FullName
-            loginfo $("Found: " + $SetupEXELocation)
-            $parentFolder = $exeFiles.Directory.FullName
-        }
-        else
-        {
-            loginfo "Nothing found... throw error"
-            throw "Cannot find setup.exe"
-        }
+#        $parentFolder = "E:\data\media\SP"
+#        loginfo $("Look for setup.exe in: " + $parentFolder + " and its children")
+#        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "setup"}
+#        if ($exeFiles -ne $null)
+#        {            
+#            $SetupEXELocation = $exeFiles.FullName
+#            loginfo $("Found: " + $SetupEXELocation)
+#            $parentFolder = $exeFiles.Directory.FullName
+#        }
+#        else
+#        {
+#            loginfo "Nothing found... throw error"
+#            throw "Cannot find setup.exe"
+#        }
 
-        loginfo $("We will run: " + $SetupEXELocation)
+#        loginfo $("We will run: " + $SetupEXELocation)
 
-        loginfo $("Write Config file contents to the same folder: " + $parentFolder)
-        Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
+ #       loginfo $("Write Config file contents to the same folder: " + $parentFolder)
+  #      Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
         
         #$SPMediaContainerName = "4297"
         
@@ -82,8 +82,7 @@ try
             }
             else
             {
-                loginfo "Nothing found... throw error"
-                throw "Cannot find prerequisiteinstaller.exe"
+                loginfo "Nothing found... Assume that these are PUs - i.e. just exes to run."                
             }
 
             loginfo $("We will run: " + $PreReqsExeLocation)
@@ -144,96 +143,100 @@ configuration Reboots
              }
             SetScript  = {
 
-            $parentFolder = "E:\data\media\sppatch"
-            $generalPatchesFolder = "E:\data\media\GeneralPatches"
+                $parentFolder = "E:\data\media\sppatch"
+                $generalPatchesFolder = "E:\data\media\GeneralPatches"
 
 
-            $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
-            $logPathPrefix = "c:\data\install\logs\"
+                $currentDate = Get-Date -format "yyyy-MMM-d-HH-mm-ss"
+                $logPathPrefix = "c:\data\install\logs\"
 
-            if ((test-path $logPathPrefix) -ne $true)
-            {
-                new-item $logPathPrefix -itemtype directory 
-            }
-            $fileName = $($logPathPrefix + "SP-PreReqsPatch-SET-" + $currentDate.ToString() + ".txt")
-
-
-            "Running:" >> $fileName
-            "Use folder: " >> $fileName
-            $parentFolder >> $fileName
-
-            "Patches folder: " >> $fileName
-            $generalPatchesFolder >> $fileName
-
-
-            #Install the Windows 10 C Runtime:
-
-            
-        $msuFile =  Get-ChildItem -Path $generalPatchesFolder -Include "*.msu" -Recurse | Where-Object {$_.Name -match "Windows8.1-KB2999226-x64"}
-        if ($msuFile -ne $null)
-        {            
-            $MSULocation = $msuFile.FullName  
-            
-            "Found this Windows 10 MSU file: " >> $fileName      
-            $MSULocation >> $fileName
-
-        }
-        else
-        {
-            throw "Cannot find MSU file"
-        }
-
-                $p = start-process $MSULocation -ArgumentList "/quiet /norestart" -Wait -PassThru
-                $p.WaitForExit()
-                $lExitCode = $p.ExitCode
-
-                "Exit Code (2359302 means already installed): " >> $fileName
-                $lExitCode >> $fileName
-
-
-
-
-        
-        $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "prerequisiteinstaller"}
-        if ($exeFiles -ne $null)
-        {            
-            $PreReqsExeLocation = $exeFiles.FullName  
-            
-            "Found this pre-requisiteinstaller file: " >> $fileName      
-            $PreReqsExeLocation >> $fileName
-
-        }
-        else
-        {
-            throw "Cannot find pre-reqsinstaller"
-        }
-
-                $p = start-process $PreReqsExeLocation -ArgumentList "/unattended" -Wait -PassThru
-                $p.WaitForExit()
-                $lExitCode = $p.ExitCode
-
-                "Exit Code: " >> $fileName
-                $lExitCode >> $fileName
-
-                #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
-                #LogInfo $("Exit Code: " + $lExitCode)
-                
-                
-                if ($lExitCode -eq 3010)
+                if ((test-path $logPathPrefix) -ne $true)
                 {
-                    #loginfo "reboot needed"
-                    # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
-                    $global:DSCMachineStatus = 1
+                    new-item $logPathPrefix -itemtype directory 
+                }
+                $fileName = $($logPathPrefix + "SP-PreReqsPatch-SET-" + $currentDate.ToString() + ".txt")
+
+                $PreReqsExists = $true
+                "Running:" >> $fileName
+                "Use folder: " >> $fileName
+                $parentFolder >> $fileName
+
+                "Patches folder: " >> $fileName
+                $generalPatchesFolder >> $fileName
+
+    #########################################################################################################################
+                #Install the Windows 10 C Runtime:
+
+            
+                $msuFile =  Get-ChildItem -Path $generalPatchesFolder -Include "*.msu" -Recurse | Where-Object {$_.Name -match "Windows8.1-KB2999226-x64"}
+                if ($msuFile -ne $null)
+                {            
+                    $MSULocation = $msuFile.FullName  
+                    
+                    "Found this Windows 10 MSU file: " >> $fileName      
+                    $MSULocation >> $fileName
 
                 }
                 else
                 {
-                    #loginfo "reboot not needed."
-                    # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
-                    $global:DSCMachineStatus = 0
+                    throw "Cannot find MSU file"
                 }
 
- 
+                        $p = start-process $MSULocation -ArgumentList "/quiet /norestart" -Wait -PassThru
+                        $p.WaitForExit()
+                        $lExitCode = $p.ExitCode
+
+                        "Exit Code (2359302 means already installed): " >> $fileName
+                        $lExitCode >> $fileName
+
+
+
+#########################################################################################################################
+                #Install the Pre-Reqs Installer if it exists.
+                
+                $exeFiles =  Get-ChildItem -Path $parentFolder -Include "*.exe" -Recurse | Where-Object {$_.Name -match "prerequisiteinstaller"}
+                if ($exeFiles -ne $null)
+                {            
+                    $PreReqsExeLocation = $exeFiles.FullName  
+                    
+                    "Found this pre-requisiteinstaller file: " >> $fileName      
+                    $PreReqsExeLocation >> $fileName
+
+                }
+                else
+                {
+                    loginfo "Cannot find pre-reqsinstaller"
+                    $PreReqsExists = $false
+                }
+
+                if ($PreReqsExists)
+                {
+                        $p = start-process $PreReqsExeLocation -ArgumentList "/unattended" -Wait -PassThru
+                        $p.WaitForExit()
+                        $lExitCode = $p.ExitCode
+
+                        "Exit Code: " >> $fileName
+                        $lExitCode >> $fileName
+
+                        #powershell.exe -noprofile -file "Packages\Domain Configuration\Manager_ConfigureDCAndAccounts_MissingPieces.ps1" $xmlFinalConfigFileNoPath "All" #| Out-Null
+                        #LogInfo $("Exit Code: " + $lExitCode)
+                        
+                        
+                        if ($lExitCode -eq 3010)
+                        {
+                            #loginfo "reboot needed"
+                            # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
+                            $global:DSCMachineStatus = 1
+
+                        }
+                        else
+                        {
+                            #loginfo "reboot not needed."
+                            # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
+                            $global:DSCMachineStatus = 0
+                        }
+
+                }
                 
             }
         }
