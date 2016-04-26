@@ -67,10 +67,10 @@ try
         loginfo $("Write Config file contents to the same folder: " + $parentFolder)
         Set-Content -Path $($parentFolder + "\" + $SPConfigSilentName) -Value $SPConfigSilent
         
-        $SPMediaContainerName = "4297"
+      #  $SPMediaContainerName = "4297"
         
-        if ($SPMediaContainerName -eq "4297")
-        {
+     #   if ($SPMediaContainerName -eq "4297")
+     #   {
 
             $parentFolder = "E:\data\media\sppatch"
             loginfo $("Look for prerequisiteinstaller.exe in: " + $parentFolder + " and its children")
@@ -89,11 +89,11 @@ try
             loginfo $("We will run: " + $PreReqsExeLocation)
             loginfo "First check for a Windows 10 MSU file"
 
-        }
-        else
-        {
-            loginfo "This isnt a 4297 install, do nothing"
-        }
+   #     }
+    #    else
+    #    {
+   #         loginfo "This isnt a 4297 install, do nothing"
+   #     }
 
         
         
@@ -112,7 +112,7 @@ configuration Reboots
        
 
         
-        Script 4297ExtraFiles
+        Script PatchExtraFiles
         {
             GetScript  = { return 'foo'}
             TestScript = {
@@ -125,22 +125,22 @@ configuration Reboots
             {
                 new-item $logPathPrefix -itemtype directory 
             }
-            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-TEST-" + $currentDate.ToString() + ".txt")
+            $fileName = $($logPathPrefix + "SP-ExtraFilesPatch-TEST-" + $currentDate.ToString() + ".txt")
 
 
-            "SPMediaContainerName:" >> $fileName
-            $using:SPMediaContainerName  >> $fileName
+           # "SPMediaContainerName:" >> $fileName
+          #  $using:SPMediaContainerName  >> $fileName
                 
 
-            if ($using:SPMediaContainerName -eq "4297")
-            {            
-                "RUN:" >> $fileName
-             return $false}
-             else
-             {
-                "DONT RUN:" >> $fileName
-                return $true
-             }
+          #  if ($using:SPMediaContainerName -eq "4297")
+        #    {            
+        #        "RUN:" >> $fileName
+       #      return $false}
+        #     else
+       #      {
+       #         "DONT RUN:" >> $fileName
+       #         return $true
+       #      }
              }
             SetScript  = {
             
@@ -154,7 +154,7 @@ configuration Reboots
             {
                 new-item $logPathPrefix -itemtype directory 
             }
-            $fileName = $($logPathPrefix + "SP-ExtraFiles4297-SET-" + $currentDate.ToString() + ".txt")
+            $fileName = $($logPathPrefix + "SP-ExtraFilesPatch-SET-" + $currentDate.ToString() + ".txt")
 
 
             "Running:" >> $fileName
