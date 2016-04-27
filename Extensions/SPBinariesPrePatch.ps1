@@ -205,7 +205,7 @@ return $false
                 }
                 else
                 {
-                    loginfo "Cannot find pre-reqsinstaller"
+                    "Cannot find pre-reqsinstaller" >> $fileName
                     $PreReqsExists = $false
                 }
 
@@ -236,6 +236,23 @@ return $false
                             $global:DSCMachineStatus = 0
                         }
 
+                }
+                else
+                {
+                    if ($lExitCode -eq 3010)
+                        {
+                            #loginfo "reboot needed"
+                            # Setting the global:DSCMachineStatus = 1 tells DSC that a reboot is required
+                            $global:DSCMachineStatus = 1
+
+                        }
+                        else
+                        {
+                            #loginfo "reboot not needed."
+                            # Setting the global:DSCMachineStatus = 0 tells DSC that a reboot is NOT required
+                            $global:DSCMachineStatus = 0
+                        }
+                    
                 }
                 
             }

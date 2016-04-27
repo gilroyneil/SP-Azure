@@ -154,7 +154,7 @@ configuration Reboots
                 }
                 else
                 {
-                    loginfo "Cannot find MSP file"
+                    "Cannot find MSP file" >> $fileName   
                     $stsMSPExists = $false
                 }
 
@@ -184,7 +184,7 @@ configuration Reboots
                 }
                 else
                 {
-                    loginfo "Cannot find WSSMUI MSP file"
+                    "Cannot find WSSMUI MSP file" >> $fileName    
                     $wssMSPExists = $false
                 }
 
@@ -220,7 +220,7 @@ configuration Reboots
                 }
                 else
                 {
-                    loginfo "Cannot find sts2016 EXE file"
+                    "Cannot find sts2016 EXE file" >> $fileName  
                     $stsEXEExists = $false
                 }
 
@@ -252,7 +252,7 @@ configuration Reboots
                 }
                 else
                 {
-                    loginfo "Cannot find wssloc2016 EXE file"
+                    "Cannot find wssloc2016 EXE file" >> $fileName   
                     $wsslocEXEExists = $false
                 }
 
