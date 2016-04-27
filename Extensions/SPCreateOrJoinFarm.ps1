@@ -139,7 +139,7 @@ try
 
         $serverRole = getServerRole -number $ServerRole -numServers $numberSPServers  
         
-        $serverRole >> "e:\data\minrole.txt"
+        $serverRole > "e:\data\minrole.txt"
         
         
 configuration CreateFarm
