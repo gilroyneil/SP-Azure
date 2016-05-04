@@ -1,18 +1,145 @@
 {
+      "oms_workspaceid" : {
+        "value":"c3ddda1f-ccf5-4da3-ab02-cadbe7e705d3",
+        "description": "Provide the OMS Workspace ID",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },    
+    "oms_workspacekey" : {
+        "value":"x9ez9jP5oEpOsRvqyZfnPwA8hHBXYTICjkKIzlptpu/EDEuDfaLDPvOoBX3f7rtDUpqevVuqHg+/iK4Z+wLMuQ==",
+        "description": "Provide the OMS Workspace Key",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },        
+    "resourceLocation" : {
+        "value":"West Europe",
+        "description": "Provide the Azure Location",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+      "NumberSPServers" : {
+        "value":1,
+        "description": "Number of SP Servers to Deploy",
+        "metadata": {          
+          "description": "NO_EDIT"
+        }
+    },
+        "NumberSQLServers" : {
+        "value":1,
+        "description": "Number of SQL Servers to Deploy",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
+    },    
+  "servicePassword" : {
+        "value":"whatsisthis1",
+        "description": "TTT",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
+    },
+    "administratorAccount": {
+        "value": "ngadmin",
+        "description": "Provide the Local Admin User Name for each new server",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "administratorPassword": {
+        "value": "D1sabl3d281660",
+        "description": "Provide the Local Admin Password",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "ServiceName": {
+        "value": "osazure1",
+        "description": "Provide the Service Name",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
 
-     
-    
-  
+    "vmSizeSP": {
+        "value": "Basic_A2",
+        "description": "Define a Azure VM Size for SP Servers. Basic_A2 is ok for testing purposes only",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "vmSizeSQL": {
+        "value": "Basic_A2",
+        "description": "Define a Azure VM Size for SQL Servers. Basic_A2 is ok for testing purposes only",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "domainJoinUserName": {
+    "value":"ngadmin",
+        "description": "Provide the Domain Join User Name with no domain prefix",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+    "domainJoinPassword": {
+    "value":"Start123",
+        "description": "Define the Domain Join User Password",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+    "domainJoinOU": {
+    "value":"TEST",
+        "description": "Define the OU to add new accounts/users into",
+        "metadata": {          
+         "description": "NO_EDIT"
+        }
+        },
+        "domainName": {
+    "value":"osazure.com",
+        "description": "Define the Dmaon Forest Name e.g. mydomain.com",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },        
+    "domainNetBiosName" : {
+        "value":"osazure",
+        "description": "Define the Domain NetBios Name e.g mydomain",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "SQLMediaContainerName" : {
+        "value":"sql2014",
+        "description": "Provide the Storage Account Folder Name where the SQL Media is stored",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "SPMediaContainerName" : {
+        "value":"4351-4378",
+        "description": "Provide the Storage Account Folder Name where the SP2016 Media is stored",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },
+    "StorageAccountName" : {
+        "value":"armstorageacc",
+        "description": "Provide the Storage Account Name where the Media and Scripts are stored",
+        "metadata": {          
+         "description": "EDIT"
+        }
+    },      
     "StorageAccountKey" : {
         "value":"tU0SUMg2+3RRrEt7rkTpOwun/OAwCedpI7kRDDCuuOiUZfef9hOhTHIDFoySdPp0Iyhmw5GTZC+f6WHeF+OYZg==",
         "description": "Provide the key to access the Storage Account",
         "metadata": {          
          "description": "EDIT"
         }
-    },
-    
-    
-    
+    },    
     "sqlServiceUserName": {
     "value":"sp-sql",
         "description": "Provide the User Name which will run the SQL Server Services",
@@ -27,9 +154,6 @@
          "description": "EDIT"
         }
         },
-    
-    
-        
     "SpInstallUserName": {
     "value":"sp-inst",
         "description": "Provide the User Name which will run the Installation",
@@ -43,8 +167,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-    
+        },    
       "spFarmUserName": {
     "value":"sp-farm",
         "description": "Provide the User Name which will be the Farm Admin",
@@ -58,8 +181,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-          
+        },          
     "spWebUserName": {
     "value":"sp-web",
         "description": "Provide the User Name which will run the SP Web Application Pools",
@@ -73,9 +195,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-    
-             
+        },                 
     "spSvcUserName": {
     "value":"sp-svc",
         "description": "Provide the User Name which will run the SP Service Application Pools",
@@ -89,8 +209,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-    
+        },    
     "spURLBase": {
     "value":"osborn.work",
         "description": "Provide the Domain for URLs",
@@ -113,8 +232,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-        
+        },        
            "spCustomerAdmin2": {
     "value":"osazure\\mjackson",
         "description": "Provide the 2nd Customer Admin",
@@ -122,26 +240,20 @@
          "description": "EDIT"
         }
         },
-        
-        
-       "spSMTPAddress": {
+        "spSMTPAddress": {
     "value":"system@osazure.com",
         "description": "Provide the SMTP Address",
         "metadata": {          
          "description": "EDIT"
         }
         },
-   
-   
           "spSMTPReply": {
     "value":"reply@osazure.com",
         "description": "Provide the SMTP Reply to",
         "metadata": {          
          "description": "EDIT"
         }
-        },
-   
-      
+        },         
           "spSMTPDomain": {
     "value":"osazure.com",
         "description": "Provide the SMTP Domain",
@@ -149,8 +261,6 @@
          "description": "EDIT"
         }
         },
-   
-   
              "spSMTPOutServer": {
     "value":"mail.osazure.com",
         "description": "Provide the SMTP Outbound Server",
@@ -158,8 +268,6 @@
          "description": "EDIT"
         }
         },
-  
-      
              "spEnterpriseGroup": {
     "value":"EnterpriseUsers",
         "description": "Provide the Security Group for Enterprise Users",
@@ -173,8 +281,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-        
+        },        
         "virtualNetworkName" : {
         "value":"vNetARM1",
         "description": "Provide the name of the Virtual Network to join the servers onto",
@@ -195,17 +302,12 @@
         "metadata": {          
          "description": "NO_EDIT"
         }
-    }
-    ,
+        },
         "subnetSQLName" : {
         "value":"subnet2",
         "description": "XXX",
         "metadata": {          
          "description": "NO_EDIT"
         }
-    }
-    
-        
-  
-    
+    }    
 }
