@@ -326,20 +326,6 @@
          "description": "NO_EDIT"
         }
     },
-        "subnetSPName" : {
-        "value":"subnet1",
-        "description": "XXX",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
-    }
-    ,
-        "subnetSQLName" : {
-        "value":"subnet2",
-        "description": "XXX",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
-    }
+        
     
 }
