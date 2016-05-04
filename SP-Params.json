@@ -167,7 +167,7 @@
     
     
         
-    "": {
+    "SpInstallUserName": {
     "value":"sp-inst",
         "description": "Provide the User Name which will run the Installation",
         "metadata": {          
@@ -294,7 +294,8 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },  
+        },
+  
       
              "spEnterpriseGroup": {
     "value":"EnterpriseUsers",
