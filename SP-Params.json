@@ -227,6 +227,89 @@
         }
         },
     
+    "spURLBase": {
+    "value":"osborn.work",
+        "description": "Provide the Domain for URLs",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+   "spAppURLBase": {
+    "value":"apps.osborn.work",
+        "description": "Provide the Domain for Apps",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+        
+        
+           "spCustomerAdmin1": {
+    "value":"osazure\\bwilson",
+        "description": "Provide the 1st Customer Admin",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+        
+           "spCustomerAdmin2": {
+    "value":"osazure\\mjackson",
+        "description": "Provide the 2nd Customer Admin",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+        
+        
+       "spSMTPAddress": {
+    "value":"system@osazure.com",
+        "description": "Provide the SMTP Address",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+   
+   
+          "spSMTPReply": {
+    "value":"reply@osazure.com",
+        "description": "Provide the SMTP Reply to",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+   
+      
+          "spSMTPDomain": {
+    "value":"osazure.com",
+        "description": "Provide the SMTP Domain",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+   
+   
+             "spSMTPOutServer": {
+    "value":"mail.osazure.com",
+        "description": "Provide the SMTP Outbound Server",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
+  
+      
+             "spEnterpriseGroup": {
+    "value":"EnterpriseUsers",
+        "description": "Provide the Security Group for Enterprise Users",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },        
+            "spStandardGroup": {
+    "value":"StandardUsers",
+        "description": "Provide the Security Group for Standard Users",
+        "metadata": {          
+         "description": "EDIT"
+        }
+        },
         
         "virtualNetworkName" : {
         "value":"vNetARM1",
@@ -234,30 +317,8 @@
         "metadata": {          
          "description": "EDIT"
         }
-    },
-        "virtualNetworkResourceGroup" : {
-        "value":"OsbornNetRG1",
-        "description": "XXX",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
-    },
-        "subnetSPName" : {
-        "value":"subnet1",
-        "description": "XXX",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
     }
-    ,
-        "subnetSQLName" : {
-        "value":"subnet2",
-        "description": "XXX",
-        "metadata": {          
-         "description": "NO_EDIT"
-        }
-    }
-    
+        
   
     
 }
