@@ -154,7 +154,7 @@
          "description": "EDIT"
         }
         },
-    "SpInstallUserName": {
+    "spInstallUserName": {
     "value":"sp-inst",
         "description": "Provide the User Name which will run the Installation",
         "metadata": {          
