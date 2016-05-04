@@ -294,8 +294,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-   
+        },  
       
              "spEnterpriseGroup": {
     "value":"EnterpriseUsers",
@@ -303,8 +302,7 @@
         "metadata": {          
          "description": "EDIT"
         }
-        },
-        
+        },        
             "spStandardGroup": {
     "value":"StandardUsers",
         "description": "Provide the Security Group for Standard Users",
@@ -312,8 +310,6 @@
          "description": "EDIT"
         }
         },
-        
-        
         
         "virtualNetworkName" : {
         "value":"vNetARM1",
