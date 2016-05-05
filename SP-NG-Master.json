@@ -114,7 +114,51 @@
         },
         "oms_workspacekey": {
             "type": "string"     
+        },
+        
+        
+        
+        
+        
+        
+        
+        
+        "spURLBase": {
+            "type": "string"     
+        },
+        "spAppURLBase": {
+            "type": "string"     
+        },
+        "spCustomerAdmin1": {
+            "type": "string"     
+        },
+        "spCustomerAdmin2": {
+            "type": "string"     
+        },
+        "spSMTPAddress": {
+            "type": "string"     
+        },
+        "spSMTPReply": {
+            "type": "string"     
+        },
+        "spSMTPDomain": {
+            "type": "string"     
+        },
+        "spSMTPOutServer": {
+            "type": "string"     
+        },
+        "spEnterpriseGroup": {
+            "type": "string"     
+        },
+        "spStandardGroup": {
+            "type": "string"     
         }
+        
+        
+        
+        
+        
+        
     },
     "variables":{
         "virtualNetworkResourceGroup":"[parameters('virtualNetworkResourceGroup')]",
