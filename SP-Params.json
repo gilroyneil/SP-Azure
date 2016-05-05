@@ -21,7 +21,7 @@
         }
     },
       "NumberSPServers" : {
-        "value":1,
+        "value":4,
         "description": "Number of SP Servers to Deploy",
         "metadata": {          
           "description": "NO_EDIT"
