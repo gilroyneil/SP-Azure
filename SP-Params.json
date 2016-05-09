@@ -120,7 +120,7 @@
         }
     },
     "SPMediaContainerName" : {
-        "value":"4351-4378",
+        "value":"4351-4384",
         "description": "Provide the Storage Account Folder Name where the SP2016 Media is stored",
         "metadata": {          
          "description": "EDIT"
