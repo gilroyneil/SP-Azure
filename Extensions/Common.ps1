@@ -37,7 +37,7 @@ function WaitForPendingMof
         try
         {
             Get-Item -Path "$env:windir\System32\Configuration\Pending.mof" -ErrorAction Stop
-            Start-Sleep -Seconds 20
+            Start-Sleep -Seconds 60
         }
         catch
         {
